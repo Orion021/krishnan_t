@@ -74,7 +74,7 @@ header p {
     background-color: #fff;
     border-radius: 8px;
     padding: 20px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.03); 
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.5); 
     transition: transform 0.3s ease; 
 }
 
