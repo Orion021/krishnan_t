@@ -48,7 +48,7 @@ header p {
 }
 
 .about-me, .skills, .education, .get-in-touch {
-    margin-bottom: 30px;
+    margin: 50px 0px;
     text-align: justify;
     text-justify: inter-word;
 }
