@@ -69,7 +69,7 @@ header p {
 }
 
 .skills li{
-    flex: 0 0 calc(50% - 20px);
+    flex: 0 0 calc(33.33% - 20px);
     font-size: 18px;
     background-color: #fff;
     border-radius: 8px;
