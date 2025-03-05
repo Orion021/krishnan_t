@@ -347,6 +347,20 @@
     <!-- ALL PLUGINS -->
     <script src="js/custom.js"></script>
     <script src="js/jquery.vide.js"></script>
-
+    <script>
+        document.addEventListener('keydown', function (event) {
+            if ((event.ctrlKey || event.metaKey) && (event.key === 'a' || event.key === 'c' || event.key === 'x')) {
+                event.preventDefault();
+            }
+        });
+        
+        document.addEventListener('contextmenu', function (event) {
+            event.preventDefault();
+        });
+        
+        document.addEventListener('selectstart', function (event) {
+            event.preventDefault();
+        });
+    </script>
 </body>
 </html>
