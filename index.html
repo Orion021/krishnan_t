@@ -126,7 +126,7 @@
                 <div class="col-md-6">
                     <div class="message-box">                        
                         <h2 style="font-weight: bold;">About Me</h2>
-                        <p style="font-size: 20px;text-align: justify;">I'm Krishnan, an Electronics and Communication Engineering graduate with over two years of experience as a Technical Trainer in Python, Networking, and IoT. Skilled in designing and delivering hands-on training programs, troubleshooting technical challenges, and developing structured learning materials. </p>
+                        <p style="font-size: 20px;text-align: justify;">I'm Krishnan, an Electronics and Communication Engineering graduate with <span id="exp"></span>+ years of experience as a Technical Trainer in Python, Networking, and IoT. Skilled in designing and delivering hands-on training programs, troubleshooting technical challenges, and developing structured learning materials. </p>
 						<p style="font-size: 20px;text-align: justify;">Adept at mentoring learners and helping them gain real-world technical skills. Passionate about applying engineering and training expertise in innovative projects.</p>
                         <p style="font-size: 20px;text-align: justify;">I'm Currently working as a Subject Matter Expert <a title="Click To Visit Website" href="https://ethnotech.in/"><b>Ethnotech Academy</b></a>, Bengaluru.</p>
 
@@ -362,6 +362,24 @@
         document.addEventListener('selectstart', function (event) {
             event.preventDefault();
         });
+		// Define the start date
+		  const startDate = new Date('2022-04-01');
+		  const today = new Date();
+		
+		  // Calculate difference in years
+		  let years = today.getFullYear() - startDate.getFullYear();
+		
+		  // Adjust if current date is before April 1 in the current year
+		  const isBeforeAnniversary =
+		    today.getMonth() < 3 || (today.getMonth() === 3 && today.getDate() < 1);
+		
+		  if (isBeforeAnniversary) {
+		    years -= 1;
+		  }
+		
+		  // Display in the span
+		  document.getElementById('exp').textContent = years;
     </script>
 </body>
 </html>
+
