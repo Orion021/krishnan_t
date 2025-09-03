@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
-  <title>Alex Chen - Portfolio</title>
+  <title>Krishna's Portfolio</title>
   <style>
     :root {
       --bg: #0b0c10;
@@ -100,19 +100,20 @@
     }
     button:hover { background: rgba(255,255,255,0.1); }
     button:disabled { cursor: not-allowed; opacity: 0.6; }
-
+    
     .profile-photo {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-        border-radius: var(--radius);
-        filter: grayscale(100%);
-        transition: filter 0.3s ease;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: var(--radius);
+      filter: grayscale(100%);
+      transition: filter 0.3s ease;
     }
     .profile-photo:hover {
         filter: grayscale(0%);
     }
 
+    /* Media queries for larger screens (e.g., tablets and desktops) */
     @media (min-width: 768px) {
       .card-wrapper {
         max-width: 600px;
@@ -125,14 +126,18 @@
         flex: 1 1 calc(33.333% - 10px);
       }
     }
+    
+    /* Media queries for small phones */
     @media (max-width: 480px) {
       .card-wrapper {
         height: 85%;
         max-width: 95%;
       }
+      /* Photo and About me will stack on top of each other */
       .flex-row .section {
         flex: 1 1 100%;
       }
+      /* Skills and contact will also stack on top of each other */
       .flex-row.small .section {
         flex: 1 1 100%;
       }
@@ -146,12 +151,12 @@
         <h1>Krishna</h1>
         <p>IT Specialist</p>
         <div class="flex-row">
-          <div class="section" style="height:100%; width:80%;">
+          <div class="section">
             <img src="about4.jpg" alt="Krishnan Profile Photo" class="profile-photo">
           </div>
-          <div class="section" style="height:100%;">
+          <div class="section">
             <h3>About Me</h3>
-            <p>I’m Krishna, a technical trainer turned aspiring IT professional with a passion for IoT, Networking, and Python. I thrive at the intersection of problem-solving and innovation, building practical solutions while constantly learning and growing. Outside the screen, I prioritize health, agility, and balance, blending discipline with curiosity to live fully and create work that matters.</p>
+            <p>I’m Krishna, a technical trainer turning to aspiring IT professional with a passion for IoT, Networking, and Python. I thrive at the intersection of problem-solving and innovation, building practical solutions while constantly learning and growing. Outside the screen, I prioritize health, agility, and balance, blending discipline with curiosity to live fully and create work that matters.</p>
           </div>
         </div>
         <div class="section" style="height:120px;">
@@ -235,5 +240,4 @@
     flipToFrontBtn.addEventListener('click', () => handleFlip(false));
   </script>
 </body>
-
 </html>
