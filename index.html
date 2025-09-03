@@ -53,6 +53,15 @@
     }
     .page.back { transform: rotateY(180deg); }
 
+    /* --- HIDE SCROLLBARS --- */
+    .page::-webkit-scrollbar {
+      display: none; /* For Chrome, Safari, and Opera */
+    }
+    .page {
+      -ms-overflow-style: none; /* For Internet Explorer and Edge */
+      scrollbar-width: none; /* For Firefox */
+    }
+
     .page h1 { font-size: 1.5rem; text-align: center; margin-bottom: 10px; }
     .page h2 { font-size: 1.3rem; text-align: center; }
     .page p { font-size: 0.9rem; line-height: 1.4; text-align: center; color: var(--muted);}
@@ -137,12 +146,12 @@
         <h1>Krishna</h1>
         <p>IT Specialist</p>
         <div class="flex-row">
-          <div class="section" style="height:100%; width:100%;">
+          <div class="section" style="height:100%; width:80%;">
             <img src="about4.jpg" alt="Krishnan Profile Photo" class="profile-photo">
           </div>
-          <div class="section" style="height:150px;">
+          <div class="section" style="height:100%;">
             <h3>About Me</h3>
-            <p>I build elegant, responsive, and performant web applications with a focus on user experience and clean code.</p>
+            <p>I’m Krishna, a technical trainer turned aspiring IT professional with a passion for IoT, Networking, and Python. I thrive at the intersection of problem-solving and innovation, building practical solutions while constantly learning and growing. Outside the screen, I prioritize health, agility, and balance, blending discipline with curiosity to live fully and create work that matters.</p>
           </div>
         </div>
         <div class="section" style="height:120px;">
