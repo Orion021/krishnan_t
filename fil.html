@@ -8,14 +8,14 @@
     :root {
       --bg: #0b0c10;
       --text: #f0f0f0;
-      --muted: #aaa;
+      --muted: #bababa;
       --card: rgba(255, 255, 255, 0.08);
       --border: transparent;
       --radius: 24px;
-      --glass-blur: 20px;
-      --highlight: rgba(255, 255, 255, 0.3);
-      --gradient-start: rgba(255, 255, 255, 0.1);
-      --gradient-end: rgba(255, 255, 255, 0.05);
+      --glass-blur: 30px; /* Increased blur for a stronger effect */
+      --highlight: rgba(255, 255, 255, 0.5); /* Made highlight more prominent */
+      --gradient-start: rgba(255, 255, 255, 0.2); /* Increased opacity */
+      --gradient-end: rgba(255, 255, 255, 0.1); /* Increased opacity */
     }
 
     * {
@@ -27,7 +27,7 @@
     html,
     body {
       height: 100%;
-      background: radial-gradient(circle at top left, #000000, #000000 30%);
+      background-image: linear-gradient(to left top, #080808, #111216, #131920, #12212a, #0d2933, #0e2833, #0f2834, #112734, #181d29, #18151c, #110b10, #000000);
       color: var(--text);
       font-family: 'SF Pro Display', 'Helvetica Neue', 'Helvetica', Arial, sans-serif;
       overflow: hidden;
@@ -57,7 +57,7 @@
       border-radius: var(--radius);
       box-shadow: none;
       padding: 25px;
-      display: none;
+      display: none; /* All pages are hidden by default */
       flex-direction: column;
       gap: 20px;
       overflow-y: auto;
@@ -69,6 +69,7 @@
         var(--gradient-end) 100%
       );
     }
+    /* Only the active page is visible */
     .card-page.active-page {
       display: flex;
     }
