@@ -84,10 +84,10 @@
     }
 
     .page.front {
-        justify-content: flex-start;
-        display: flex;
-        flex-direction: column;
-        gap: 20px;
+      justify-content: flex-start;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
     }
 
     /* --- HIDE SCROLLBARS --- */
@@ -100,19 +100,19 @@
     }
 
     .sub-page {
-        display: none;
-        flex-direction: column;
-        gap: 20px;
+      display: none;
+      flex-direction: column;
+      gap: 20px;
     }
     .sub-page.active-page {
-        display: flex;
+      display: flex;
     }
 
     .page-content {
-        flex: 1;
-        display: flex;
-        flex-direction: column;
-        gap: 20px;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
     }
 
     .page h1 {
@@ -216,7 +216,7 @@
     }
     .grid-2x5 .section {
       flex: none;
-      height: 100px; /* Uniform height for grid items */
+      height: 100px;
     }
 
     .flex-row.contact-links a {
@@ -228,44 +228,36 @@
       text-align: center;
     }
 
-    .navigation-buttons {
+    /* Floating Navigation Buttons */
+    .floating-nav {
+      position: fixed;
+      bottom: 25px;
+      right: 25px;
       display: flex;
-      justify-content: space-between;
+      flex-direction: column;
       gap: 10px;
-      margin-top: auto;
+      z-index: 100;
     }
-    .navigation-buttons button {
-      flex: 1;
-      margin-top: 0;
-    }
-
-    button {
+    .floating-nav button {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      padding: 0;
+      font-size: 1.5rem;
+      color: var(--text);
       background: rgba(255, 255, 255, 0.15);
       border: 1px solid rgba(255, 255, 255, 0.3);
-      border-radius: 12px;
-      color: var(--text);
-      padding: 12px 25px;
-      font-size: 1.05rem;
-      font-weight: 500;
-      cursor: pointer;
-      width: 100%;
-      margin-top: 20px;
-      transition: all 0.3s cubic-bezier(0.165, 0.84, 0.44, 1);
-      backdrop-filter: blur(10px);
-      -webkit-backdrop-filter: blur(10px);
-      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
+      transition: all 0.3s;
     }
-    button:hover {
+    .floating-nav button:hover {
       background: rgba(255, 255, 255, 0.25);
-      border-color: rgba(255, 255, 255, 0.5);
-      transform: translateY(-2px);
-      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+      transform: scale(1.1);
     }
-    button:disabled {
+    .floating-nav button:disabled {
+      opacity: 0.4;
       cursor: not-allowed;
-      opacity: 0.5;
       transform: none;
-      box-shadow: none;
     }
 
     .profile-photo {
@@ -437,34 +429,35 @@
                 <a class="section" href="#">Portfolio Site</a>
             </div>
         </div>
-
-        <div class="navigation-buttons">
-          <button id="prevPage" aria-label="Previous Page" disabled>&#8592; Prev</button>
-          <button id="nextPage" aria-label="Next Page">Next &#8594;</button>
-          <button id="flipToFront" aria-label="Flip to Page 1">Home</button>
-        </div>
       </div>
     </div>
   </div>
 
+  <div class="floating-nav">
+    <button id="flipBtn" aria-label="Flip to Page 2">&#8594;</button>
+    <button id="navBtn" aria-label="Next Page">&#8595;</button>
+  </div>
+
   <script>
     const wrapper = document.getElementById('portfolio');
-    const flipToFrontBtn = document.getElementById('flipToFront');
-    const prevPageBtn = document.getElementById('prevPage');
-    const nextPageBtn = document.getElementById('nextPage');
+    const flipBtn = document.getElementById('flipBtn');
+    const navBtn = document.getElementById('navBtn');
     const subPages = document.querySelectorAll('.sub-page');
     let currentPageIndex = 0;
 
-    // Variables for swipe detection
-    let touchstartX = 0;
-    let touchendX = 0;
-    let touchstartY = 0;
-    let touchendY = 0;
-    const swipeThreshold = 50;
-
-    const updateNavigation = () => {
-        prevPageBtn.disabled = currentPageIndex === 0;
-        nextPageBtn.disabled = currentPageIndex === subPages.length - 1;
+    const updateButtons = () => {
+      const isFlipped = wrapper.classList.contains('flipped');
+      if (isFlipped) {
+        if (currentPageIndex === subPages.length - 1) {
+          navBtn.textContent = '&#8617;'; // Loop back to start
+        } else {
+          navBtn.textContent = '&#8595;';
+        }
+        flipBtn.textContent = '&#8592;'; // Go back to front
+      } else {
+        navBtn.textContent = '&#8595;'; // Always next on front page
+        flipBtn.textContent = '&#8594;'; // Always flip to back on front page
+      }
     };
     
     const showPage = (index) => {
@@ -472,87 +465,43 @@
             page.classList.toggle('active-page', i === index);
         });
         currentPageIndex = index;
-        updateNavigation();
+        updateButtons();
     };
 
     const handleFlip = (isFlippingBack) => {
-      // Disable all buttons during the transition
-      const allButtons = document.querySelectorAll('button');
-      allButtons.forEach(btn => btn.disabled = true);
-
       wrapper.classList.toggle('flipped', isFlippingBack);
-
-      wrapper.addEventListener('transitionend', () => {
-        allButtons.forEach(btn => btn.disabled = false);
+      setTimeout(() => {
         if (isFlippingBack) {
             showPage(0);
         }
-      }, { once: true });
+      }, 500); // Wait for half the transition duration
+      updateButtons();
     };
 
-    // Add event listeners for the buttons
-    flipToFrontBtn.addEventListener('click', () => handleFlip(false));
-    
-    prevPageBtn.addEventListener('click', () => {
-        if (currentPageIndex > 0) {
-            showPage(currentPageIndex - 1);
-        }
-    });
-
-    nextPageBtn.addEventListener('click', () => {
-        if (currentPageIndex < subPages.length - 1) {
-            showPage(currentPageIndex + 1);
-        }
-    });
-
-    // --- Swipe gesture logic for flipping pages ---
-    wrapper.addEventListener('touchstart', (e) => {
-        touchstartX = e.changedTouches[0].screenX;
-        touchstartY = e.changedTouches[0].screenY;
-    });
-
-    wrapper.addEventListener('touchend', (e) => {
-        touchendX = e.changedTouches[0].screenX;
-        touchendY = e.changedTouches[0].screenY;
-        handleGesture();
-    });
-
-    const handleGesture = () => {
-        const diffX = touchendX - touchstartX;
-        const diffY = touchendY - touchstartY;
-
+    flipBtn.addEventListener('click', () => {
         const isFlipped = wrapper.classList.contains('flipped');
-
         if (isFlipped) {
-            // Horizontal swipe for navigation on the back of the card
-            if (Math.abs(diffX) > swipeThreshold && Math.abs(diffY) < swipeThreshold) {
-                if (diffX < 0) { // Swiped left
-                    if (currentPageIndex < subPages.length - 1) {
-                        showPage(currentPageIndex + 1);
-                    }
-                } else { // Swiped right
-                    if (currentPageIndex > 0) {
-                        showPage(currentPageIndex - 1);
-                    }
-                }
-            } else if (Math.abs(diffY) > swipeThreshold && Math.abs(diffX) < swipeThreshold) {
-                if (diffY > 0) { // Swiped down
-                    handleFlip(false);
-                }
+            handleFlip(false); // Flip back to front
+        } else {
+            handleFlip(true); // Flip to back
+        }
+    });
+    
+    navBtn.addEventListener('click', () => {
+        const isFlipped = wrapper.classList.contains('flipped');
+        if (isFlipped) {
+            if (currentPageIndex === subPages.length - 1) {
+                showPage(0); // Loop back to the first sub-page
+            } else {
+                showPage(currentPageIndex + 1); // Go to next sub-page
             }
         } else {
-            // Vertical swipe for flipping the card on the front page
-            if (Math.abs(diffY) > swipeThreshold && Math.abs(diffX) < swipeThreshold) {
-                if (diffY < 0) { // Swiped up
-                    handleFlip(true);
-                }
-            }
+            handleFlip(true); // Default action is to flip to the back page
         }
-    };
-    
+    });
+
     // Initial state setup
     showPage(0);
-    updateNavigation();
   </script>
 </body>
 </html>
