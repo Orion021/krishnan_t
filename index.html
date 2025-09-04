@@ -10,9 +10,8 @@
       --text: #f0f0f0;
       --muted: #aaa;
       --card: rgba(255, 255, 255, 0.08);
-      --border: rgba(255, 255, 255, 0.2);
+      --border: transparent;
       --radius: 24px;
-      --shadow: 0 8px 30px rgba(0, 0, 0, 0.6);
       --glass-blur: 20px;
       --highlight: rgba(255, 255, 255, 0.3);
       --gradient-start: rgba(255, 255, 255, 0.1);
@@ -63,7 +62,7 @@
       background: var(--card);
       border: 1px solid var(--border);
       border-radius: var(--radius);
-      box-shadow: var(--shadow);
+      box-shadow: none;
       padding: 25px;
       display: flex;
       flex-direction: column;
@@ -103,6 +102,7 @@
       display: none;
       flex-direction: column;
       gap: 20px;
+      height: 100%;
     }
     .sub-page.active-page {
       display: flex;
@@ -205,8 +205,7 @@
     }
     .flex-row.small .section:hover {
       background: rgba(255, 255, 255, 0.1);
-      transform: translateY(-3px);
-      box-shadow: var(--shadow);
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
     }
 
     .grid-2x5 {
@@ -228,36 +227,42 @@
       text-align: center;
     }
 
-    /* Floating Navigation Buttons */
-    .floating-nav {
+    /* New Floating Arrow Buttons */
+    .nav-arrow {
       position: fixed;
-      bottom: 25px;
-      right: 25px;
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-      z-index: 100;
-    }
-    .floating-nav button {
+      top: 50%;
+      transform: translateY(-50%);
       width: 50px;
       height: 50px;
-      border-radius: 50%;
-      padding: 0;
-      font-size: 1.5rem;
-      color: var(--text);
       background: rgba(255, 255, 255, 0.15);
       border: 1px solid rgba(255, 255, 255, 0.3);
-      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
+      border-radius: 50%;
+      color: var(--text);
+      font-size: 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
       transition: all 0.3s;
+      z-index: 100;
     }
-    .floating-nav button:hover {
+    .nav-arrow:hover {
       background: rgba(255, 255, 255, 0.25);
-      transform: scale(1.1);
+      transform: translateY(-50%) scale(1.1);
     }
-    .floating-nav button:disabled {
+    .nav-arrow.left {
+      left: 10px;
+    }
+    .nav-arrow.right {
+      right: 10px;
+    }
+    .nav-arrow:disabled {
       opacity: 0.4;
       cursor: not-allowed;
-      transform: none;
+      transform: translateY(-50%) scale(1);
     }
 
     .profile-photo {
@@ -321,12 +326,13 @@
         padding: 10px;
         font-size: 0.85rem;
       }
-      button {
-        padding: 10px 20px;
-        font-size: 0.95rem;
-      }
       .grid-2x5 {
         grid-template-columns: 1fr;
+      }
+      .nav-arrow {
+        width: 40px;
+        height: 40px;
+        font-size: 1.5rem;
       }
     }
   </style>
@@ -355,7 +361,7 @@
       </div>
 
       <div class="page back">
-        <div class="sub-page active-page" id="page2">
+        <div class="sub-page" id="page2">
           <h2>Certifications & Achievements</h2>
           <div class="grid-2x5">
             <div class="section">
@@ -433,75 +439,74 @@
     </div>
   </div>
 
-  <div class="floating-nav">
-    <button id="flipBtn" aria-label="Flip to Page 2">&#8594;</button>
-    <button id="navBtn" aria-label="Next Page">&#8595;</button>
-  </div>
+  <button id="nav-left" class="nav-arrow left" aria-label="Previous Page">&lt;</button>
+  <button id="nav-right" class="nav-arrow right" aria-label="Next Page">&gt;</button>
 
   <script>
     const wrapper = document.getElementById('portfolio');
-    const flipBtn = document.getElementById('flipBtn');
-    const navBtn = document.getElementById('navBtn');
+    const navLeftBtn = document.getElementById('nav-left');
+    const navRightBtn = document.getElementById('nav-right');
     const subPages = document.querySelectorAll('.sub-page');
     let currentPageIndex = 0;
 
     const updateButtons = () => {
       const isFlipped = wrapper.classList.contains('flipped');
-      if (isFlipped) {
-        if (currentPageIndex === subPages.length - 1) {
-          navBtn.textContent = '&#8617;'; // Loop back to start
-        } else {
-          navBtn.textContent = '&#8595;';
-        }
-        flipBtn.textContent = '&#8592;'; // Go back to front
+      
+      // Right arrow logic
+      if (!isFlipped) {
+        navRightBtn.disabled = false; // Always enabled on the front page
       } else {
-        navBtn.textContent = '&#8595;'; // Always next on front page
-        flipBtn.textContent = '&#8594;'; // Always flip to back on front page
+        navRightBtn.disabled = currentPageIndex === subPages.length - 1;
+      }
+      
+      // Left arrow logic
+      if (!isFlipped) {
+        navLeftBtn.disabled = true; // Always disabled on the front page
+      } else {
+        navLeftBtn.disabled = false; // Always enabled on the back pages
       }
     };
-    
-    const showPage = (index) => {
-        subPages.forEach((page, i) => {
-            page.classList.toggle('active-page', i === index);
-        });
-        currentPageIndex = index;
-        updateButtons();
-    };
 
-    const handleFlip = (isFlippingBack) => {
-      wrapper.classList.toggle('flipped', isFlippingBack);
-      setTimeout(() => {
-        if (isFlippingBack) {
-            showPage(0);
-        }
-      }, 500); // Wait for half the transition duration
+    const showPage = (index) => {
+      subPages.forEach((page, i) => {
+        page.classList.toggle('active-page', i === index);
+      });
+      currentPageIndex = index;
       updateButtons();
     };
 
-    flipBtn.addEventListener('click', () => {
-        const isFlipped = wrapper.classList.contains('flipped');
-        if (isFlipped) {
-            handleFlip(false); // Flip back to front
-        } else {
-            handleFlip(true); // Flip to back
-        }
-    });
-    
-    navBtn.addEventListener('click', () => {
-        const isFlipped = wrapper.classList.contains('flipped');
-        if (isFlipped) {
-            if (currentPageIndex === subPages.length - 1) {
-                showPage(0); // Loop back to the first sub-page
-            } else {
-                showPage(currentPageIndex + 1); // Go to next sub-page
-            }
-        } else {
-            handleFlip(true); // Default action is to flip to the back page
-        }
-    });
+    const handleForward = () => {
+      const isFlipped = wrapper.classList.contains('flipped');
+      if (!isFlipped) {
+        // From front page to first back page
+        wrapper.classList.add('flipped');
+        setTimeout(() => showPage(0), 500);
+      } else if (currentPageIndex < subPages.length - 1) {
+        // From one back page to the next
+        showPage(currentPageIndex + 1);
+      }
+    };
 
+    const handleBackward = () => {
+      const isFlipped = wrapper.classList.contains('flipped');
+      if (isFlipped) {
+        if (currentPageIndex > 0) {
+          // From one back page to the previous
+          showPage(currentPageIndex - 1);
+        } else {
+          // From the first back page to the front page
+          wrapper.classList.remove('flipped');
+        }
+      }
+    };
+
+    // Add event listeners for the arrow buttons
+    navRightBtn.addEventListener('click', handleForward);
+    navLeftBtn.addEventListener('click', handleBackward);
+    
     // Initial state setup
-    showPage(0);
+    updateButtons();
+    showPage(0); // Ensure the first sub-page on the back is visible by default
   </script>
 </body>
 </html>
