@@ -10,9 +10,8 @@
       --text: #f0f0f0;
       --muted: #aaa;
       --card: rgba(255, 255, 255, 0.08);
-      --border: rgba(255, 255, 255, 0.2);
+      --border: transparent;
       --radius: 24px;
-      --shadow: 0 8px 30px rgba(0, 0, 0, 0.6);
       --glass-blur: 20px;
       --highlight: rgba(255, 255, 255, 0.3);
       --gradient-start: rgba(255, 255, 255, 0.1);
@@ -63,7 +62,7 @@
       background: var(--card);
       border: 1px solid var(--border);
       border-radius: var(--radius);
-      box-shadow: var(--shadow);
+      box-shadow: none;
       padding: 25px;
       display: flex;
       flex-direction: column;
@@ -84,11 +83,10 @@
     }
 
     .page.front {
-        /* Prevents the button from being at the very bottom */
-        justify-content: flex-start;
-        display: flex;
-        flex-direction: column;
-        gap: 20px;
+      justify-content: flex-start;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
     }
 
     /* --- HIDE SCROLLBARS --- */
@@ -101,19 +99,20 @@
     }
 
     .sub-page {
-        display: none;
-        flex-direction: column;
-        gap: 20px;
+      display: none;
+      flex-direction: column;
+      gap: 20px;
+      height: 100%;
     }
     .sub-page.active-page {
-        display: flex;
+      display: flex;
     }
 
     .page-content {
-        flex: 1; /* Allows the content to fill the space */
-        display: flex;
-        flex-direction: column;
-        gap: 20px;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
     }
 
     .page h1 {
@@ -206,8 +205,17 @@
     }
     .flex-row.small .section:hover {
       background: rgba(255, 255, 255, 0.1);
-      transform: translateY(-3px);
-      box-shadow: var(--shadow);
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+    }
+
+    .grid-2x5 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 15px;
+    }
+    .grid-2x5 .section {
+      flex: none;
+      height: 100px;
     }
 
     .flex-row.contact-links a {
@@ -219,44 +227,36 @@
       text-align: center;
     }
 
-    .navigation-buttons {
+    /* Floating Navigation Buttons - Horizontal Layout */
+    .floating-nav {
+      position: fixed;
+      bottom: 25px;
+      right: 25px;
       display: flex;
-      justify-content: space-between;
+      flex-direction: row; /* Aligns buttons horizontally */
       gap: 10px;
-      margin-top: auto;
+      z-index: 100;
     }
-    .navigation-buttons button {
-      flex: 1;
-      margin-top: 0;
-    }
-
-    button {
+    .floating-nav button {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      padding: 0;
+      font-size: 1.5rem;
+      color: var(--text);
       background: rgba(255, 255, 255, 0.15);
       border: 1px solid rgba(255, 255, 255, 0.3);
-      border-radius: 12px;
-      color: var(--text);
-      padding: 12px 25px;
-      font-size: 1.05rem;
-      font-weight: 500;
-      cursor: pointer;
-      width: 100%;
-      margin-top: 20px;
-      transition: all 0.3s cubic-bezier(0.165, 0.84, 0.44, 1);
-      backdrop-filter: blur(10px);
-      -webkit-backdrop-filter: blur(10px);
-      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
+      transition: all 0.3s;
     }
-    button:hover {
+    .floating-nav button:hover {
       background: rgba(255, 255, 255, 0.25);
-      border-color: rgba(255, 255, 255, 0.5);
-      transform: translateY(-2px);
-      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+      transform: scale(1.1);
     }
-    button:disabled {
+    .floating-nav button:disabled {
+      opacity: 0.4;
       cursor: not-allowed;
-      opacity: 0.5;
       transform: none;
-      box-shadow: none;
     }
 
     .profile-photo {
@@ -320,9 +320,13 @@
         padding: 10px;
         font-size: 0.85rem;
       }
-      button {
-        padding: 10px 20px;
-        font-size: 0.95rem;
+      .grid-2x5 {
+        grid-template-columns: 1fr;
+      }
+      .floating-nav button {
+        width: 40px;
+        height: 40px;
+        font-size: 1.5rem;
       }
     }
   </style>
@@ -332,43 +336,65 @@
     <div class="card-wrapper" id="portfolio">
       <div class="page front">
         <div class="page-content">
-          <h1>Krishna</h1>
+          <h1>Krishnan </h1>
           <p>IT Specialist</p>
           <div class="flex-row">
             <div class="section">
               <img src="about4.jpg" alt="Krishna's Profile Photo" class="profile-photo">
             </div>
             <div class="section">
-              <h3>About Me</h3>
               <p>I’m Krishna, a technical trainer turning to aspiring IT professional with a passion for IoT, Networking, and Python. I thrive at the intersection of problem-solving and innovation, building practical solutions while constantly learning and growing. Outside the screen, I prioritize health, agility, and balance, blending discipline with curiosity to live fully and create work that matters.</p>
             </div>
           </div>
           <div class="section" style="height:120px;">
-            <h3>My Philosophy</h3>
-            <p>I believe in creating websites that are not only beautiful but also accessible and intuitive for all users. My goal is to transform complex ideas into simple, functional digital products.</p>
+            <p>Live freely and fully—growing strong in mind and body, caring for the people you love, and creating a life of adventure, joy, and balance without being tied down by meaningless work.</p>
           </div>
         </div>
       </div>
 
       <div class="page back">
         <div class="sub-page" id="page2">
-          <h2>Certifications & Achievements</h2>
-          <div class="flex-row">
-            <div class="section" style="height:120px;">
-              <h3>FreeCodeCamp</h3>
-              <p>Responsive Web Design</p>
+          <h2>Certifications & Achievements(WIP)</h2>
+          <div class="grid-2x5">
+            <div class="section">
+              <h3>Cert Title 1</h3>
+              <p>Organization Name</p>
             </div>
-            <div class="section" style="height:120px;">
-              <h3>Coursera</h3>
-              <p>Front-End Development</p>
+            <div class="section">
+              <h3>Cert Title 2</h3>
+              <p>Organization Name</p>
             </div>
-            <div class="section" style="height:120px;">
-              <h3>Google</h3>
-              <p>UX Design Certificate</p>
+            <div class="section">
+              <h3>Cert Title 3</h3>
+              <p>Organization Name</p>
             </div>
-            <div class="section" style="height:120px;">
-              <h3>edX</h3>
-              <p>Intro to Cloud Computing</p>
+            <div class="section">
+              <h3>Cert Title 4</h3>
+              <p>Organization Name</p>
+            </div>
+            <div class="section">
+              <h3>Cert Title 5</h3>
+              <p>Organization Name</p>
+            </div>
+            <div class="section">
+              <h3>Cert Title 6</h3>
+              <p>Organization Name</p>
+            </div>
+            <div class="section">
+              <h3>Cert Title 7</h3>
+              <p>Organization Name</p>
+            </div>
+            <div class="section">
+              <h3>Cert Title 8</h3>
+              <p>Organization Name</p>
+            </div>
+            <div class="section">
+              <h3>Cert Title 9</h3>
+              <p>Organization Name</p>
+            </div>
+            <div class="section">
+              <h3>Cert Title 10</h3>
+              <p>Organization Name</p>
             </div>
           </div>
         </div>
@@ -376,18 +402,14 @@
         <div class="sub-page" id="page3">
             <h2>Skill Sets</h2>
             <div class="flex-row small">
-              <div class="section">HTML5</div>
-              <div class="section">CSS3</div>
-              <div class="section">JavaScript</div>
-              <div class="section">React</div>
-              <div class="section">Node.js</div>
-              <div class="section">Git</div>
-            </div>
-            <div class="flex-row small">
+              <div class="section">IoT</div>
+              <div class="section">Embedded C</div>
+              <div class="section">C & C++</div>
               <div class="section">Python</div>
-              <div class="section">SQL</div>
-              <div class="section">Figma</div>
-              <div class="section">UX Design</div>
+              <div class="section">Networking</div>
+              <div class="section">Flutter</div>
+              <div class="section">Git & Guthub</div>
+              <div class="section">HTML 5 , CSS 3 and JavaScript</div>
             </div>
         </div>
 
@@ -397,128 +419,85 @@
                 <p>Feel free to reach out to me via email or connect with me on social media.</p>
             </div>
             <div class="flex-row contact-links small">
-                <a class="section" href="mailto:alexchen@email.com">Email</a>
-                <a class="section" href="https://linkedin.com/in/alexchen" target="_blank">LinkedIn</a>
-                <a class="section" href="https://github.com/alexchen" target="_blank">GitHub</a>
-                <a class="section" href="#">Portfolio Site</a>
+                <a class="section" href="mailto:krishnanthangavel@gmail.com">E-mail</a>
+                <a class="section" href="https://in.linkedin.com/in/krishnan-thangavel/" target="_blank">LinkedIn</a>
+                <a class="section" href="https://github.com/Orion021" target="_blank">GitHub</a>
+                <a class="section" href="https://orion021.github.io/krishnan_t/">Web</a>
+                <a class="section" href="tel:+918610908227">Call</a>
+                <a class="section" href="https://wa.me/qr/WY7N4353MGXGG1">WhatsApp</a>
+                <a class="section" href="https://www.instagram.com/krishna.021_/">Instagram(Only If You Know Me in Person)</a>
             </div>
-        </div>
-
-        <div class="navigation-buttons">
-          <button id="prevPage" aria-label="Previous Page" disabled>&#8592; Prev</button>
-          <button id="nextPage" aria-label="Next Page">Next &#8594;</button>
-          <button id="flipToFront" aria-label="Flip to Page 1">Home</button>
         </div>
       </div>
     </div>
   </div>
 
+  <div class="floating-nav">
+    <button id="nav-left" aria-label="Previous Page">&#60;</button>
+    <button id="nav-right" aria-label="Next Page">&#62;</button>
+  </div>
+
   <script>
     const wrapper = document.getElementById('portfolio');
-    const flipToFrontBtn = document.getElementById('flipToFront');
-    const prevPageBtn = document.getElementById('prevPage');
-    const nextPageBtn = document.getElementById('nextPage');
+    const navLeftBtn = document.getElementById('nav-left');
+    const navRightBtn = document.getElementById('nav-right');
     const subPages = document.querySelectorAll('.sub-page');
-    let currentPageIndex = 0;
+    let currentPageIndex = -1; // -1 for front page, 0-2 for back pages
 
-    // Variables for swipe detection
-    let touchstartX = 0;
-    let touchendX = 0;
-    let touchstartY = 0;
-    let touchendY = 0;
-    const swipeThreshold = 50;
-
-    const updateNavigation = () => {
-        prevPageBtn.disabled = currentPageIndex === 0;
-        nextPageBtn.disabled = currentPageIndex === subPages.length - 1;
+    const updateButtons = () => {
+      // Right arrow logic: Always enabled for looping
+      navRightBtn.disabled = false;
+      
+      // Left arrow logic: Disabled on the front page
+      navLeftBtn.disabled = currentPageIndex === -1;
     };
-    
+
     const showPage = (index) => {
-        subPages.forEach((page, i) => {
-            page.classList.toggle('active-page', i === index);
-        });
-        currentPageIndex = index;
-        updateNavigation();
+      subPages.forEach((page, i) => {
+        page.classList.toggle('active-page', i === index);
+      });
+      currentPageIndex = index;
+      updateButtons();
     };
 
-    const handleFlip = (isFlippingBack) => {
-      // Disable all buttons during the transition
-      const allButtons = document.querySelectorAll('button');
-      allButtons.forEach(btn => btn.disabled = true);
-
-      wrapper.classList.toggle('flipped', isFlippingBack);
-
-      wrapper.addEventListener('transitionend', () => {
-        allButtons.forEach(btn => btn.disabled = false);
-        if (isFlippingBack) {
-            showPage(0);
-        }
-      }, { once: true });
+    const handleForward = () => {
+      const isFlipped = wrapper.classList.contains('flipped');
+      if (!isFlipped) {
+        // From front page to first back page
+        wrapper.classList.add('flipped');
+        setTimeout(() => showPage(0), 500);
+      } else if (currentPageIndex < subPages.length - 1) {
+        // From one back page to the next
+        showPage(currentPageIndex + 1);
+      } else {
+        // From the last page, loop back to the front
+        wrapper.classList.remove('flipped');
+        currentPageIndex = -1;
+        updateButtons();
+      }
     };
 
-    // Add event listeners for the buttons
-    flipToFrontBtn.addEventListener('click', () => handleFlip(false));
-    
-    prevPageBtn.addEventListener('click', () => {
+    const handleBackward = () => {
+      const isFlipped = wrapper.classList.contains('flipped');
+      if (isFlipped) {
         if (currentPageIndex > 0) {
-            showPage(currentPageIndex - 1);
-        }
-    });
-
-    nextPageBtn.addEventListener('click', () => {
-        if (currentPageIndex < subPages.length - 1) {
-            showPage(currentPageIndex + 1);
-        }
-    });
-
-    // --- Swipe gesture logic for flipping pages ---
-    wrapper.addEventListener('touchstart', (e) => {
-        touchstartX = e.changedTouches[0].screenX;
-        touchstartY = e.changedTouches[0].screenY;
-    });
-
-    wrapper.addEventListener('touchend', (e) => {
-        touchendX = e.changedTouches[0].screenX;
-        touchendY = e.changedTouches[0].screenY;
-        handleGesture();
-    });
-
-    const handleGesture = () => {
-        const diffX = touchendX - touchstartX;
-        const diffY = touchendY - touchstartY;
-
-        const isFlipped = wrapper.classList.contains('flipped');
-
-        if (isFlipped) {
-            // Horizontal swipe for navigation on the back of the card
-            if (Math.abs(diffX) > swipeThreshold && Math.abs(diffY) < swipeThreshold) {
-                if (diffX < 0) { // Swiped left
-                    if (currentPageIndex < subPages.length - 1) {
-                        showPage(currentPageIndex + 1);
-                    }
-                } else { // Swiped right
-                    if (currentPageIndex > 0) {
-                        showPage(currentPageIndex - 1);
-                    }
-                }
-            } else if (Math.abs(diffY) > swipeThreshold && Math.abs(diffX) < swipeThreshold) {
-                if (diffY > 0) { // Swiped down
-                    handleFlip(false);
-                }
-            }
+          // From one back page to the previous
+          showPage(currentPageIndex - 1);
         } else {
-            // Vertical swipe for flipping the card on the front page
-            if (Math.abs(diffY) > swipeThreshold && Math.abs(diffX) < swipeThreshold) {
-                if (diffY < 0) { // Swiped up
-                    handleFlip(true);
-                }
-            }
+          // From the first back page to the front page
+          wrapper.classList.remove('flipped');
+          currentPageIndex = -1;
+          updateButtons();
         }
+      }
     };
+
+    // Add event listeners for the arrow buttons
+    navRightBtn.addEventListener('click', handleForward);
+    navLeftBtn.addEventListener('click', handleBackward);
     
     // Initial state setup
-    showPage(0);
-    updateNavigation();
+    updateButtons();
   </script>
 </body>
 </html>
