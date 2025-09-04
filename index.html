@@ -38,7 +38,6 @@
       align-items: center;
       justify-content: center;
       height: 100%;
-      perspective: 1500px;
       padding: 20px;
     }
 
@@ -47,24 +46,18 @@
       max-width: 460px;
       height: 90%;
       position: relative;
-      transform-style: preserve-3d;
-      transition: transform 1s cubic-bezier(0.68, -0.55, 0.27, 1.55);
-    }
-    .flipped {
-      transform: rotateY(180deg);
     }
 
-    .page {
+    .card-page {
       position: absolute;
       width: 100%;
       height: 100%;
-      backface-visibility: hidden;
       background: var(--card);
       border: 1px solid var(--border);
       border-radius: var(--radius);
       box-shadow: none;
       padding: 25px;
-      display: flex;
+      display: none;
       flex-direction: column;
       gap: 20px;
       overflow-y: auto;
@@ -75,37 +68,18 @@
         var(--gradient-start) 0%,
         var(--gradient-end) 100%
       );
-      transform-origin: center;
-      transform-style: preserve-3d;
     }
-    .page.back {
-      transform: rotateY(180deg);
-    }
-
-    .page.front {
-      justify-content: flex-start;
+    .card-page.active-page {
       display: flex;
-      flex-direction: column;
-      gap: 20px;
     }
 
     /* --- HIDE SCROLLBARS --- */
-    .page::-webkit-scrollbar {
+    .card-page::-webkit-scrollbar {
       display: none;
     }
-    .page {
+    .card-page {
       -ms-overflow-style: none;
       scrollbar-width: none;
-    }
-
-    .sub-page {
-      display: none;
-      flex-direction: column;
-      gap: 20px;
-      height: 100%;
-    }
-    .sub-page.active-page {
-      display: flex;
     }
 
     .page-content {
@@ -115,7 +89,7 @@
       gap: 20px;
     }
 
-    .page h1 {
+    .card-page h1 {
       font-size: 2.2rem;
       font-weight: 700;
       text-align: center;
@@ -128,18 +102,18 @@
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
     }
-    .page h2 {
+    .card-page h2 {
       font-size: 1.8rem;
       font-weight: 600;
       text-align: center;
       color: var(--text);
     }
-    .page h3 {
+    .card-page h3 {
       font-size: 1.2rem;
       font-weight: 600;
       color: var(--text);
     }
-    .page p {
+    .card-page p {
       font-size: 0.95rem;
       line-height: 1.6;
       text-align: center;
@@ -233,7 +207,7 @@
       bottom: 25px;
       right: 25px;
       display: flex;
-      flex-direction: row; /* Aligns buttons horizontally */
+      flex-direction: row;
       gap: 10px;
       z-index: 100;
     }
@@ -302,14 +276,14 @@
         height: 88%;
         max-width: 98%;
       }
-      .page {
+      .card-page {
         padding: 18px;
         gap: 15px;
       }
-      .page h1 {
+      .card-page h1 {
         font-size: 1.8rem;
       }
-      .page h2 {
+      .card-page h2 {
         font-size: 1.5rem;
       }
       .flex-row .section {
@@ -334,10 +308,9 @@
 <body>
   <div class="container">
     <div class="card-wrapper" id="portfolio">
-      <div class="page front">
+      <div class="card-page active-page" id="page1">
         <div class="page-content">
           <h1>Krishnan </h1>
-          <!--<p>IT Specialist</p>-->
           <div class="flex-row">
             <div class="section">
               <img src="about4.jpg" alt="Krishna's Profile Photo" class="profile-photo">
@@ -352,81 +325,79 @@
         </div>
       </div>
 
-      <div class="page back">
-        <div class="sub-page" id="page2">
-          <h2>Certifications & Achievements(WIP)</h2>
-          <div class="grid-2x5">
-            <div class="section">
-              <h3>Cert Title 1</h3>
-              <p>Organization Name</p>
-            </div>
-            <div class="section">
-              <h3>Cert Title 2</h3>
-              <p>Organization Name</p>
-            </div>
-            <div class="section">
-              <h3>Cert Title 3</h3>
-              <p>Organization Name</p>
-            </div>
-            <div class="section">
-              <h3>Cert Title 4</h3>
-              <p>Organization Name</p>
-            </div>
-            <div class="section">
-              <h3>Cert Title 5</h3>
-              <p>Organization Name</p>
-            </div>
-            <div class="section">
-              <h3>Cert Title 6</h3>
-              <p>Organization Name</p>
-            </div>
-            <div class="section">
-              <h3>Cert Title 7</h3>
-              <p>Organization Name</p>
-            </div>
-            <div class="section">
-              <h3>Cert Title 8</h3>
-              <p>Organization Name</p>
-            </div>
-            <div class="section">
-              <h3>Cert Title 9</h3>
-              <p>Organization Name</p>
-            </div>
-            <div class="section">
-              <h3>Cert Title 10</h3>
-              <p>Organization Name</p>
-            </div>
+      <div class="card-page" id="page2">
+        <h2>Certifications & Achievements(WIP)</h2>
+        <div class="grid-2x5">
+          <div class="section">
+            <h3>Cert Title 1</h3>
+            <p>Organization Name</p>
+          </div>
+          <div class="section">
+            <h3>Cert Title 2</h3>
+            <p>Organization Name</p>
+          </div>
+          <div class="section">
+            <h3>Cert Title 3</h3>
+            <p>Organization Name</p>
+          </div>
+          <div class="section">
+            <h3>Cert Title 4</h3>
+            <p>Organization Name</p>
+          </div>
+          <div class="section">
+            <h3>Cert Title 5</h3>
+            <p>Organization Name</p>
+          </div>
+          <div class="section">
+            <h3>Cert Title 6</h3>
+            <p>Organization Name</p>
+          </div>
+          <div class="section">
+            <h3>Cert Title 7</h3>
+            <p>Organization Name</p>
+          </div>
+          <div class="section">
+            <h3>Cert Title 8</h3>
+            <p>Organization Name</p>
+          </div>
+          <div class="section">
+            <h3>Cert Title 9</h3>
+            <p>Organization Name</p>
+          </div>
+          <div class="section">
+            <h3>Cert Title 10</h3>
+            <p>Organization Name</p>
           </div>
         </div>
+      </div>
 
-        <div class="sub-page" id="page3">
-            <h2>Skill Sets</h2>
-            <div class="flex-row small">
-              <div class="section">IoT</div>
-              <div class="section">Embedded C</div>
-              <div class="section">C & C++</div>
-              <div class="section">Python</div>
-              <div class="section">Networking</div>
-              <div class="section">Flutter</div>
-              <div class="section">Git & Guthub</div>
-              <div class="section">HTML 5 , CSS 3 and JavaScript</div>
-            </div>
+      <div class="card-page" id="page3">
+        <h2>Skill Sets</h2>
+        <div class="flex-row small">
+          <div class="section">IoT</div>
+          <div class="section">Embedded C</div>
+          <div class="section">C & C++</div>
+          <div class="section">Python</div>
+          <div class="section">Networking</div>
+          <div class="section">Flutter</div>
+          <div class="section">Git & Guthub</div>
+          <div class="section">HTML 5 , CSS 3 and JavaScript</div>
         </div>
+      </div>
 
-        <div class="sub-page" id="page4">
-            <h2>Contact Me</h2>
-            <div class="section" style="height:120px;">
-                <p>Feel free to reach out to me via email or connect with me on social media.</p>
-            </div>
-            <div class="flex-row contact-links small">
-                <a class="section" href="mailto:krishnanthangavel@gmail.com">E-mail</a>
-                <a class="section" href="https://in.linkedin.com/in/krishnan-thangavel/" target="_blank">LinkedIn</a>
-                <a class="section" href="https://github.com/Orion021" target="_blank">GitHub</a>
-                <a class="section" href="https://orion021.github.io/krishnan_t/">Web</a>
-                <a class="section" href="tel:+918610908227">Call</a>
-                <a class="section" href="https://wa.me/qr/WY7N4353MGXGG1">WhatsApp</a>
-                <a class="section" href="https://www.instagram.com/krishna.021_/">Instagram <span style="font-size: 8px;">(Only If You Know Me in Person)</span></a>
-            </div>
+      <div class="card-page" id="page4">
+        <h2>Contact Me</h2>
+        <div class="section" style="height:120px;">
+          <p>Feel free to reach out to me via email or connect with me on social media.</p>
+        </div>
+        <div class="flex-row contact-links small">
+          <a class="section" href="mailto:krishnanthangavel@gmail.com">E-mail</a>
+          <a class="section" href="https://in.linkedin.com/in/krishnan-thangavel/" target="_blank">LinkedIn</a>
+          <a class="section" href="https://github.com/Orion021" target="_blank">GitHub</a>
+          <a class="section" href="https://orion021.github.io/krishnan_t/">Web</a>
+          <a class="section" href="tel:+918610908227">Call</a>
+          <a class="section" href="https://wa.me/qr/WY7N4353MGXGG1">WhatsApp</a>
+          <a class="section" href="https://www.instagram.com/krishna.021_/">Instagram <span style="font-size: 8px;">(Only If You Know Me in Person)</span></a>
         </div>
       </div>
     </div>
@@ -458,57 +429,35 @@
       }
     });
 
-    const wrapper = document.getElementById('portfolio');
     const navLeftBtn = document.getElementById('nav-left');
     const navRightBtn = document.getElementById('nav-right');
-    const subPages = document.querySelectorAll('.sub-page');
-    let currentPageIndex = -1; // -1 for front page, 0-2 for back pages
-
-    const updateButtons = () => {
-      // Right arrow logic: Always enabled for looping
-      navRightBtn.disabled = false;
-      
-      // Left arrow logic: Disabled on the front page
-      navLeftBtn.disabled = currentPageIndex === -1;
-    };
+    const allPages = document.querySelectorAll('.card-page');
+    let currentPageIndex = 0;
 
     const showPage = (index) => {
-      subPages.forEach((page, i) => {
+      allPages.forEach((page, i) => {
         page.classList.toggle('active-page', i === index);
       });
       currentPageIndex = index;
-      updateButtons();
     };
 
     const handleForward = () => {
-      const isFlipped = wrapper.classList.contains('flipped');
-      if (!isFlipped) {
-        // From front page to first back page
-        wrapper.classList.add('flipped');
-        setTimeout(() => showPage(0), 500);
-      } else if (currentPageIndex < subPages.length - 1) {
-        // From one back page to the next
-        showPage(currentPageIndex + 1);
+      // If on the last page, loop to the first page (index 0)
+      if (currentPageIndex === allPages.length - 1) {
+        showPage(0);
       } else {
-        // From the last page, loop back to the front
-        wrapper.classList.remove('flipped');
-        currentPageIndex = -1;
-        updateButtons();
+        // Otherwise, go to the next page
+        showPage(currentPageIndex + 1);
       }
     };
 
     const handleBackward = () => {
-      const isFlipped = wrapper.classList.contains('flipped');
-      if (isFlipped) {
-        if (currentPageIndex > 0) {
-          // From one back page to the previous
-          showPage(currentPageIndex - 1);
-        } else {
-          // From the first back page to the front page
-          wrapper.classList.remove('flipped');
-          currentPageIndex = -1;
-          updateButtons();
-        }
+      // If on the first page, loop to the last page
+      if (currentPageIndex === 0) {
+        showPage(allPages.length - 1);
+      } else {
+        // Otherwise, go to the previous page
+        showPage(currentPageIndex - 1);
       }
     };
 
@@ -516,8 +465,8 @@
     navRightBtn.addEventListener('click', handleForward);
     navLeftBtn.addEventListener('click', handleBackward);
     
-    // Initial state setup
-    updateButtons();
+    // Set the initial state
+    showPage(currentPageIndex);
   </script>
 </body>
 </html>

@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
+  <title>Krishna's - Web Page</title>
+  <style>
+    :root {
+      --bg: #0b0c10;
+      --text: #f0f0f0;
+      --muted: #aaa;
+      --card: rgba(255, 255, 255, 0.08);
+      --border: transparent;
+      --radius: 24px;
+      --glass-blur: 20px;
+      --highlight: rgba(255, 255, 255, 0.3);
+      --gradient-start: rgba(255, 255, 255, 0.1);
+      --gradient-end: rgba(255, 255, 255, 0.05);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html,
+    body {
+      height: 100%;
+      background: radial-gradient(circle at top left, #000000, #000000 30%);
+      color: var(--text);
+      font-family: 'SF Pro Display', 'Helvetica Neue', 'Helvetica', Arial, sans-serif;
+      overflow: hidden;
+    }
+
+    .container {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100%;
+      padding: 20px;
+    }
+
+    .card-wrapper {
+      width: 100%;
+      max-width: 460px;
+      height: 90%;
+      position: relative;
+    }
+
+    .card-page {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      box-shadow: none;
+      padding: 25px;
+      display: none;
+      flex-direction: column;
+      gap: 20px;
+      overflow-y: auto;
+      backdrop-filter: blur(var(--glass-blur));
+      -webkit-backdrop-filter: blur(var(--glass-blur));
+      background: linear-gradient(
+        135deg,
+        var(--gradient-start) 0%,
+        var(--gradient-end) 100%
+      );
+    }
+    .card-page.active-page {
+      display: flex;
+    }
+
+    /* --- HIDE SCROLLBARS --- */
+    .card-page::-webkit-scrollbar {
+      display: none;
+    }
+    .card-page {
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+    }
+
+    .page-content {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .card-page h1 {
+      font-size: 2.2rem;
+      font-weight: 700;
+      text-align: center;
+      margin-bottom: 15px;
+      background: linear-gradient(
+        45deg,
+        #e0e0e0,
+        #ffffff
+      );
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .card-page h2 {
+      font-size: 1.8rem;
+      font-weight: 600;
+      text-align: center;
+      color: var(--text);
+    }
+    .card-page h3 {
+      font-size: 1.2rem;
+      font-weight: 600;
+      color: var(--text);
+    }
+    .card-page p {
+      font-size: 0.95rem;
+      line-height: 1.6;
+      text-align: center;
+      color: var(--muted);
+      font-weight: 300;
+    }
+
+    .section {
+      background: rgba(255, 255, 255, 0.03);
+      border-radius: var(--radius);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      padding: 15px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .section::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 1px;
+      background: linear-gradient(
+        90deg,
+        transparent,
+        var(--highlight),
+        transparent
+      );
+      opacity: 0.5;
+    }
+
+    .flex-row {
+      display: flex;
+      gap: 15px;
+      flex-wrap: wrap;
+      justify-content: center;
+      align-items: stretch;
+    }
+    .flex-row .section {
+      flex: 1 1 calc(50% - 15px);
+      padding: 15px;
+    }
+    .flex-row.small .section {
+      flex: 1 1 calc(33.333% - 10px);
+      padding: 12px 10px;
+      font-size: 0.9rem;
+      font-weight: 500;
+      color: var(--text);
+      background: rgba(255, 255, 255, 0.05);
+      transition: all 0.3s ease;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+    }
+    .flex-row.small .section:hover {
+      background: rgba(255, 255, 255, 0.1);
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+    }
+
+    .grid-2x5 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 15px;
+    }
+    .grid-2x5 .section {
+      flex: none;
+      height: 100px;
+    }
+
+    .flex-row.contact-links a {
+      flex: 1 1 calc(25% - 15px);
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: var(--radius);
+      border: 1px solid var(--border);
+      padding: 10px;
+      text-align: center;
+    }
+
+    /* Floating Navigation Buttons - Horizontal Layout */
+    .floating-nav {
+      position: fixed;
+      bottom: 25px;
+      right: 25px;
+      display: flex;
+      flex-direction: row;
+      gap: 10px;
+      z-index: 100;
+    }
+    .floating-nav button {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      padding: 0;
+      font-size: 1.5rem;
+      color: var(--text);
+      background: rgba(255, 255, 255, 0.15);
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
+      transition: all 0.3s;
+    }
+    .floating-nav button:hover {
+      background: rgba(255, 255, 255, 0.25);
+      transform: scale(1.1);
+    }
+    .floating-nav button:disabled {
+      opacity: 0.4;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    .profile-photo {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: var(--radius);
+      filter: grayscale(100%) brightness(80%);
+      transition: filter 0.5s ease-in-out, transform 0.3s ease;
+    }
+    .profile-photo:hover {
+      filter: grayscale(0%) brightness(100%);
+      transform: scale(1.03);
+    }
+
+    a {
+      color: var(--text);
+      text-decoration: none;
+      font-weight: 500;
+      transition: color 0.3s ease;
+    }
+    a:hover {
+      color: #8ab4f8;
+    }
+
+    /* Media queries for larger screens (e.g., tablets and desktops) */
+    @media (min-width: 768px) {
+      .card-wrapper {
+        max-width: 650px;
+        height: 75%;
+      }
+      .flex-row .section {
+        flex: 1 1 calc(50% - 15px);
+      }
+      .flex-row.small .section {
+        flex: 1 1 calc(33.333% - 15px);
+      }
+    }
+
+    /* Media queries for small phones */
+    @media (max-width: 480px) {
+      .card-wrapper {
+        height: 88%;
+        max-width: 98%;
+      }
+      .card-page {
+        padding: 18px;
+        gap: 15px;
+      }
+      .card-page h1 {
+        font-size: 1.8rem;
+      }
+      .card-page h2 {
+        font-size: 1.5rem;
+      }
+      .flex-row .section {
+        flex: 1 1 100%;
+      }
+      .flex-row.small .section {
+        flex: 1 1 100%;
+        padding: 10px;
+        font-size: 0.85rem;
+      }
+      .grid-2x5 {
+        grid-template-columns: 1fr;
+      }
+      .floating-nav button {
+        width: 40px;
+        height: 40px;
+        font-size: 1.5rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="card-wrapper" id="portfolio">
+      <div class="card-page active-page" id="page1">
+        <div class="page-content">
+          <h1>Krishnan </h1>
+          <div class="flex-row">
+            <div class="section">
+              <img src="about4.jpg" alt="Krishna's Profile Photo" class="profile-photo">
+            </div>
+            <div class="section">
+              <p>I’m Krishna, a technical trainer with 3+ years of experience turning into aspiring IT professional with a passion for IoT, Networking, and Python. I thrive at the intersection of problem-solving and innovation, building practical solutions while constantly learning and growing. Outside the screen, I prioritize health, agility, and balance, blending discipline with curiosity to live fully and create work that matters.</p>
+            </div>
+          </div>
+          <div class="section" style="height:120px;">
+            <p>Live freely and fully—growing strong in mind and body, caring for the people you love, and creating a life of adventure, joy, and balance without being tied down by meaningless work.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="card-page" id="page2">
+        <h2>Certifications & Achievements(WIP)</h2>
+        <div class="grid-2x5">
+          <div class="section">
+            <h3>Cert Title 1</h3>
+            <p>Organization Name</p>
+          </div>
+          <div class="section">
+            <h3>Cert Title 2</h3>
+            <p>Organization Name</p>
+          </div>
+          <div class="section">
+            <h3>Cert Title 3</h3>
+            <p>Organization Name</p>
+          </div>
+          <div class="section">
+            <h3>Cert Title 4</h3>
+            <p>Organization Name</p>
+          </div>
+          <div class="section">
+            <h3>Cert Title 5</h3>
+            <p>Organization Name</p>
+          </div>
+          <div class="section">
+            <h3>Cert Title 6</h3>
+            <p>Organization Name</p>
+          </div>
+          <div class="section">
+            <h3>Cert Title 7</h3>
+            <p>Organization Name</p>
+          </div>
+          <div class="section">
+            <h3>Cert Title 8</h3>
+            <p>Organization Name</p>
+          </div>
+          <div class="section">
+            <h3>Cert Title 9</h3>
+            <p>Organization Name</p>
+          </div>
+          <div class="section">
+            <h3>Cert Title 10</h3>
+            <p>Organization Name</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="card-page" id="page3">
+        <h2>Skill Sets</h2>
+        <div class="flex-row small">
+          <div class="section">IoT</div>
+          <div class="section">Embedded C</div>
+          <div class="section">C & C++</div>
+          <div class="section">Python</div>
+          <div class="section">Networking</div>
+          <div class="section">Flutter</div>
+          <div class="section">Git & Guthub</div>
+          <div class="section">HTML 5 , CSS 3 and JavaScript</div>
+        </div>
+      </div>
+
+      <div class="card-page" id="page4">
+        <h2>Contact Me</h2>
+        <div class="section" style="height:120px;">
+          <p>Feel free to reach out to me via email or connect with me on social media.</p>
+        </div>
+        <div class="flex-row contact-links small">
+          <a class="section" href="mailto:krishnanthangavel@gmail.com">E-mail</a>
+          <a class="section" href="https://in.linkedin.com/in/krishnan-thangavel/" target="_blank">LinkedIn</a>
+          <a class="section" href="https://github.com/Orion021" target="_blank">GitHub</a>
+          <a class="section" href="https://orion021.github.io/krishnan_t/">Web</a>
+          <a class="section" href="tel:+918610908227">Call</a>
+          <a class="section" href="https://wa.me/qr/WY7N4353MGXGG1">WhatsApp</a>
+          <a class="section" href="https://www.instagram.com/krishna.021_/">Instagram <span style="font-size: 8px;">(Only If You Know Me in Person)</span></a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="floating-nav">
+    <button id="nav-left" aria-label="Previous Page">&#60;</button>
+    <button id="nav-right" aria-label="Next Page">&#62;</button>
+  </div>
+
+  <script>
+    // Disables right-click
+    document.addEventListener('contextmenu', (e) => {
+      e.preventDefault();
+    });
+
+    // Disables common dev tool shortcuts
+    document.addEventListener('keydown', (e) => {
+      // Disable F12
+      if (e.key === 'F12') {
+        e.preventDefault();
+      }
+      // Disable Ctrl+Shift+I, Ctrl+Shift+J, Ctrl+Shift+C, Ctrl+U
+      if (e.ctrlKey && e.shiftKey && (e.key === 'I' || e.key === 'J' || e.key === 'C')) {
+        e.preventDefault();
+      }
+      if (e.ctrlKey && e.key === 'U') {
+        e.preventDefault();
+      }
+    });
+
+    const navLeftBtn = document.getElementById('nav-left');
+    const navRightBtn = document.getElementById('nav-right');
+    const allPages = document.querySelectorAll('.card-page');
+    let currentPageIndex = 0;
+
+    const showPage = (index) => {
+      allPages.forEach((page, i) => {
+        page.classList.toggle('active-page', i === index);
+      });
+      currentPageIndex = index;
+    };
+
+    const handleForward = () => {
+      // If on the last page, loop to the first page (index 0)
+      if (currentPageIndex === allPages.length - 1) {
+        showPage(0);
+      } else {
+        // Otherwise, go to the next page
+        showPage(currentPageIndex + 1);
+      }
+    };
+
+    const handleBackward = () => {
+      // If on the first page, loop to the last page
+      if (currentPageIndex === 0) {
+        showPage(allPages.length - 1);
+      } else {
+        // Otherwise, go to the previous page
+        showPage(currentPageIndex - 1);
+      }
+    };
+
+    // Add event listeners for the arrow buttons
+    navRightBtn.addEventListener('click', handleForward);
+    navLeftBtn.addEventListener('click', handleBackward);
+    
+    // Set the initial state
+    showPage(currentPageIndex);
+  </script>
+</body>
+</html>
