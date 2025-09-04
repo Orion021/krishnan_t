@@ -227,13 +227,13 @@
       text-align: center;
     }
 
-    /* Floating Navigation Buttons at the bottom right */
+    /* Floating Navigation Buttons - Horizontal Layout */
     .floating-nav {
       position: fixed;
       bottom: 25px;
       right: 25px;
       display: flex;
-      flex-direction: column;
+      flex-direction: row; /* Aligns buttons horizontally */
       gap: 10px;
       z-index: 100;
     }
@@ -348,7 +348,7 @@
             </div>
           </div>
           <div class="section" style="height:120px;">
-            <!--<h3>My Philosophy</h3>-->
+            <h3>My Philosophy</h3>
             <p>I believe in creating websites that are not only beautiful but also accessible and intuitive for all users. My goal is to transform complex ideas into simple, functional digital products.</p>
           </div>
         </div>
@@ -443,20 +443,14 @@
     const navLeftBtn = document.getElementById('nav-left');
     const navRightBtn = document.getElementById('nav-right');
     const subPages = document.querySelectorAll('.sub-page');
-    let currentPageIndex = 0; // 0 for front, 1-3 for back pages
+    let currentPageIndex = -1; // -1 for front page, 0-2 for back pages
 
     const updateButtons = () => {
-      const isFlipped = wrapper.classList.contains('flipped');
+      // Right arrow logic: Disabled on the very last page
+      navRightBtn.disabled = currentPageIndex === subPages.length - 1;
       
-      // Right arrow logic
-      if (!isFlipped) {
-        navRightBtn.disabled = false;
-      } else {
-        navRightBtn.disabled = currentPageIndex === subPages.length - 1;
-      }
-      
-      // Left arrow logic
-      navLeftBtn.disabled = !isFlipped && currentPageIndex === 0;
+      // Left arrow logic: Disabled on the front page
+      navLeftBtn.disabled = currentPageIndex === -1;
     };
 
     const showPage = (index) => {
@@ -468,8 +462,7 @@
     };
 
     const handleForward = () => {
-      const isFlipped = wrapper.classList.contains('flipped');
-      if (!isFlipped) {
+      if (currentPageIndex === -1) {
         // From front page to first back page
         wrapper.classList.add('flipped');
         setTimeout(() => showPage(0), 500);
@@ -480,15 +473,14 @@
     };
 
     const handleBackward = () => {
-      const isFlipped = wrapper.classList.contains('flipped');
-      if (isFlipped) {
+      if (currentPageIndex !== -1) {
         if (currentPageIndex > 0) {
           // From one back page to the previous
           showPage(currentPageIndex - 1);
         } else {
           // From the first back page to the front page
           wrapper.classList.remove('flipped');
-          currentPageIndex = 0;
+          currentPageIndex = -1;
           updateButtons();
         }
       }
