@@ -8,14 +8,14 @@
     :root {
       --bg: #0b0c10;
       --text: #f0f0f0;
-      --muted: #bababa;
+      --muted: #aaa;
       --card: rgba(255, 255, 255, 0.08);
       --border: transparent;
       --radius: 24px;
-      --glass-blur: 30px; /* Increased blur for a stronger effect */
-      --highlight: rgba(255, 255, 255, 0.5); /* Made highlight more prominent */
-      --gradient-start: rgba(255, 255, 255, 0.2); /* Increased opacity */
-      --gradient-end: rgba(255, 255, 255, 0.1); /* Increased opacity */
+      --glass-blur: 20px;
+      --highlight: rgba(255, 255, 255, 0.3);
+      --gradient-start: rgba(255, 255, 255, 0.1);
+      --gradient-end: rgba(255, 255, 255, 0.05);
     }
 
     * {
@@ -27,7 +27,7 @@
     html,
     body {
       height: 100%;
-      background-image: linear-gradient(to left top, #080808, #111216, #131920, #12212a, #0d2933, #0e2833, #0f2834, #112734, #181d29, #18151c, #110b10, #000000);
+      background: radial-gradient(circle at top left, #000000, #000000 30%);
       color: var(--text);
       font-family: 'SF Pro Display', 'Helvetica Neue', 'Helvetica', Arial, sans-serif;
       overflow: hidden;
@@ -57,7 +57,7 @@
       border-radius: var(--radius);
       box-shadow: none;
       padding: 25px;
-      display: none; /* All pages are hidden by default */
+      display: none;
       flex-direction: column;
       gap: 20px;
       overflow-y: auto;
@@ -69,7 +69,6 @@
         var(--gradient-end) 100%
       );
     }
-    /* Only the active page is visible */
     .card-page.active-page {
       display: flex;
     }
@@ -317,11 +316,11 @@
               <img src="about4.jpg" alt="Krishna's Profile Photo" class="profile-photo">
             </div>
             <div class="section">
-              <p>I’m Krishna, a technical trainer with 3+ years of experience turning into aspiring IT professional with a passion for IoT, Networking, and Python. I thrive at the intersection of problem-solving and innovation, building practical solutions while constantly learning and growing. Outside the screen, I prioritize health, agility, and balance, blending discipline with curiosity to live fully and create work that matters.</p>
+              <p>I’m Krishna, a dedicated technical trainer transitioning into an industry role across IoT, Networking, Cybersecurity, or Python development. With over three years of experience teaching and building practical tech solutions, I’ve developed a strong foundation in problem-solving, system thinking, and clear technical communication. I thrive on creating real, functional outcomes — whether it’s designing connected systems, simplifying complex concepts, or writing clean, purposeful code. My approach blends curiosity with discipline, always aiming to learn, improve, and deliver work that genuinely matters. My purpose is simple: to grow, contribute, and build a life where I can choose challenge, adventure, and meaningful impact.</p>
             </div>
           </div>
           <div class="section" style="height:120px;">
-            <p>Live freely and fully—growing strong in mind and body, caring for the people you love, and creating a life of adventure, joy, and balance without being tied down by meaningless work.</p>
+            <p>I’m not living that life yet, but I’m trying—trying to grow stronger, love better, find adventure, and build a life that isn’t controlled by meaningless work</p>
           </div>
         </div>
       </div>
@@ -330,22 +329,22 @@
         <h2>Certifications & Achievements(WIP)</h2>
         <div class="grid-2x5">
           <div class="section">
-            <h3>Cert Title 1</h3>
-            <p>Organization Name</p>
+            <h3>IT Specialist - Python</h3>
+            <p>Certiport</p>
           </div>
           <div class="section">
-            <h3>Cert Title 2</h3>
-            <p>Organization Name</p>
+            <h3>CompTIA A+ Certification Core 1 (220-1101) - Prep</h3>
+            <p>Packt | Coursera</p>
           </div>
           <div class="section">
-            <h3>Cert Title 3</h3>
-            <p>Organization Name</p>
+            <h3>In - Pursuit</h3>
+            <p>Google | Coursera</p>
           </div>
           <div class="section">
-            <h3>Cert Title 4</h3>
-            <p>Organization Name</p>
+            <h3>Introduction to IoT</h3>
+            <p>Cisco</p>
           </div>
-          <div class="section">
+          <!--<div class="section">
             <h3>Cert Title 5</h3>
             <p>Organization Name</p>
           </div>
@@ -367,8 +366,8 @@
           </div>
           <div class="section">
             <h3>Cert Title 10</h3>
-            <p>Organization Name</p>
-          </div>
+            <p>Organization Name<a href="fil.html">*</a></p>
+          </div>-->
         </div>
       </div>
 
@@ -470,4 +469,7 @@
     showPage(currentPageIndex);
   </script>
 </body>
+
 </html>
+
+
