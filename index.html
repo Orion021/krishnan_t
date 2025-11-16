@@ -5,322 +5,156 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
   <title>Krishna's - Web Page</title>
   <style>
+    /* ---------- Liquid Glass Theme (Style + interactive ripple layer) ---------- */
     :root {
-      --bg: #0b0c10;
-      --text: #f0f0f0;
-      --muted: #aaa;
-      --card: rgba(255, 255, 255, 0.08);
-      --border: transparent;
-      --radius: 24px;
-      --glass-blur: 20px;
-      --highlight: rgba(255, 255, 255, 0.3);
-      --gradient-start: rgba(255, 255, 255, 0.1);
-      --gradient-end: rgba(255, 255, 255, 0.05);
+      --bg-1: #040506; /* deep black */
+      --bg-2: #0b1016; /* dark grey-blue */
+      --glass-1: rgba(255,255,255,0.22);
+      --glass-2: rgba(255,255,255,0.12);
+      --glass-3: rgba(255,255,255,0.28);
+      --accent-blue: rgba(80,145,255,0.20);
+      --accent-mid: rgba(90,110,130,0.08);
+      --accent-grey: rgba(200,205,215,0.06);
+      --text: #e9eef8;
+      --muted: rgba(230,235,245,0.65);
+      --radius: 20px;
+      --glass-blur: 28px;
+      --glass-border: rgba(255,255,255,0.18);
+      --soft-shadow: 0 14px 40px rgba(2,6,23,0.7);
     }
 
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body { height: 100%; }
 
-    html,
-    body {
-      height: 100%;
-      background: radial-gradient(circle at top left, #000000, #000000 30%);
+    html, body {
+      background: radial-gradient(1200px 600px at 8% 12%, rgba(2,8,20,0.6), transparent 10%),
+                  radial-gradient(800px 400px at 92% 88%, rgba(6,8,20,0.35), transparent 8%),
+                  linear-gradient(180deg, var(--bg-1), var(--bg-2));
       color: var(--text);
-      font-family: 'SF Pro Display', 'Helvetica Neue', 'Helvetica', Arial, sans-serif;
+      font-family: 'Inter', 'SF Pro Display', 'Helvetica Neue', Arial, sans-serif;
       overflow: hidden;
+      -webkit-font-smoothing: antialiased;
     }
 
-    .container {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      height: 100%;
-      padding: 20px;
-    }
+    .container { display:flex; align-items:center; justify-content:center; height:100%; padding:22px; }
 
-    .card-wrapper {
-      width: 100%;
-      max-width: 460px;
-      height: 90%;
-      position: relative;
-    }
+    .card-wrapper { width:100%; max-width:720px; height:90%; position:relative; display:grid; place-items:center; }
 
+    /* Main card pages (glass) */
     .card-page {
-      position: absolute;
-      width: 100%;
-      height: 100%;
-      background: var(--card);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      box-shadow: none;
-      padding: 25px;
-      display: none;
-      flex-direction: column;
-      gap: 20px;
-      overflow-y: auto;
-      backdrop-filter: blur(var(--glass-blur));
-      -webkit-backdrop-filter: blur(var(--glass-blur));
-      background: linear-gradient(
-        135deg,
-        var(--gradient-start) 0%,
-        var(--gradient-end) 100%
-      );
+      position:absolute; width:100%; height:100%; border-radius:var(--radius); padding:28px; display:none; flex-direction:column; gap:20px; overflow-y:auto;
+      backdrop-filter: blur(var(--glass-blur)) saturate(160%);
+      -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(160%);
+      background-image: linear-gradient(135deg, rgba(255,255,255,0.22), rgba(255,255,255,0.06));
+      border: 1px solid var(--glass-border);
+      box-shadow: var(--soft-shadow), inset 0 1px 0 rgba(255,255,255,0.02);
+      transition: transform 0.5s cubic-bezier(.2,.9,.3,1), opacity 0.45s ease;
     }
-    .card-page.active-page {
-      display: flex;
+    .card-page.active-page { display:flex; transform: translateZ(0) scale(1); opacity:1; }
+    .card-page:not(.active-page) { opacity:0; transform: translateY(12px) rotateX(6deg) scale(0.985); pointer-events:none; }
+
+    .page-content { flex:1; display:flex; flex-direction:column; gap:20px; }
+    .card-page h1 { font-size:2.1rem; font-weight:700; text-align:center; margin-bottom:8px; background: linear-gradient(90deg,#eaf3ff,#ffffff); -webkit-background-clip:text; -webkit-text-fill-color:transparent; }
+    .card-page h2{ font-size:1.6rem; font-weight:650; text-align:center; color:var(--text); }
+    .card-page p{ font-size:0.98rem; line-height:1.6; text-align:center; color:var(--muted); }
+
+    .section { position:relative; background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01)); border-radius: calc(var(--radius) - 6px); border:1px solid rgba(255,255,255,0.06); padding:14px; display:flex; align-items:center; justify-content:center; text-align:center; overflow:hidden; box-shadow:0 8px 28px rgba(0,0,0,0.6); }
+    .section::after { content:''; position:absolute; top:-35%; left:-35%; width:170%; height:170%; background: radial-gradient(400px 120px at 20% 20%, rgba(255,255,255,0.06), transparent 18%); transform:rotate(-18deg); mix-blend-mode:screen; opacity:0.9; pointer-events:none; }
+
+    .flex-row{ display:flex; gap:16px; flex-wrap:wrap; justify-content:center; align-items:stretch; }
+    .flex-row .section{ flex:1 1 calc(50% - 15px); padding:14px; }
+    .flex-row.small .section{ flex:1 1 calc(33.333% - 10px); padding:12px 10px; font-size:0.95rem; font-weight:600; color:var(--text); transition:transform 0.32s, box-shadow 0.28s; }
+    .flex-row.small .section:hover{ transform:translateY(-6px); box-shadow:0 12px 30px rgba(0,0,0,0.6); }
+
+    .grid-2x5{ display:grid; grid-template-columns:1fr 1fr; gap:14px; }
+    .grid-2x5 .section{ flex:none; height:100px; }
+
+    .flex-row.contact-links a{ flex:1 1 calc(25% - 15px); background:linear-gradient(180deg, rgba(255,255,255,0.015), rgba(255,255,255,0.005)); border-radius: calc(var(--radius)-6px); border:1px solid rgba(255,255,255,0.04); padding:10px; display:inline-flex; justify-content:center; align-items:center; }
+
+    .floating-nav{ position:fixed; bottom:22px; right:22px; display:flex; gap:10px; z-index:120; }
+    .floating-nav button{ width:52px; height:52px; border-radius:50%; font-size:1.35rem; color:var(--text); background:linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.01)); border:1px solid rgba(255,255,255,0.08); box-shadow:0 6px 22px rgba(0,0,0,0.6); }
+    .floating-nav button:hover{ transform:translateY(-6px); }
+
+    .profile-photo{ width:100%; height:100%; object-fit:cover; border-radius: calc(var(--radius)-6px); filter:grayscale(90%) contrast(95%); transition:filter 0.45s, transform 0.35s; box-shadow: inset 0 1px 0 rgba(255,255,255,0.02), 0 8px 26px rgba(0,0,0,0.6); }
+    .profile-photo:hover{ filter:grayscale(0%); transform:scale(1.03); }
+
+    a{ color:var(--text); text-decoration:none; font-weight:600; }
+    a:hover{ color:#9ebeff; }
+
+    /* ---------- LIQUID RIPPLE LAYER (enhanced) ---------- */
+    /* A full-bleed layer that captures clicks/touches and renders animated liquid blobs with smoother motion */
+    .liquid-layer { position:absolute; inset:0; pointer-events:none; z-index:100; overflow:hidden; border-radius:var(--radius); }
+
+    .liquid-blob {
+      position:absolute;
+      width: 36px; height:36px;
+      border-radius:50% 50% 50% 50% / 50% 50% 50% 50%;
+      transform: translate(-50%,-50%) scale(0.18) rotate(0deg);
+      opacity: 0.95;
+      pointer-events: none;
+      mix-blend-mode: screen;
+      filter: blur(6px) saturate(170%);
+      will-change: transform, opacity, width, height, border-radius, background;
+      animation: blobExpandSmooth 2000ms cubic-bezier(.22,.98,.32,1) forwards;
+      transition: transform 300ms ease-out;
     }
 
-    /* --- HIDE SCROLLBARS --- */
-    .card-page::-webkit-scrollbar {
-      display: none;
-    }
-    .card-page {
-      -ms-overflow-style: none;
-      scrollbar-width: none;
-    }
-
-    .page-content {
-      flex: 1;
-      display: flex;
-      flex-direction: column;
-      gap: 20px;
-    }
-
-    .card-page h1 {
-      font-size: 2.2rem;
-      font-weight: 700;
-      text-align: center;
-      margin-bottom: 15px;
-      background: linear-gradient(
-        45deg,
-        #e0e0e0,
-        #ffffff
-      );
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-    }
-    .card-page h2 {
-      font-size: 1.8rem;
-      font-weight: 600;
-      text-align: center;
-      color: var(--text);
-    }
-    .card-page h3 {
-      font-size: 1.2rem;
-      font-weight: 600;
-      color: var(--text);
-    }
-    .card-page p {
-      font-size: 0.95rem;
-      line-height: 1.6;
-      text-align: center;
-      color: var(--muted);
-      font-weight: 300;
-    }
-
-    .section {
-      background: rgba(255, 255, 255, 0.03);
-      border-radius: var(--radius);
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      padding: 15px;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      text-align: center;
-      backdrop-filter: blur(8px);
-      -webkit-backdrop-filter: blur(8px);
-      position: relative;
-      overflow: hidden;
-    }
-
-    .section::before {
+    /* layered inner sheen for depth */
+    .liquid-blob::before {
       content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      height: 1px;
-      background: linear-gradient(
-        90deg,
-        transparent,
-        var(--highlight),
-        transparent
-      );
-      opacity: 0.5;
+      position: absolute; inset: 0; border-radius: inherit;
+      background: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.65), rgba(255,255,255,0.05) 25%, transparent 60%);
+      mix-blend-mode: overlay; pointer-events:none; opacity:0.9;
+      transform-origin: center; transition: opacity 220ms ease;
     }
 
-    .flex-row {
-      display: flex;
-      gap: 15px;
-      flex-wrap: wrap;
-      justify-content: center;
-      align-items: stretch;
-    }
-    .flex-row .section {
-      flex: 1 1 calc(50% - 15px);
-      padding: 15px;
-    }
-    .flex-row.small .section {
-      flex: 1 1 calc(33.333% - 10px);
-      padding: 12px 10px;
-      font-size: 0.9rem;
-      font-weight: 500;
-      color: var(--text);
-      background: rgba(255, 255, 255, 0.05);
-      transition: all 0.3s ease;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      text-align: center;
-    }
-    .flex-row.small .section:hover {
-      background: rgba(255, 255, 255, 0.1);
-      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+    /* colour palettes: black/grey/blue mix gradients with stronger contrast */
+    .blob-blue { background: radial-gradient(circle at 28% 28%, rgba(130,190,255,0.98), rgba(50,100,220,0.7) 45%, rgba(6,12,28,0.10) 72%); box-shadow: 0 28px 90px rgba(40,90,200,0.24), inset 0 -8px 30px rgba(255,255,255,0.04); }
+    .blob-grey { background: radial-gradient(circle at 28% 28%, rgba(245,245,248,0.95), rgba(190,190,198,0.6) 45%, rgba(10,12,18,0.12) 72%); box-shadow: 0 24px 80px rgba(60,60,70,0.12), inset 0 -8px 26px rgba(255,255,255,0.04); mix-blend-mode: overlay; }
+    .blob-black { background: radial-gradient(circle at 35% 32%, rgba(12,12,14,0.98), rgba(36,36,44,0.7) 45%, rgba(90,120,255,0.06) 75%); box-shadow: 0 30px 100px rgba(0,0,0,0.7), inset 0 -8px 28px rgba(255,255,255,0.02); mix-blend-mode: multiply; }
+
+    @keyframes blobExpandSmooth {
+      0% { transform: translate(-50%,-50%) scale(0.18) rotate(0deg); opacity: 0.95; border-radius: 48% 52% 50% 50% / 50% 50% 52% 48%; }
+      25% { transform: translate(-50%,-50%) scale(1.05) rotate(-6deg); opacity: 0.92; border-radius: 42% 58% 52% 48% / 48% 52% 58% 42%; }
+      55% { transform: translate(-50%,-50%) scale(2.3) rotate(8deg); opacity:0.6; border-radius: 36% 64% 60% 40% / 60% 40% 36% 64%; }
+      85% { transform: translate(-50%,-50%) scale(3.6) rotate(-4deg); opacity:0.25; border-radius: 50% 40% 60% 50% / 52% 60% 40% 48%; }
+      100% { transform: translate(-50%,-50%) scale(5.2) rotate(0deg); opacity:0; border-radius: 50% 50% 50% 50% / 50% 50% 50% 50%; }
     }
 
-    .grid-2x5 {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 15px;
+    /* small ripple rings for wetter edges (gentler) */
+    .ripple-ring {
+      position:absolute; width:12px; height:12px; border-radius:50%; transform: translate(-50%,-50%) scale(0.16); opacity:0.95; border:2px solid rgba(255,255,255,0.10); mix-blend-mode: overlay; pointer-events:none; animation: ringExpandSmooth 1100ms cubic-bezier(.22,.98,.32,1) forwards;
     }
-    .grid-2x5 .section {
-      flex: none;
-      height: 100px;
-    }
-
-    .flex-row.contact-links a {
-      flex: 1 1 calc(25% - 15px);
-      background: rgba(255, 255, 255, 0.05);
-      border-radius: var(--radius);
-      border: 1px solid var(--border);
-      padding: 10px;
-      text-align: center;
+    @keyframes ringExpandSmooth {
+      0% { transform: translate(-50%,-50%) scale(0.16); opacity:0.95; }
+      40% { transform: translate(-50%,-50%) scale(1.8); opacity:0.65; }
+      100% { transform: translate(-50%,-50%) scale(3.6); opacity:0; }
     }
 
-    /* Floating Navigation Buttons - Horizontal Layout */
-    .floating-nav {
-      position: fixed;
-      bottom: 25px;
-      right: 25px;
-      display: flex;
-      flex-direction: row;
-      gap: 10px;
-      z-index: 100;
-    }
-    .floating-nav button {
-      width: 50px;
-      height: 50px;
-      border-radius: 50%;
-      padding: 0;
-      font-size: 1.5rem;
-      color: var(--text);
-      background: rgba(255, 255, 255, 0.15);
-      border: 1px solid rgba(255, 255, 255, 0.3);
-      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
-      transition: all 0.3s;
-    }
-    .floating-nav button:hover {
-      background: rgba(255, 255, 255, 0.25);
-      transform: scale(1.1);
-    }
-    .floating-nav button:disabled {
-      opacity: 0.4;
-      cursor: not-allowed;
-      transform: none;
-    }
+    /* responsive tweaks */
+    @media (max-width:480px) { .liquid-blob{ filter: blur(10px); } }
 
-    .profile-photo {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      border-radius: var(--radius);
-      filter: grayscale(100%) brightness(80%);
-      transition: filter 0.5s ease-in-out, transform 0.3s ease;
-    }
-    .profile-photo:hover {
-      filter: grayscale(0%) brightness(100%);
-      transform: scale(1.03);
-    }
-
-    a {
-      color: var(--text);
-      text-decoration: none;
-      font-weight: 500;
-      transition: color 0.3s ease;
-    }
-    a:hover {
-      color: #8ab4f8;
-    }
-
-    /* Media queries for larger screens (e.g., tablets and desktops) */
-    @media (min-width: 768px) {
-      .card-wrapper {
-        max-width: 650px;
-        height: 75%;
-      }
-      .flex-row .section {
-        flex: 1 1 calc(50% - 15px);
-      }
-      .flex-row.small .section {
-        flex: 1 1 calc(33.333% - 15px);
-      }
-    }
-
-    /* Media queries for small phones */
-    @media (max-width: 480px) {
-      .card-wrapper {
-        height: 88%;
-        max-width: 98%;
-      }
-      .card-page {
-        padding: 18px;
-        gap: 15px;
-      }
-      .card-page h1 {
-        font-size: 1.8rem;
-      }
-      .card-page h2 {
-        font-size: 1.5rem;
-      }
-      .flex-row .section {
-        flex: 1 1 100%;
-      }
-      .flex-row.small .section {
-        flex: 1 1 100%;
-        padding: 10px;
-        font-size: 0.85rem;
-      }
-      .grid-2x5 {
-        grid-template-columns: 1fr;
-      }
-      .floating-nav button {
-        width: 40px;
-        height: 40px;
-        font-size: 1.5rem;
-      }
-    }
   </style>
 </head>
 <body>
   <div class="container">
     <div class="card-wrapper" id="portfolio">
+      <!-- Liquid layer sits on top of the cards and shows blobs where user clicks/taps -->
+      <div class="liquid-layer" id="liquidLayer" aria-hidden="true"></div>
+
       <div class="card-page active-page" id="page1">
         <div class="page-content">
-          <h1>Krishnan </h1>
+          <h1>Krishna</h1>
           <div class="flex-row">
             <div class="section">
               <img src="about4.jpg" alt="Krishna's Profile Photo" class="profile-photo">
             </div>
             <div class="section">
-              <p>I’m Krishna, a technical trainer with 3+ years of experience turning into aspiring IT professional with a passion for IoT, Networking, and Python. I thrive at the intersection of problem-solving and innovation, building practical solutions while constantly learning and growing. Outside the screen, I prioritize health, agility, and balance, blending discipline with curiosity to live fully and create work that matters.</p>
+              <p>I am a technical specialist with over 3+ years of experience as a dedicated trainer, now actively transitioning into an industry role across IoT, Cybersecurity, Networking, or Python Development. My expertise lies in not just teaching, but building practical, functional solutions. I blend a deep understanding of system thinking and problem-solving with the ability to simplify complex technical concepts into clear, actionable outcomes.<br>My purpose is simple: to grow, contribute, and build a life where I can choose challenge, adventure, and meaningful impact.</p>
             </div>
           </div>
-          <div class="section" style="height:120px;">
-            <p>I’m not living that life yet, but I’m trying—trying to grow stronger, love better, find adventure, and build a life that isn’t controlled by meaningless work</p>
+          <div class="section" >
+            <p>I’m not living that life yet, but I’m trying to grow stronger, love better, find adventure, and build a life that isn’t controlled by meaningless work</p>
           </div>
         </div>
       </div>
@@ -344,44 +178,24 @@
             <h3>Introduction to IoT</h3>
             <p>Cisco</p>
           </div>
-          <!--<div class="section">
-            <h3>Cert Title 5</h3>
-            <p>Organization Name</p>
-          </div>
-          <div class="section">
-            <h3>Cert Title 6</h3>
-            <p>Organization Name</p>
-          </div>
-          <div class="section">
-            <h3>Cert Title 7</h3>
-            <p>Organization Name</p>
-          </div>
-          <div class="section">
-            <h3>Cert Title 8</h3>
-            <p>Organization Name</p>
-          </div>
-          <div class="section">
-            <h3>Cert Title 9</h3>
-            <p>Organization Name</p>
-          </div>
-          <div class="section">
-            <h3>Cert Title 10</h3>
-            <p>Organization Name<a href="fil.html">*</a></p>
-          </div>-->
         </div>
       </div>
 
       <div class="card-page" id="page3">
-        <h2>Skill Sets</h2>
+        <h2>Key Skills</h2>
         <div class="flex-row small">
-          <div class="section">IoT</div>
+          <div class="section">CyberSecurity - Foundation(Current Focus)</div>
+          <div class="section">IT Support & Troubleshooting</div>
+          <div class="section">Troubleshooting(Software, OS, Tools, Devices)</div>
           <div class="section">Embedded C</div>
           <div class="section">C & C++</div>
           <div class="section">Python</div>
           <div class="section">Networking</div>
           <div class="section">Flutter</div>
-          <div class="section">Git & Guthub</div>
-          <div class="section">HTML 5 , CSS 3 and JavaScript</div>
+          <div class="section">Git & GutHub</div>
+          <div class="section">IoT(Arduino & Raspberry PI)</div>
+          <div class="section">HTML5, CSS3 & JavaScript</div>
+          <div class="section">Technical Training Delivery</div>
         </div>
       </div>
 
@@ -397,7 +211,7 @@
           <a class="section" href="https://orion021.github.io/krishnan_t/">Web</a>
           <a class="section" href="tel:+918610908227">Call</a>
           <a class="section" href="https://wa.me/qr/WY7N4353MGXGG1">WhatsApp</a>
-          <a class="section" href="https://www.instagram.com/krishna.021_/">Instagram <span style="font-size: 8px;">(Only If You Know Me in Person)</span></a>
+          <a class="section" href="https://www.instagram.com/krishna.021_/">Instagram <span style="font-size:8px;">(Only If You Know Me in Person😅, I'm Just a Zombie There)</span></a>
         </div>
       </div>
     </div>
@@ -409,24 +223,14 @@
   </div>
 
   <script>
-    // Disables right-click
-    document.addEventListener('contextmenu', (e) => {
-      e.preventDefault();
-    });
+    // Disables right-click (kept from original)
+    document.addEventListener('contextmenu', (e) => { e.preventDefault(); });
 
-    // Disables common dev tool shortcuts
+    // Disables common dev tool shortcuts (kept from original)
     document.addEventListener('keydown', (e) => {
-      // Disable F12
-      if (e.key === 'F12') {
-        e.preventDefault();
-      }
-      // Disable Ctrl+Shift+I, Ctrl+Shift+J, Ctrl+Shift+C, Ctrl+U
-      if (e.ctrlKey && e.shiftKey && (e.key === 'I' || e.key === 'J' || e.key === 'C')) {
-        e.preventDefault();
-      }
-      if (e.ctrlKey && e.key === 'U') {
-        e.preventDefault();
-      }
+      if (e.key === 'F12') e.preventDefault();
+      if (e.ctrlKey && e.shiftKey && (e.key === 'I' || e.key === 'J' || e.key === 'C')) e.preventDefault();
+      if (e.ctrlKey && e.key === 'U') e.preventDefault();
     });
 
     const navLeftBtn = document.getElementById('nav-left');
@@ -435,40 +239,136 @@
     let currentPageIndex = 0;
 
     const showPage = (index) => {
-      allPages.forEach((page, i) => {
-        page.classList.toggle('active-page', i === index);
-      });
+      allPages.forEach((page, i) => { page.classList.toggle('active-page', i === index); });
       currentPageIndex = index;
     };
 
-    const handleForward = () => {
-      // If on the last page, loop to the first page (index 0)
-      if (currentPageIndex === allPages.length - 1) {
-        showPage(0);
-      } else {
-        // Otherwise, go to the next page
-        showPage(currentPageIndex + 1);
-      }
-    };
+    const handleForward = () => { if (currentPageIndex === allPages.length - 1) showPage(0); else showPage(currentPageIndex + 1); };
+    const handleBackward = () => { if (currentPageIndex === 0) showPage(allPages.length - 1); else showPage(currentPageIndex - 1); };
 
-    const handleBackward = () => {
-      // If on the first page, loop to the last page
-      if (currentPageIndex === 0) {
-        showPage(allPages.length - 1);
-      } else {
-        // Otherwise, go to the previous page
-        showPage(currentPageIndex - 1);
-      }
-    };
-
-    // Add event listeners for the arrow buttons
     navRightBtn.addEventListener('click', handleForward);
     navLeftBtn.addEventListener('click', handleBackward);
-    
-    // Set the initial state
     showPage(currentPageIndex);
+
+    /* ---------- Liquid interaction: create blobs on click/touch (enhanced smoothing & trails) ---------- */
+    (function() {
+      const liquidLayer = document.getElementById('liquidLayer');
+      const colours = ['blob-blue','blob-grey','blob-black'];
+
+      let pointerDown = false;
+      let trailInterval = null;
+
+      // Utility to create a blob element at x,y with random size and colour
+      function createBlob(x, y, sizeOverride) {
+        const blob = document.createElement('div');
+        const base = Math.round(80 + Math.random() * 220); // base size
+        const size = sizeOverride || base;
+        blob.className = 'liquid-blob ' + colours[Math.floor(Math.random() * colours.length)];
+        blob.style.left = x + 'px';
+        blob.style.top = y + 'px';
+        blob.style.width = size + 'px';
+        blob.style.height = size + 'px';
+
+        // slight initial random rotation
+        blob.style.transform = `translate(-50%,-50%) scale(0.18) rotate(${(Math.random()*12-6)}deg)`;
+
+        // layered inner sheen variation
+        if (Math.random() > 0.6) blob.classList.add('blob-strong-sheen');
+
+        liquidLayer.appendChild(blob);
+
+        // small ring for edge
+        const ring = document.createElement('div');
+        ring.className = 'ripple-ring';
+        ring.style.left = x + 'px'; ring.style.top = y + 'px';
+        // randomize ring thickness subtly
+        ring.style.borderWidth = (1 + Math.floor(Math.random()*2)) + 'px';
+        liquidLayer.appendChild(ring);
+
+        // cleanup after animation
+        setTimeout(() => { if (blob.parentNode) blob.parentNode.removeChild(blob); }, 2200);
+        setTimeout(() => { if (ring.parentNode) ring.parentNode.removeChild(ring); }, 1200);
+      }
+
+      // Create a gentle trailing effect while pointer is down
+      function startTrail(x,y) {
+        if (trailInterval) clearInterval(trailInterval);
+        trailInterval = setInterval(() => {
+          const ox = x + (Math.random()*30 - 15);
+          const oy = y + (Math.random()*30 - 15);
+          createBlob(ox, oy, 50 + Math.floor(Math.random()*80));
+        }, 140);
+      }
+      function stopTrail() { if (trailInterval) { clearInterval(trailInterval); trailInterval = null; } }
+
+      // Handler for pointer events
+      function onPointer(e) {
+        const rect = document.querySelector('.card-wrapper').getBoundingClientRect();
+        const x = Math.min(Math.max((e.pageX || e.clientX) - rect.left, 0), rect.width);
+        const y = Math.min(Math.max((e.pageY || e.clientY) - rect.top, 0), rect.height);
+
+        // create 1-4 blobs for a more organic look
+        const count = 1 + Math.floor(Math.random()*3);
+        for (let i=0;i<count;i++) {
+          const ox = x + (Math.random()*36 - 18);
+          const oy = y + (Math.random()*36 - 18);
+          createBlob(ox, oy);
+        }
+      }
+
+      // pointerdown: immediate big splash + start trail
+      document.addEventListener('pointerdown', (e) => {
+        if (e.target.closest('.floating-nav')) return;
+        pointerDown = true;
+        const rect = document.querySelector('.card-wrapper').getBoundingClientRect();
+        const x = Math.min(Math.max(e.pageX - rect.left, 0), rect.width);
+        const y = Math.min(Math.max(e.pageY - rect.top, 0), rect.height);
+        // create a primary large blob
+        createBlob(x, y, 260 + Math.floor(Math.random()*120));
+        // start trailing
+        startTrail(x,y);
+      }, { passive: true });
+
+      // pointermove: update trail position
+      document.addEventListener('pointermove', (e) => {
+        if (!pointerDown) return;
+        const rect = document.querySelector('.card-wrapper').getBoundingClientRect();
+        const x = Math.min(Math.max(e.pageX - rect.left, 0), rect.width);
+        const y = Math.min(Math.max(e.pageY - rect.top, 0), rect.height);
+        // create softer blobs on move
+        if (Math.random() > 0.3) createBlob(x + (Math.random()*20-10), y + (Math.random()*20-10), 40 + Math.floor(Math.random()*90));
+      }, { passive: true });
+
+      // pointerup / cancel: stop trail and give final ripple
+      document.addEventListener('pointerup', (e) => {
+        pointerDown = false; stopTrail();
+        const rect = document.querySelector('.card-wrapper').getBoundingClientRect();
+        const x = Math.min(Math.max((e.pageX || e.clientX) - rect.left, 0), rect.width);
+        const y = Math.min(Math.max((e.pageY || e.clientY) - rect.top, 0), rect.height);
+        // final subtle rings
+        for (let i=0;i<2;i++) {
+          setTimeout(() => { createBlob(x + (Math.random()*30-15), y + (Math.random()*30-15), 80 + Math.floor(Math.random()*80)); }, i*80);
+        }
+      }, { passive: true });
+
+      // touch support
+      document.addEventListener('touchstart', (e) => { const t = e.touches[0]; if (!t) return; const rect = document.querySelector('.card-wrapper').getBoundingClientRect(); const x = Math.min(Math.max(t.pageX - rect.left,0), rect.width); const y = Math.min(Math.max(t.pageY - rect.top,0), rect.height); createBlob(x,y, 220 + Math.floor(Math.random()*100)); startTrail(x,y); }, { passive: true });
+      document.addEventListener('touchend', () => { pointerDown = false; stopTrail(); }, { passive: true });
+
+      // Respect prefers-reduced-motion: disable creation if user prefers
+      const media = window.matchMedia('(prefers-reduced-motion: reduce)');
+      if (media.matches) {
+        // remove listeners by replacing handlers with no-ops
+        // (we keep nav and other behavior intact)
+        document.removeEventListener('pointerdown', () => {});
+        document.removeEventListener('pointermove', () => {});
+        document.removeEventListener('pointerup', () => {});
+        document.removeEventListener('touchstart', () => {});
+        document.removeEventListener('touchend', () => {});
+      }
+
+    })();
+
   </script>
 </body>
-
 </html>
-
