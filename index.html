@@ -1,406 +1,686 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
-  <title>Krishna's - Web Page</title>
-  <style>
-    /* ---------- Liquid Glass Theme (Style-only update) ---------- */
-    :root {
-      --bg-1: #071019; /* deep midnight */
-      --bg-2: #081427; /* slightly lighter */
-      --glass-1: rgba(255,255,255,0.20);
-      --glass-2: rgba(255,255,255,0.10);
-      --glass-3: rgba(255,255,255,0.08);
-      --accent-1: rgba(138,180,248,0.12);
-      --accent-2: rgba(143,255,199,0.06);
-      --text: #e9eef8;
-      --muted: rgba(230,235,245,0.65);
-      --muted-2: rgba(200,205,215,0.45);
-      --radius: 20px;
-      --glass-blur: 20px;
-      --glass-border: rgba(255,255,255,0.18);
-      --shine: linear-gradient(90deg, rgba(255,255,255,0.03), rgba(255,255,255,0.12), rgba(255,255,255,0.03));
-      --soft-shadow: 0 10px 30px rgba(2,6,23,0.6);
-      --noise: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32"><rect width="32" height="32" fill="rgba(255,255,255,0.01)"/></svg>');
-    }
+<html lang="en" class="scroll-smooth">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Krishna | Systems Engineering</title>
+    <meta
+      name="description"
+      content="Portfolio of Krishna - Technical Specialist transitioning to Industry Engineering."
+    />
 
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap"
+      rel="stylesheet"
+    />
 
-    html, body {
-      height: 100%;
-      background: radial-gradient(1200px 600px at 8% 12%, rgba(10,30,60,0.55), transparent 10%),
-                  radial-gradient(800px 400px at 92% 88%, rgba(20,10,40,0.35), transparent 8%),
-                  linear-gradient(180deg, var(--bg-1), var(--bg-2));
-      color: var(--text);
-      font-family: 'Inter', 'SF Pro Display', 'Helvetica Neue', Arial, sans-serif;
-      overflow: hidden;
-      -webkit-font-smoothing: antialiased;
-      -moz-osx-font-smoothing: grayscale;
-    }
+    <script src="https://cdn.tailwindcss.com"></script>
 
-    .container {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      height: 100%;
-      padding: 22px;
-    }
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
 
-    .card-wrapper {
-      width: 100%;
-      max-width: 520px;
-      height: 90%;
-      position: relative;
-      display: grid;
-      place-items: center;
-      perspective: 1000px;
-    }
+    <script>
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            fontFamily: {
+              sans: ["Inter", "sans-serif"],
+              mono: ["JetBrains Mono", "monospace"],
+            },
+            colors: {
+              // Custom colors defined in CSS variables below
+            },
+          },
+        },
+      };
+    </script>
 
-    .card-page {
-      position: absolute;
-      width: 100%;
-      height: 100%;
-      border-radius: var(--radius);
-      padding: 28px;
-      display: none;
-      flex-direction: column;
-      gap: 20px;
-      overflow-y: auto;
-      scrollbar-width: none; /* Firefox */
-      -ms-overflow-style: none; /* IE */
-      backdrop-filter: blur(var(--glass-blur)) saturate(120%);
-      -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(120%);
-      background-image: linear-gradient(135deg, var(--glass-1), rgba(255,255,255,0.02));
-      border: 1px solid rgba(255,255,255,0.06);
-      box-shadow: var(--soft-shadow), inset 0 1px 0 rgba(255,255,255,0.02);
-      transform-origin: center;
-      transition: transform 0.6s cubic-bezier(.2,.9,.3,1), opacity 0.45s ease;
-      position: absolute;
-    }
+    <style>
+      /* --- COLOR SYSTEM --- */
 
-    .card-page::-webkit-scrollbar { display: none; } /* removes scrollbar */
+      /* 1. LIGHT MODE (WARM PAPER + ELECTRIC INDIGO) */
+      :root {
+        --bg-body: #f5f5f4; /* Stone 100 */
+        --bg-card: #ffffff; /* Pure White */
+        --border-card: #e7e5e4; /* Stone 200 */
 
-    .card-page.active-page {
-      display: flex;
-      transform: translateZ(0) rotateX(0deg) scale(1);
-      opacity: 1;
-    }
+        --text-heading: #1c1917; /* Stone 900 */
+        --text-main: #57534e; /* Stone 600 */
+        --text-muted: #a8a29e; /* Stone 400 */
 
-    /* subtle card stacking animation for inactive pages */
-    .card-page:not(.active-page) {
-      opacity: 0;
-      transform: translateY(12px) rotateX(6deg) scale(0.985);
-      pointer-events: none;
-    }
+        /* The "Life" Color: Electric Indigo */
+        --accent: #4f46e5; /* Indigo 600 */
+        --tag-bg: #e0e7ff; /* Light Indigo Tint */
+        --tag-border: #c7d2fe;
+        --tag-text: #4338ca;
 
-    /* --- scrollbar hidden but still usable on touch --- */
-    .card-page::-webkit-scrollbar { width: 8px; }
-    .card-page::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.04); border-radius: 8px; }
-    .card-page { -ms-overflow-style: none; scrollbar-width: thin; }
+        --role-bg: #fafaf9;
+        --role-border: #e7e5e4;
 
-    .page-content { flex: 1; display: flex; flex-direction: column; gap: 20px; }
+        --nav-bg: rgba(255, 255, 255, 0.85); /* Glass effect for nav */
 
-    .card-page h1 {
-      font-size: 2.1rem;
-      font-weight: 700;
-      text-align: center;
-      margin-bottom: 8px;
-      background: linear-gradient(90deg, rgba(255,255,255,0.95), rgba(220,230,255,0.9));
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      letter-spacing: -0.5px;
-      text-transform: none;
-    }
+        --scroll-track: #f5f5f4;
+        --scroll-thumb: #d6d3d1;
+      }
 
-    .card-page h2 { font-size: 1.6rem; font-weight: 650; text-align: center; color: var(--text); margin-bottom: 6px; }
-    .card-page h3 { font-size: 1.05rem; font-weight: 600; color: var(--text); }
-    .card-page p { font-size: 0.98rem; line-height: 1.6; text-align: center; color: var(--muted); font-weight: 400; }
+      /* 2. DARK MODE (DARK STONE + GLOWING VIOLET) */
+      .dark {
+        --bg-body: #111827; /* Gray 900 */
+        --bg-card: #1f2937; /* Gray 800 */
+        --border-card: #374151; /* Gray 700 */
 
-    .section {
-      position: relative;
-      background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
-      border-radius: calc(var(--radius) - 6px);
-      border: 1px solid rgba(255,255,255,0.06);
-      padding: 14px;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      text-align: center;
-      overflow: hidden;
-      box-shadow: 0 6px 20px rgba(6,12,30,0.55);
-    }
+        --text-heading: #f3f4f6; /* Gray 100 */
+        --text-main: #9ca3af; /* Gray 400 */
+        --text-muted: #6b7280; /* Gray 500 */
 
-    /* highlight sheen */
-    .section::after {
-      content: '';
-      position: absolute;
-      top: -40%;
-      left: -40%;
-      width: 180%;
-      height: 180%;
-      background: radial-gradient(400px 120px at 20% 20%, rgba(255,255,255,0.06), transparent 18%),
-                  linear-gradient(90deg, rgba(255,255,255,0.02), rgba(255,255,255,0.00));
-      transform: rotate(-18deg);
-      pointer-events: none;
-      mix-blend-mode: screen;
-      opacity: 0.7;
-    }
+        /* The "Life" Color: Bright Violet */
+        --accent: #818cf8; /* Indigo 400 */
+        --tag-bg: rgba(129, 140, 248, 0.1);
+        --tag-border: rgba(129, 140, 248, 0.2);
+        --tag-text: #818cf8;
 
-    .flex-row { display: flex; gap: 16px; flex-wrap: wrap; justify-content: center; align-items: stretch; }
-    .flex-row .section { flex: 1 1 calc(50% - 15px); padding: 14px; }
+        --role-bg: #111827;
+        --role-border: #374151;
 
-    .flex-row.small .section {
-      flex: 1 1 calc(33.333% - 10px);
-      padding: 12px 10px;
-      font-size: 0.95rem;
-      font-weight: 600;
-      color: var(--text);
-      background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
-      transition: transform 0.32s cubic-bezier(.2,.9,.3,1), box-shadow 0.28s ease, background 0.28s ease;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      text-align: center;
-    }
-    .flex-row.small .section:hover { transform: translateY(-6px) rotate(-0.3deg); box-shadow: 0 12px 30px rgba(6,12,30,0.6); }
+        --nav-bg: rgba(31, 41, 55, 0.85); /* Dark Glass */
 
-    .grid-2x5 { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
-    .grid-2x5 .section { flex: none; height: 100px; }
+        --scroll-track: #111827;
+        --scroll-thumb: #374151;
+      }
 
-    .flex-row.contact-links a { flex: 1 1 calc(25% - 15px); background: linear-gradient(180deg, rgba(255,255,255,0.015), rgba(255,255,255,0.005)); border-radius: calc(var(--radius) - 6px); border: 1px solid rgba(255,255,255,0.04); padding: 10px; text-align: center; display: inline-flex; justify-content: center; align-items: center; }
+      /* Base Styles using Variables */
+      body {
+        background-color: var(--bg-body);
+        color: var(--text-main);
+        transition: background-color 0.3s ease, color 0.3s ease;
+      }
 
-    /* Floating Navigation Buttons - reorganised look */
-    .floating-nav {
-      position: fixed;
-      bottom: 22px;
-      right: 22px;
-      display: flex;
-      flex-direction: row;
-      gap: 10px;
-      z-index: 100;
-      backdrop-filter: blur(6px) saturate(120%);
-    }
-    .floating-nav button {
-      width: 75px;
-      height: 75px;
-      border-radius: 50%;
-      padding: 0;
-      font-size: 2.35rem;
-      color: var(--text);
-      background: linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.01));
-      border: 1px solid rgba(255,255,255,0.08);
-      box-shadow: 0 6px 22px rgba(6,12,30,0.6);
-      transition: transform 0.28s ease, background 0.28s ease;
-    }
-    .floating-nav button:hover { transform: translateY(-6px); background: linear-gradient(180deg, rgba(255,255,255,0.05), rgba(255,255,255,0.02)); }
-    .floating-nav button:disabled { opacity: 0.45; cursor: not-allowed; transform: none; }
+      .bento-card {
+        background-color: var(--bg-card);
+        border: 1px solid var(--border-card);
+        border-radius: 8px;
+        padding: 2rem;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        transition: all 0.3s ease;
+      }
 
-    .profile-photo {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      border-radius: calc(var(--radius) - 6px);
-      filter: grayscale(90%) contrast(95%);
-      transition: filter 0.45s ease, transform 0.35s ease, box-shadow 0.35s ease;
-      box-shadow: inset 0 1px 0 rgba(255,255,255,0.02), 0 8px 26px rgba(0,0,0,0.6);
-    }
-    .profile-photo:hover { filter: grayscale(0%) contrast(100%); transform: scale(1.03) translateZ(0); }
+      .bento-card:hover {
+        border-color: var(--accent);
+        transform: translateY(-2px);
+        box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.05);
+      }
 
-    a { color: var(--text); text-decoration: none; font-weight: 600; transition: color 0.22s ease, transform 0.22s ease; }
-    a:hover { color: #9ebeff; transform: translateY(-2px); }
+      .section-label {
+        font-family: "JetBrains Mono", monospace;
+        font-size: 0.75rem;
+        color: var(--accent);
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+        margin-bottom: 1rem;
+        display: block;
+        border-bottom: 1px solid var(--border-card);
+        padding-bottom: 0.5rem;
+        font-weight: 600;
+      }
 
-    /* subtle animated accent glow behind cards */
-    .card-wrapper::before {
-      content: '';
-      position: absolute;
-      inset: -6%;
-      background: radial-gradient(400px 140px at 10% 8%, rgba(88,150,255,0.04), transparent 8%),
-                  radial-gradient(300px 120px at 92% 92%, rgba(120,255,190,0.03), transparent 6%);
-      filter: blur(30px) saturate(120%);
-      z-index: -2;
-      pointer-events: none;
-      animation: floatGlow 8s linear infinite;
-    }
+      .skill-tag {
+        background: var(--tag-bg);
+        border: 1px solid var(--tag-border);
+        color: var(--tag-text);
+        font-family: "JetBrains Mono", monospace;
+        font-size: 0.8rem;
+        padding: 0.3rem 0.7rem;
+        border-radius: 4px;
+        display: inline-block;
+        margin-bottom: 0.5rem;
+        font-weight: 500;
+      }
 
-    @keyframes floatGlow {
-      0% { transform: translateY(0) rotate(0deg); opacity: 0.95; }
-      50% { transform: translateY(-6px) rotate(0.3deg); opacity: 1; }
-      100% { transform: translateY(0) rotate(0deg); opacity: 0.95; }
-    }
+      .role-card {
+        background: var(--role-bg);
+        border: 1px solid var(--role-border);
+        padding: 1rem;
+        border-radius: 6px;
+        transition: all 0.2s;
+      }
 
-    /* Responsive adjustments */
-    @media (min-width: 768px) {
-      .card-wrapper { max-width: 720px; height: 76%; }
-      .flex-row .section { flex: 1 1 calc(50% - 15px); }
-      .flex-row.small .section { flex: 1 1 calc(33.333% - 15px); }
-    }
+      .role-card:hover {
+        border-color: var(--accent);
+        transform: translateY(-2px);
+      }
 
-    @media (max-width: 480px) {
-      .card-wrapper { height: 88%; max-width: 98%; }
-      .card-page { padding: 18px; gap: 14px; }
-      .card-page h1 { font-size: 1.8rem; }
-      .card-page h2 { font-size: 1.4rem; }
-      .flex-row .section { flex: 1 1 100%; }
-      .flex-row.small .section { flex: 1 1 100%; padding: 10px; font-size: 0.9rem; }
-      .grid-2x5 { grid-template-columns: 1fr; }
-      .floating-nav button { width: 42px; height: 42px; font-size: 1.3rem; }
-    }
+      /* Floating Buttons (Desktop Only) */
+      .floating-btn {
+        position: fixed;
+        right: 1.5rem;
+        z-index: 50;
+        background: var(--bg-card);
+        border: 1px solid var(--border-card);
+        color: var(--text-muted);
+        width: 3rem;
+        height: 3rem;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      }
 
-  </style>
-</head>
-<body>
-  <div class="container">
-    <div class="card-wrapper" id="portfolio">
-      <div class="card-page active-page" id="page1">
-        <div class="page-content">
-          <h1>Krishna</h1>
-          <div class="flex-row">
-            <div class="section">
-              <img src="about4.jpg" alt="Krishna's Profile Photo" class="profile-photo">
+      .theme-toggle {
+        top: 1.5rem;
+      }
+
+      /* Back to top is hidden on mobile now */
+      .back-to-top {
+        bottom: 1.5rem;
+        opacity: 0;
+        visibility: hidden;
+        transform: translateY(20px);
+      }
+
+      @media (min-width: 768px) {
+        .back-to-top.visible {
+          opacity: 1;
+          visibility: visible;
+          transform: translateY(0);
+        }
+      }
+
+      .floating-btn:hover {
+        transform: scale(1.1);
+        color: var(--accent);
+        border-color: var(--accent);
+      }
+
+      /* MOBILE NAV DOCK */
+      .mobile-nav {
+        position: fixed;
+        bottom: 1rem;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 90%;
+        max-width: 400px;
+        background: var(--nav-bg);
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+        border: 1px solid var(--border-card);
+        border-radius: 16px;
+        padding: 0.75rem 1.5rem;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        z-index: 100;
+        box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
+      }
+
+      .nav-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 4px;
+        color: var(--text-muted);
+        font-size: 0.7rem;
+        text-decoration: none;
+        transition: color 0.2s;
+      }
+
+      .nav-item i {
+        font-size: 1.1rem;
+      }
+
+      .nav-item:hover,
+      .nav-item:active {
+        color: var(--accent);
+      }
+
+      /* Scrollbar */
+      ::-webkit-scrollbar {
+        width: 8px;
+      }
+      ::-webkit-scrollbar-track {
+        background: var(--scroll-track);
+      }
+      ::-webkit-scrollbar-thumb {
+        background: var(--scroll-thumb);
+        border-radius: 4px;
+      }
+    </style>
+  </head>
+  <body
+    class="antialiased min-h-screen p-4 md:p-12 flex justify-center items-start pb-24 md:pb-12"
+  >
+    <button
+      id="theme-toggle"
+      class="floating-btn theme-toggle"
+      aria-label="Toggle Dark Mode"
+    >
+      <i class="fa-solid fa-moon text-lg" id="theme-icon"></i>
+    </button>
+
+    <button
+      id="back-to-top"
+      class="floating-btn back-to-top hidden md:flex"
+      aria-label="Back to Top"
+    >
+      <i class="fa-solid fa-arrow-up text-lg"></i>
+    </button>
+
+    <nav class="mobile-nav md:hidden">
+      <a href="#home" class="nav-item">
+        <i class="fa-solid fa-house"></i>
+        <span>Home</span>
+      </a>
+      <a href="#roles" class="nav-item">
+        <i class="fa-solid fa-bullseye"></i>
+        <span>Roles</span>
+      </a>
+      <a href="#skills" class="nav-item">
+        <i class="fa-solid fa-layer-group"></i>
+        <span>Skills</span>
+      </a>
+      <a href="#contact" class="nav-item">
+        <i class="fa-solid fa-paper-plane"></i>
+        <span>Contact</span>
+      </a>
+    </nav>
+
+    <main
+      class="max-w-7xl w-full grid grid-cols-1 md:grid-cols-12 gap-6 mt-8 md:mt-0"
+    >
+      <div id="home" class="md:col-span-8 bento-card justify-center">
+        <span class="section-label">Identity</span>
+        <h1
+          class="text-4xl md:text-5xl font-bold tracking-tight mb-4 text-[var(--text-heading)]"
+        >
+          Krishna
+        </h1>
+        <h2
+          class="text-xl font-mono mb-6 font-semibold"
+          style="color: var(--accent)"
+        >
+          Technical Specialist > Engineer
+        </h2>
+
+        <p class="leading-relaxed text-lg mb-4 text-[var(--text-main)]">
+          I am a technical specialist with 3+ years of experience, currently
+          transitioning into an industry engineering role. My strength lies
+          beyond teaching—I focus on
+          <span class="font-bold text-[var(--text-heading)]"
+            >building, analyzing, and troubleshooting</span
+          >
+          real systems.
+        </p>
+        <p class="leading-relaxed text-[var(--text-muted)]">
+          I approach problems with strong system thinking and a practical
+          mindset. I am intentionally moving away from purely instructional
+          roles towards environments where I can design, support, secure, and
+          improve real-world systems.
+        </p>
+      </div>
+
+      <div
+        id="contact"
+        class="md:col-span-4 bento-card justify-between scroll-mt-24"
+      >
+        <div>
+          <span class="section-label">Connect</span>
+          <div class="flex flex-col gap-3 mt-2">
+            <a
+              href="mailto:krishnanthangavel@gmail.com"
+              class="flex items-center gap-3 hover:text-[var(--accent)] transition-colors group p-2 rounded hover:bg-[var(--tag-bg)]"
+            >
+              <div
+                class="w-8 h-8 rounded bg-[var(--bg-body)] border border-[var(--border-card)] flex items-center justify-center transition-colors text-[var(--text-main)]"
+              >
+                <i class="fa-solid fa-envelope"></i>
+              </div>
+              <span class="font-medium">Email Me</span>
+            </a>
+            <a
+              href="https://in.linkedin.com/in/krishnan-thangavel/"
+              target="_blank"
+              class="flex items-center gap-3 hover:text-blue-500 transition-colors group p-2 rounded hover:bg-[var(--tag-bg)]"
+            >
+              <div
+                class="w-8 h-8 rounded bg-[var(--bg-body)] border border-[var(--border-card)] flex items-center justify-center transition-colors text-[var(--text-main)]"
+              >
+                <i class="fa-brands fa-linkedin"></i>
+              </div>
+              <span class="font-medium">LinkedIn</span>
+            </a>
+            <a
+              href="https://github.com/Orion021"
+              target="_blank"
+              class="flex items-center gap-3 hover:text-[var(--text-heading)] transition-colors group p-2 rounded hover:bg-[var(--tag-bg)]"
+            >
+              <div
+                class="w-8 h-8 rounded bg-[var(--bg-body)] border border-[var(--border-card)] flex items-center justify-center transition-colors text-[var(--text-main)]"
+              >
+                <i class="fa-brands fa-github"></i>
+              </div>
+              <span class="font-medium">GitHub</span>
+            </a>
+            <a
+              href="https://wa.me/918610908227"
+              target="_blank"
+              class="flex items-center gap-3 hover:text-green-500 transition-colors group p-2 rounded hover:bg-[var(--tag-bg)]"
+            >
+              <div
+                class="w-8 h-8 rounded bg-[var(--bg-body)] border border-[var(--border-card)] flex items-center justify-center transition-colors text-[var(--text-main)]"
+              >
+                <i class="fa-brands fa-whatsapp"></i>
+              </div>
+              <span class="font-medium">WhatsApp</span>
+            </a>
+          </div>
+        </div>
+
+        <div class="mt-6 pt-4 border-t border-[var(--border-card)]">
+          <a
+            href="https://www.instagram.com/krishna.021"
+            class="text-sm font-medium text-[var(--text-muted)] hover:text-[var(--accent)] flex items-center gap-2 p-2 rounded hover:bg-[var(--tag-bg)] transition-colors w-fit"
+          >
+            <i class="fa-brands fa-instagram text-lg"></i> Personal / Offline
+          </a>
+        </div>
+      </div>
+
+      <div id="roles" class="md:col-span-12 bento-card scroll-mt-24">
+        <span class="section-label">Target Roles & Career Direction</span>
+        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
+          <div class="role-card">
+            <div class="mb-3 text-[var(--accent)]">
+              <i class="fa-solid fa-microchip text-xl"></i>
             </div>
-            <div class="section">
-              <p>I am a technical specialist with over 3+ years of experience as a dedicated trainer, now actively transitioning into an industry role across IoT, Cybersecurity, Networking, or Python Development. My expertise lies in not just teaching, but building practical, functional solutions. I blend a deep understanding of system thinking and problem-solving with the ability to simplify complex technical concepts into clear, actionable outcomes.<br>My purpose is simple: to grow, contribute, and build a life where I can choose challenge, adventure, and meaningful impact.</p>
+            <h3 class="font-bold text-[var(--text-heading)] text-sm mb-1">
+              IoT Engineer
+            </h3>
+            <p class="text-xs text-[var(--text-muted)]">
+              Embedded Systems, Sensor Integration, Hardware Logic.
+            </p>
+          </div>
+
+          <div class="role-card">
+            <div class="mb-3 text-[var(--accent)]">
+              <i class="fa-solid fa-network-wired text-xl"></i>
+            </div>
+            <h3 class="font-bold text-[var(--text-heading)] text-sm mb-1">
+              Network Engineer
+            </h3>
+            <p class="text-xs text-[var(--text-muted)]">
+              Entry-level NetAdmin, Protocols, Troubleshooting.
+            </p>
+          </div>
+
+          <div class="role-card">
+            <div class="mb-3 text-[var(--accent)]">
+              <i class="fa-solid fa-terminal text-xl"></i>
+            </div>
+            <h3 class="font-bold text-[var(--text-heading)] text-sm mb-1">
+              Systems Engineer
+            </h3>
+            <p class="text-xs text-[var(--text-muted)]">
+              IT Support, Linux Admin, Root Cause Analysis.
+            </p>
+          </div>
+
+          <div class="role-card">
+            <div class="mb-3 text-[var(--accent)]">
+              <i class="fa-brands fa-python text-xl"></i>
+            </div>
+            <h3 class="font-bold text-[var(--text-heading)] text-sm mb-1">
+              Python Automation
+            </h3>
+            <p class="text-xs text-[var(--text-muted)]">
+              Scripting, Data Handling, Workflow Automation.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <div class="md:col-span-6 bento-card">
+        <span class="section-label">Core Wiring & Philosophy</span>
+        <div class="space-y-6 text-sm md:text-base leading-relaxed">
+          <p>
+            <strong class="text-[var(--text-heading)] block mb-1"
+              >Internally Driven.</strong
+            >
+            Titles and noise don't move me. What matters is whether something
+            aligns with logic, growth, and meaning. I value autonomy over
+            comfort and competence over validation.
+          </p>
+          <div
+            class="pl-4 border-l-4 border-[var(--accent)] opacity-80 italic text-[var(--text-main)] bg-[var(--bg-body)] p-3 rounded-r"
+          >
+            "I am not living my ideal life yet. But I am actively working
+            towards becoming stronger, more capable, and more disciplined, while
+            building a career that values meaningful work over stagnation."
+          </div>
+          <p>
+            <strong class="text-[var(--text-heading)] block mb-1"
+              >Builder-Teacher Hybrid.</strong
+            >
+            I don't just know tools; I understand why they exist. As a trainer,
+            I think in learning paths and fundamentals. Now, I apply that same
+            clarity to engineering problems.
+          </p>
+        </div>
+      </div>
+
+      <div class="md:col-span-6 bento-card">
+        <span class="section-label">Certifications & Learning</span>
+        <div class="space-y-4">
+          <div class="flex items-start gap-3">
+            <i
+              class="fa-solid fa-check-circle mt-1"
+              style="color: var(--accent)"
+            ></i>
+            <div>
+              <strong class="text-[var(--text-heading)] block"
+                >IT Specialist – Python</strong
+              >
+              <span class="text-xs text-[var(--text-muted)] font-mono"
+                >Certiport | Validated logic & programming skills.</span
+              >
             </div>
           </div>
-          <div class="section" >
-            <p>I’m not living that life yet, but I’m trying to grow stronger, love better, find adventure, and build a life that isn’t controlled by meaningless work</p>
+          <div class="flex items-start gap-3">
+            <i
+              class="fa-solid fa-check-circle mt-1"
+              style="color: var(--accent)"
+            ></i>
+            <div>
+              <strong class="text-[var(--text-heading)] block"
+                >Python for Data Science & AI</strong
+              >
+              <span class="text-xs text-[var(--text-muted)] font-mono"
+                >IBM / Coursera | Application beyond basics.</span
+              >
+            </div>
+          </div>
+          <div class="flex items-start gap-3">
+            <i
+              class="fa-solid fa-check-circle mt-1"
+              style="color: var(--accent)"
+            ></i>
+            <div>
+              <strong class="text-[var(--text-heading)] block"
+                >CompTIA A+ Core 1 (Prep)</strong
+              >
+              <span class="text-xs text-[var(--text-muted)] font-mono"
+                >Packt / Coursera | Hardware, OS, Troubleshooting.</span
+              >
+            </div>
+          </div>
+          <div class="flex items-start gap-3">
+            <i
+              class="fa-solid fa-check-circle mt-1"
+              style="color: var(--accent)"
+            ></i>
+            <div>
+              <strong class="text-[var(--text-heading)] block"
+                >Introduction to IoT</strong
+              >
+              <span class="text-xs text-[var(--text-muted)] font-mono"
+                >Cisco | Devices & Connectivity.</span
+              >
+            </div>
+          </div>
+
+          <div
+            class="flex items-start gap-3 opacity-90 bg-[var(--bg-body)] p-2 rounded border border-[var(--border-card)]"
+          >
+            <i
+              class="fa-solid fa-circle-notch animate-spin mt-1"
+              style="color: var(--accent)"
+            ></i>
+            <div>
+              <strong class="text-[var(--text-heading)] block"
+                >Google Certification (In Progress)</strong
+              >
+              <span class="text-xs text-[var(--text-muted)] font-mono"
+                >Coursera | Industry-aligned learning.</span
+              >
+            </div>
+          </div>
+
+          <div
+            class="mt-4 pt-4 border-t border-[var(--border-card)] text-xs text-[var(--text-muted)] italic"
+          >
+            *Continuous learner with emphasis on practical labs and tool-based
+            understanding rather than certificate collection.
           </div>
         </div>
       </div>
 
-      <div class="card-page" id="page2">
-        <h2>Certifications & Achievements(WIP)</h2>
-        <div class="grid-2x5">
-          <div class="section">
-            <h3>IT Specialist - Python</h3>
-            <p>Certiport</p>
+      <div id="skills" class="md:col-span-12 bento-card scroll-mt-24">
+        <span class="section-label">Technical Arsenal & Focus</span>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <div>
+            <h3
+              class="text-[var(--text-heading)] font-bold text-sm mb-3 flex items-center gap-2 uppercase tracking-wide"
+            >
+              <i
+                class="fa-solid fa-shield-halved"
+                style="color: var(--accent)"
+              ></i>
+              Security & Networking
+            </h3>
+            <div class="flex flex-wrap gap-2">
+              <span class="skill-tag">Packet Capture</span>
+              <span class="skill-tag">Traffic Filtering</span>
+              <span class="skill-tag">TCP/IP Protocols</span>
+              <span class="skill-tag">Threat Awareness</span>
+              <span class="skill-tag">Log Analysis</span>
+              <span class="skill-tag">Network Diagnostics</span>
+            </div>
           </div>
-          <div class="section">
-            <h3>Python for Data Science, AI & Development</h3>
-            <p>IBM | Coursera</p>
+
+          <div>
+            <h3
+              class="text-[var(--text-heading)] font-bold text-sm mb-3 flex items-center gap-2 uppercase tracking-wide"
+            >
+              <i class="fa-solid fa-microchip" style="color: var(--accent)"></i>
+              IoT & Embedded
+            </h3>
+            <div class="flex flex-wrap gap-2">
+              <span class="skill-tag">Raspberry Pi</span>
+              <span class="skill-tag">Sensor Interfacing</span>
+              <span class="skill-tag">Hardware-Software Integration</span>
+              <span class="skill-tag">Device Debugging</span>
+              <span class="skill-tag">UART/I2C/SPI</span>
+              <span class="skill-tag">IoT Architecture</span>
+            </div>
           </div>
-          <div class="section">
-            <h3>CompTIA A+ Certification Core 1 (220-1101) - Prep</h3>
-            <p>Packt | Coursera</p>
-          </div>
-          <div class="section">
-            <h3>In Pursuit</h3>
-            <p>Google | Coursera</p>
-          </div>
-          <div class="section">
-            <h3>Introduction to IoT</h3>
-            <p>Cisco</p>
+
+          <div>
+            <h3
+              class="text-[var(--text-heading)] font-bold text-sm mb-3 flex items-center gap-2 uppercase tracking-wide"
+            >
+              <i class="fa-solid fa-terminal" style="color: var(--accent)"></i>
+              Systems & Python
+            </h3>
+            <div class="flex flex-wrap gap-2">
+              <span class="skill-tag">Linux CLI</span>
+              <span class="skill-tag">Python Scripting</span>
+              <span class="skill-tag">Task Automation</span>
+              <span class="skill-tag">Root Cause Analysis</span>
+              <span class="skill-tag">Git Workflow</span>
+              <span class="skill-tag">Documentation</span>
+            </div>
           </div>
         </div>
       </div>
 
-      <div class="card-page" id="page3">
-        <h2>Key Skills</h2>
-        <div class="flex-row small">
-          <div class="section">CyberSecurity - Foundation(Current Focus)</div>
-          <div class="section">IT Support & Troubleshooting</div>
-          <div class="section">Troubleshooting(Software, OS, Tools, Devices)</div>
-          <div class="section">Embedded C</div>
-          <div class="section">C & C++</div>
-          <div class="section">Python</div>
-          <div class="section">Networking</div>
-          <div class="section">Flutter</div>
-          <div class="section">Git & GutHub</div>
-          <div class="section">IoT(Arduino & Raspberry PI)</div>
-          <div class="section">HTML5, CSS3 & JavaScript</div>
-          <div class="section">Technical Training Delivery</div>
-        </div>
+      <div
+        id="footer"
+        class="md:col-span-12 text-center pt-8 pb-4 text-[var(--text-muted)] text-xs font-mono scroll-mt-24"
+      >
+        <p>Designed with Logic. Built for Purpose.</p>
       </div>
+    </main>
 
-      <div class="card-page" id="page4">
-        <h2>Contact Me</h2>
-        <div class="section" style="height:120px;">
-          <p>Feel free to reach out to me via email or connect with me on social media.</p>
-        </div>
-        <div class="flex-row contact-links small">
-          <a class="section" href="mailto:krishnanthangavel@gmail.com">E-mail</a>
-          <a class="section" href="https://in.linkedin.com/in/krishnan-thangavel/" target="_blank">LinkedIn</a>
-          <a class="section" href="https://github.com/Orion021" target="_blank">GitHub</a>
-          <a class="section" href="https://orion021.github.io/krishnan_t/">Web</a>
-          <a class="section" href="tel:+918610908227">Call</a>
-          <a class="section" href="https://wa.me/qr/WY7N4353MGXGG1">WhatsApp</a>
-          <a class="section" href="https://www.instagram.com/krishna.021_/">Instagram <span style="font-size: 8px;">(Only If You Know Me in Person😅, I'm Just a Zombie There)</span></a>
-        </div>
-      </div>
-    </div>
-  </div>
+    <script>
+      // 1. Theme Logic
+      const themeToggleBtn = document.getElementById("theme-toggle");
+      const themeIcon = document.getElementById("theme-icon");
+      const htmlElement = document.documentElement;
 
-  <div class="floating-nav">
-    <button id="nav-left" aria-label="Previous Page">&#60;</button>
-    <button id="nav-right" aria-label="Next Page">&#62;</button>
-  </div>
-
-  <script>
-    // Disables right-click
-    document.addEventListener('contextmenu', (e) => {
-      e.preventDefault();
-    });
-
-    // Disables common dev tool shortcuts
-    document.addEventListener('keydown', (e) => {
-      // Disable F12
-      if (e.key === 'F12') {
-        e.preventDefault();
+      if (
+        localStorage.theme === "dark" ||
+        (!("theme" in localStorage) &&
+          window.matchMedia("(prefers-color-scheme: dark)").matches)
+      ) {
+        htmlElement.classList.add("dark");
+        themeIcon.classList.remove("fa-moon");
+        themeIcon.classList.add("fa-sun");
+      } else {
+        htmlElement.classList.remove("dark");
+        themeIcon.classList.remove("fa-sun");
+        themeIcon.classList.add("fa-moon");
       }
-      // Disable Ctrl+Shift+I, Ctrl+Shift+J, Ctrl+Shift+C, Ctrl+U
-      if (e.ctrlKey && e.shiftKey && (e.key === 'I' || e.key === 'J' || e.key === 'C')) {
-        e.preventDefault();
-      }
-      if (e.ctrlKey && e.key === 'U') {
-        e.preventDefault();
-      }
-    });
 
-    const navLeftBtn = document.getElementById('nav-left');
-    const navRightBtn = document.getElementById('nav-right');
-    const allPages = document.querySelectorAll('.card-page');
-    let currentPageIndex = 0;
-
-    const showPage = (index) => {
-      allPages.forEach((page, i) => {
-        page.classList.toggle('active-page', i === index);
+      themeToggleBtn.addEventListener("click", () => {
+        if (htmlElement.classList.contains("dark")) {
+          htmlElement.classList.remove("dark");
+          localStorage.theme = "light";
+          themeIcon.classList.remove("fa-sun");
+          themeIcon.classList.add("fa-moon");
+        } else {
+          htmlElement.classList.add("dark");
+          localStorage.theme = "dark";
+          themeIcon.classList.remove("fa-moon");
+          themeIcon.classList.add("fa-sun");
+        }
       });
-      currentPageIndex = index;
-    };
 
-    const handleForward = () => {
-      // If on the last page, loop to the first page (index 0)
-      if (currentPageIndex === allPages.length - 1) {
-        showPage(0);
-      } else {
-        // Otherwise, go to the next page
-        showPage(currentPageIndex + 1);
-      }
-    };
+      // 2. Back to Top Logic (Desktop Only)
+      const backToTopBtn = document.getElementById("back-to-top");
 
-    const handleBackward = () => {
-      // If on the first page, loop to the last page
-      if (currentPageIndex === 0) {
-        showPage(allPages.length - 1);
-      } else {
-        // Otherwise, go to the previous page
-        showPage(currentPageIndex - 1);
-      }
-    };
+      window.addEventListener("scroll", () => {
+        if (window.scrollY > 300) {
+          backToTopBtn.classList.add("visible");
+        } else {
+          backToTopBtn.classList.remove("visible");
+        }
+      });
 
-    // Add event listeners for the arrow buttons
-    navRightBtn.addEventListener('click', handleForward);
-    navLeftBtn.addEventListener('click', handleBackward);
-    
-    // Set the initial state
-    showPage(currentPageIndex);
-  </script>
-</body>
-
+      backToTopBtn.addEventListener("click", () => {
+        window.scrollTo({
+          top: 0,
+          behavior: "smooth",
+        });
+      });
+    </script>
+  </body>
 </html>
