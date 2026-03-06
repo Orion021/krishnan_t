@@ -196,7 +196,7 @@
       color: var(--accent);
     }
 
-    /* ---------- mobile nav (unchanged, shown only on mobile) ---------- */
+    /* ---------- mobile nav (shown only on mobile) ---------- */
     #mobile-nav {
       display: none;
       position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%);
@@ -451,6 +451,29 @@
     .dot.filled { background: var(--accent); }
     .dot.hot { background: var(--accent) !important; }
 
+    /* scale legend with all 5 levels */
+    .scale-legend {
+      margin-top: 28px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 12px;
+      font-size: 13px;
+      color: var(--ink-faint);
+      border-top: 1px solid var(--glass-border);
+      padding-top: 20px;
+    }
+    .legend-item {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .legend-item .dot {
+      width: 14px;
+      height: 14px;
+    }
+
     .skill-domain-grid { display: flex; flex-direction: column; gap: 32px; }
     .skill-domain-title { font-size: 13px; font-weight: 700; color: var(--accent); margin-bottom: 16px; }
     .skill-tags { display: flex; flex-wrap: wrap; gap: 8px; }
@@ -702,13 +725,27 @@
   <section id="skills"><div class="wrap"><span class="section-label">Skills</span><h2 class="section-title">What I Work With</h2>
     <div class="skills-body">
       <div class="skill-rows fi">
-        <div class="skill-row"><span class="skill-row-name">Python & Automation</span><div class="dot-scale"><div class="dot filled"></div><div class="dot filled"></div><div class="dot filled"></div><div class="dot filled hot"></div><div class="dot"></div></div></div>
-        <div class="skill-row"><span class="skill-row-name">Embedded Systems</span><div class="dot-scale"><div class="dot filled"></div><div class="dot filled"></div><div class="dot filled hot"></div><div class="dot"></div><div class="dot"></div></div></div>
-        <div class="skill-row"><span class="skill-row-name">IoT Architecture</span><div class="dot-scale"><div class="dot filled"></div><div class="dot filled"></div><div class="dot filled hot"></div><div class="dot"></div><div class="dot"></div></div></div>
-        <div class="skill-row"><span class="skill-row-name">Networking</span><div class="dot-scale"><div class="dot filled"></div><div class="dot filled"></div><div class="dot filled hot"></div><div class="dot"></div><div class="dot"></div></div></div>
-        <div class="skill-row"><span class="skill-row-name">Firmware Dev</span><div class="dot-scale"><div class="dot filled"></div><div class="dot filled hot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div></div></div>
-        <div class="skill-row"><span class="skill-row-name">Cybersecurity</span><div class="dot-scale"><div class="dot filled"></div><div class="dot filled hot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div></div></div>
-        <div class="skill-row"><span class="skill-row-name">Technical Teaching</span><div class="dot-scale"><div class="dot filled"></div><div class="dot filled"></div><div class="dot filled"></div><div class="dot filled"></div><div class="dot filled hot"></div></div></div>
+        <div class="skill-row"><span class="skill-row-name">Technical Training</span><div class="dot-scale"><div class="dot filled"></div><div class="dot filled"></div><div class="dot filled"></div><div class="dot filled"></div><div class="dot filled hot"></div></div></div>
+<div class="skill-row"><span class="skill-row-name">Python & Automation</span><div class="dot-scale"><div class="dot filled"></div><div class="dot filled"></div><div class="dot filled"></div><div class="dot filled hot"></div><div class="dot"></div></div></div>
+<div class="skill-row"><span class="skill-row-name">IoT Architecture</span><div class="dot-scale"><div class="dot filled"></div><div class="dot filled"></div><div class="dot filled"></div><div class="dot filled hot"></div><div class="dot"></div></div></div>
+<div class="skill-row"><span class="skill-row-name">AI-Augmented Engineer</span><div class="dot-scale"><div class="dot filled"></div><div class="dot filled"></div><div class="dot filled"></div><div class="dot filled hot"></div><div class="dot"></div></div></div>
+<div class="skill-row"><span class="skill-row-name">Systems Thinking</span><div class="dot-scale"><div class="dot filled"></div><div class="dot filled"></div><div class="dot filled"></div><div class="dot filled hot"></div><div class="dot"></div></div></div>
+<div class="skill-row"><span class="skill-row-name">Hardware Product Ideation</span><div class="dot-scale"><div class="dot filled"></div><div class="dot filled"></div><div class="dot filled"></div><div class="dot filled hot"></div><div class="dot"></div></div></div>
+<div class="skill-row"><span class="skill-row-name">Cross-Domain Engg. Thinking</span><div class="dot-scale"><div class="dot filled"></div><div class="dot filled"></div><div class="dot filled"></div><div class="dot filled hot"></div><div class="dot"></div></div></div>
+<div class="skill-row"><span class="skill-row-name">Embedded Systems</span><div class="dot-scale"><div class="dot filled"></div><div class="dot filled"></div><div class="dot filled hot"></div><div class="dot"></div><div class="dot"></div></div></div>
+<div class="skill-row"><span class="skill-row-name">Networking</span><div class="dot-scale"><div class="dot filled"></div><div class="dot filled"></div><div class="dot filled hot"></div><div class="dot"></div><div class="dot"></div></div></div>
+<div class="skill-row"><span class="skill-row-name">Firmware Dev</span><div class="dot-scale"><div class="dot filled"></div><div class="dot filled hot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div></div></div>
+<div class="skill-row"><span class="skill-row-name">Cybersecurity</span><div class="dot-scale"><div class="dot filled"></div><div class="dot filled hot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div></div></div>
+        
+        <!-- scale legend with all 5 levels -->
+        <div class="scale-legend">
+          <div class="legend-item"><span class="dot" style="background: var(--glass-border);"></span> 1 (Learning)</div>
+          <div class="legend-item"><span class="dot filled"></span> 2 (Familiar)</div>
+          <div class="legend-item"><span class="dot filled"></span> 3 (Proficient)</div>
+          <div class="legend-item"><span class="dot filled"></span> 4 (Advanced)</div>
+          <div class="legend-item"><span class="dot filled hot"></span> 5 (Expert)</div>
+          <div style="margin-left: auto; opacity: 0.7;">→ 3-5 (Capable of Working)</div>
+        </div>
       </div>
       <div class="skill-domain-grid fi">
         <div><div class="skill-domain-title"><i class="fa-solid fa-shield-halved"></i> Security & Networking</div><div class="skill-tags"><span class="stag">TCP/IP Protocols</span><span class="stag">Packet Capture</span><span class="stag">Traffic Filtering</span><span class="stag">Threat Awareness</span><span class="stag">Log Analysis</span><span class="stag">Network Diagnostics</span></div></div>
