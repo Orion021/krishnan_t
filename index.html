@@ -1,773 +1,1068 @@
+
 <!DOCTYPE html>
 <html lang="en" data-theme="light">
+
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Krishna — engineer & builder</title>
-  <meta name="description" content="Portfolio of Krishna — technical trainer transitioning to industry engineering.">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300..700&family=Plus+Jakarta+Sans:wght@300..600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  <style>
-    /* ---------- ultra glass morphism with liquid elements ---------- */
-    [data-theme="light"] {
-      --bg: #e8f0fe;
-      --glass-bg: rgba(255, 255, 255, 0.3);
-      --glass-card: rgba(255, 255, 255, 0.4);
-      --glass-border: rgba(255, 255, 255, 0.6);
-      --ink: #0b1b33;
-      --ink-muted: #1f2a44;
-      --ink-faint: #4a5b7c;
-      --accent: #2563eb;
-      --accent-soft: #dbeafe;
-      --blob1: rgba(37, 99, 235, 0.2);
-      --blob2: rgba(59, 130, 246, 0.2);
-      --blob3: rgba(96, 165, 250, 0.15);
-      --shadow: 0 25px 50px -16px rgba(0,30,80,0.4);
-      --blur: blur(20px);
-    }
-    [data-theme="dark"] {
-      --bg: #050b17;
-      --glass-bg: rgba(10, 20, 40, 0.4);
-      --glass-card: rgba(20, 30, 50, 0.5);
-      --glass-border: rgba(70, 90, 120, 0.4);
-      --ink: #f1f5f9;
-      --ink-muted: #cbd5e1;
-      --ink-faint: #94a3b8;
-      --accent: #3b82f6;
-      --accent-soft: #1e3a5f;
-      --blob1: rgba(59, 130, 246, 0.15);
-      --blob2: rgba(37, 99, 235, 0.15);
-      --blob3: rgba(96, 165, 250, 0.1);
-      --shadow: 0 25px 50px -16px #000000;
-      --blur: blur(20px);
-    }
-
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-    html { scroll-behavior: smooth; }
-    body {
-      background: var(--bg);
-      color: var(--ink);
-      font-family: 'Plus Jakarta Sans', 'Inter', sans-serif;
-      font-size: 17px;
-      line-height: 1.6;
-      transition: background 0.3s, color 0.2s;
-      -webkit-font-smoothing: antialiased;
-      position: relative;
-      overflow-x: hidden;
-    }
-
-    /* liquid blobs background */
-    .liquid-blobs {
-      position: fixed;
-      inset: 0;
-      overflow: hidden;
-      pointer-events: none;
-      z-index: -1;
-    }
-    .blob {
-      position: absolute;
-      background: radial-gradient(circle at center, var(--blob1) 0%, transparent 70%);
-      border-radius: 50%;
-      filter: blur(60px);
-      opacity: 0.7;
-      animation: float 20s infinite ease-in-out;
-    }
-    .blob:nth-child(1) {
-      width: 60vmax;
-      height: 60vmax;
-      left: -10vmax;
-      top: -10vmax;
-      background: radial-gradient(circle at 30% 30%, var(--blob1), transparent 70%);
-      animation-duration: 25s;
-      animation-delay: -2s;
-    }
-    .blob:nth-child(2) {
-      width: 50vmax;
-      height: 50vmax;
-      right: -10vmax;
-      bottom: -10vmax;
-      background: radial-gradient(circle at 70% 70%, var(--blob2), transparent 70%);
-      animation-duration: 22s;
-      animation-delay: -5s;
-    }
-    .blob:nth-child(3) {
-      width: 40vmax;
-      height: 40vmax;
-      left: 30%;
-      top: 30%;
-      background: radial-gradient(circle at 40% 60%, var(--blob3), transparent 70%);
-      animation-duration: 18s;
-      animation-delay: -10s;
-    }
-    @keyframes float {
-      0% { transform: translate(0, 0) scale(1); }
-      25% { transform: translate(5%, 5%) scale(1.1); }
-      50% { transform: translate(-5%, 10%) scale(0.9); }
-      75% { transform: translate(10%, -5%) scale(1.05); }
-      100% { transform: translate(0, 0) scale(1); }
-    }
-
-    /* intense background gradients (still there) */
-    body::before {
-      content: '';
-      position: fixed;
-      inset: 0;
-      background: radial-gradient(circle at 15% 25%, rgba(37,99,235,0.35) 0%, transparent 50%),
-                  radial-gradient(circle at 85% 75%, rgba(37,99,235,0.3) 0%, transparent 50%);
-      pointer-events: none;
-      z-index: -1;
-    }
-
-    /* ---------- layout: push content for left nav on desktop ---------- */
-    @media (min-width: 901px) {
-      body {
-        padding-left: 100px; /* space for vertical nav */
-      }
-    }
-
-    /* ---------- left vertical navigation (desktop) with perfect round items ---------- */
-    #left-nav {
-      position: fixed;
-      left: 20px;
-      top: 50%;
-      transform: translateY(-50%);
-      width: 80px;
-      background: var(--glass-card);
-      backdrop-filter: var(--blur);
-      -webkit-backdrop-filter: var(--blur);
-      border: 1px solid var(--glass-border);
-      border-radius: 40px;
-      padding: 16px 0;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 12px;
-      z-index: 500;
-      box-shadow: var(--shadow);
-    }
-    #left-nav .nav-item {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      width: 60px;
-      height: 60px;
-      text-decoration: none;
-      color: var(--ink-faint);
-      font-size: 10px;
-      text-transform: uppercase;
-      letter-spacing: 0.03em;
-      transition: 0.15s;
-      border-radius: 50%; /* perfect circle */
-      gap: 2px;
-    }
-    #left-nav .nav-item i {
-      font-size: 20px;
-      margin-bottom: 2px;
-    }
-    #left-nav .nav-item.active {
-      background: var(--accent);
-      color: white;
-    }
-    #left-nav .nav-item:hover:not(.active) {
-      color: var(--accent);
-      background: var(--glass-bg);
-    }
-    #left-nav .theme-toggle-left {
-      margin-top: 8px;
-      width: 44px;
-      height: 44px;
-      border-radius: 50%; /* circular theme button */
-      border: 1px solid var(--glass-border);
-      background: var(--glass-card);
-      backdrop-filter: var(--blur);
-      -webkit-backdrop-filter: var(--blur);
-      color: var(--ink);
-      font-size: 18px;
-      cursor: pointer;
-      transition: 0.15s;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-    #left-nav .theme-toggle-left:hover {
-      border-color: var(--accent);
-      color: var(--accent);
-    }
-
-    /* ---------- mobile nav (shown only on mobile) ---------- */
-    #mobile-nav {
-      display: none;
-      position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%);
-      background: var(--glass-card);
-      backdrop-filter: var(--blur);
-      -webkit-backdrop-filter: var(--blur);
-      border: 1px solid var(--glass-border);
-      border-radius: 60px;
-      padding: 8px 14px;
-      gap: 4px;
-      z-index: 600;
-      box-shadow: var(--shadow);
-    }
-    .mob-link {
-      display: flex; flex-direction: column; align-items: center;
-      padding: 6px 10px; border-radius: 40px;
-      text-decoration: none; color: var(--ink-faint);
-      font-size: 11px; text-transform: uppercase; letter-spacing: 0.03em;
-      transition: 0.15s;
-    }
-    .mob-link i { font-size: 16px; margin-bottom: 2px; }
-    .mob-link.active { background: var(--accent); color: white; }
-    .mob-theme {
-      width: 44px; height: 44px; border-radius: 40px;
-      background: transparent; border: none;
-      color: var(--ink-faint); font-size: 18px; cursor: pointer;
-    }
-    .mob-theme:hover { color: var(--accent); }
-
-    /* ---------- sections: transparent like hero, no background ---------- */
-    section {
-      border-radius: 0; /* sharp edges */
-      /* no background or backdrop-filter — matches hero */
-    }
-    #hero {
-      background: transparent;
-      backdrop-filter: none;
-    }
-
-    .wrap, .hero-wrap, .contact-wrap {
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 120px 48px;
-    }
-    @media (max-width: 700px) {
-      .wrap, .hero-wrap, .contact-wrap {
-        padding: 80px 24px;
-      }
-    }
-
-    .section-label {
-      font-size: 13px;
-      font-weight: 600;
-      letter-spacing: 0.2em;
-      text-transform: uppercase;
-      color: var(--accent);
-      margin-bottom: 16px;
-      display: block;
-    }
-    .section-title {
-      font-family: 'Inter', sans-serif;
-      font-size: clamp(44px, 6vw, 64px);
-      font-weight: 700;
-      line-height: 1.05;
-      letter-spacing: -0.03em;
-      color: var(--ink);
-      margin-bottom: 40px;
-    }
-
-    /* glass base for cards */
-    .glass-panel, .glass-deep {
-      background: var(--glass-card);
-      backdrop-filter: var(--blur);
-      -webkit-backdrop-filter: var(--blur);
-      border: 1px solid var(--glass-border);
-      box-shadow: var(--shadow);
-    }
-
-    /* hero */
-    #hero { min-height: 100vh; display: flex; align-items: center; }
-    .hero-wrap { width: 100%; }
-    .hero-badge {
-      display: inline-flex; align-items: center; gap: 8px;
-      background: var(--glass-card);
-      backdrop-filter: var(--blur);
-      -webkit-backdrop-filter: var(--blur);
-      border: 1px solid var(--glass-border);
-      border-radius: 40px; padding: 8px 16px 8px 12px;
-      font-size: 13px; color: var(--accent); margin-bottom: 40px;
-    }
-    .badge-dot { width: 8px; height: 8px; background: var(--accent); border-radius: 50%; animation: pulse 2s infinite; }
-    @keyframes pulse { 0%{opacity:.6;transform:scale(1)} 50%{opacity:1;transform:scale(1.3)} }
-    .hero-name {
-      font-family: 'Inter', sans-serif;
-      font-size: clamp(70px, 13vw, 140px);
-      font-weight: 800;
-      line-height: 0.85;
-      letter-spacing: -0.05em;
-      color: var(--ink);
-      margin-bottom: 20px;
-    }
-    .hero-name span { color: var(--accent); }
-    .hero-sub {
-      font-size: 20px; font-weight: 350;
-      color: var(--ink-muted);
-      max-width: 600px;
-      margin-bottom: 40px;
-    }
-    .hero-actions { display: flex; gap: 16px; flex-wrap: wrap; }
-    .btn {
-      display: inline-flex; align-items: center; gap: 10px;
-      padding: 16px 32px; border-radius: 48px;
-      font-weight: 600; font-size: 15px; text-decoration: none;
-      transition: 0.2s; border: 1px solid transparent;
-      cursor: pointer;
-      position: relative;
-      overflow: hidden;
-    }
-    .btn-fill { background: var(--accent); color: white; border: 1px solid rgba(255,255,255,0.3); }
-    .btn-fill:hover { background: #1d4ed8; box-shadow: var(--shadow); }
-    .btn-ghost {
-      background: var(--glass-card);
-      backdrop-filter: var(--blur);
-      -webkit-backdrop-filter: var(--blur);
-      color: var(--ink);
-      border: 1px solid var(--glass-border);
-    }
-    .btn-ghost:hover { border-color: var(--accent); background: var(--glass-bg); }
-
-    /* liquid shimmer */
-    .btn::after, .role-card::after, .cert-item::after, .prow::after, .titem::after {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: -100%;
-      width: 100%;
-      height: 100%;
-      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
-      transition: left 0.5s;
-      pointer-events: none;
-      border-radius: inherit;
-    }
-    .btn:hover::after, .role-card:hover::after, .cert-item:hover::after, .prow:hover::after, .titem:hover::after {
-      left: 100%;
-    }
-
-    .hero-pills {
-      display: flex; flex-wrap: wrap; gap: 10px;
-      margin: 32px 0 40px;
-    }
-    .pill {
-      background: var(--glass-card);
-      backdrop-filter: var(--blur);
-      -webkit-backdrop-filter: var(--blur);
-      border: 1px solid var(--glass-border);
-      border-radius: 40px;
-      padding: 10px 22px;
-      font-size: 14px; font-weight: 500; color: var(--ink-muted);
-      transition: 0.2s;
-    }
-    .pill:hover { border-color: var(--accent); color: var(--accent); background: var(--glass-bg); }
-
-    .hero-stats {
-      display: grid; grid-template-columns: repeat(4,1fr);
-      margin-top: 60px;
-      gap: 16px;
-    }
-    .hstat {
-      background: var(--glass-card);
-      backdrop-filter: var(--blur);
-      -webkit-backdrop-filter: var(--blur);
-      border: 1px solid var(--glass-border);
-      border-radius: 32px;
-      padding: 20px 16px;
-      box-shadow: var(--shadow);
-      transition: 0.2s;
-      position: relative;
-      overflow: hidden;
-    }
-    .hstat:hover { border-color: var(--accent); transform: translateY(-2px); }
-    .hstat-n {
-      font-family: 'Inter', sans-serif;
-      font-size: 42px; font-weight: 700; color: var(--ink);
-      line-height: 1; margin-bottom: 6px;
-    }
-    .hstat-n sup { font-size: 22px; color: var(--accent); }
-    .hstat-l { font-size: 14px; color: var(--ink-faint); }
-
-    /* about */
-    .about-grid { display: grid; grid-template-columns: 260px 1fr; gap: 80px; }
-    .about-meta {
-      position: sticky; top: 100px;
-      background: var(--glass-card);
-      backdrop-filter: var(--blur);
-      -webkit-backdrop-filter: var(--blur);
-      border: 1px solid var(--glass-border);
-      border-radius: 32px;
-      padding: 24px;
-      box-shadow: var(--shadow);
-    }
-    .meta-row {
-      display: flex; justify-content: space-between;
-      padding: 16px 0; border-bottom: 1px solid var(--glass-border);
-      font-size: 15px;
-    }
-    .meta-row:last-child { border-bottom: none; }
-    .mk { color: var(--ink-faint); }
-    .mv { color: var(--ink); font-weight: 500; }
-    .mv.open { color: var(--accent); }
-    .about-prose .prose { color: var(--ink-muted); margin-bottom: 24px; font-size: 18px; }
-    .quote-box {
-      background: var(--glass-card);
-      backdrop-filter: var(--blur);
-      -webkit-backdrop-filter: var(--blur);
-      border-left: 4px solid var(--accent);
-      padding: 24px; border-radius: 0 24px 24px 0;
-      border: 1px solid var(--glass-border);
-      border-left-width: 4px;
-    }
-
-    /* roles */
-    .roles-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 24px; }
-    .role-card {
-      background: var(--glass-card);
-      backdrop-filter: var(--blur);
-      -webkit-backdrop-filter: var(--blur);
-      border: 1px solid var(--glass-border);
-      border-radius: 28px; padding: 28px 20px;
-      transition: 0.25s; box-shadow: var(--shadow);
-      position: relative;
-      overflow: hidden;
-    }
-    .role-card:hover { transform: translateY(-6px); border-color: var(--accent); }
-    .role-icon { font-size: 32px; color: var(--accent); margin-bottom: 20px; }
-    .role-title { font-weight: 700; font-size: 18px; margin-bottom: 8px; }
-
-    /* skills */
-    .skills-body { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; }
-    .skill-rows {
-      background: var(--glass-card);
-      backdrop-filter: var(--blur);
-      -webkit-backdrop-filter: var(--blur);
-      border: 1px solid var(--glass-border);
-      border-radius: 32px;
-      padding: 28px;
-      box-shadow: var(--shadow);
-    }
-    .skill-row { display: flex; justify-content: space-between; margin-bottom: 20px; }
-    .skill-row-name { font-weight: 500; }
-    .dot-scale { display: flex; gap: 8px; }
-    .dot { width: 12px; height: 12px; border-radius: 12px; background: var(--glass-border); transition: 0.2s; }
-    .dot.filled { background: var(--accent); }
-    .dot.hot { background: var(--accent) !important; }
-
-    /* scale legend with all 5 levels */
-    .scale-legend {
-      margin-top: 28px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      flex-wrap: wrap;
-      gap: 12px;
-      font-size: 13px;
-      color: var(--ink-faint);
-      border-top: 1px solid var(--glass-border);
-      padding-top: 20px;
-    }
-    .legend-item {
-      display: flex;
-      align-items: center;
-      gap: 6px;
-    }
-    .legend-item .dot {
-      width: 14px;
-      height: 14px;
-    }
-
-    .skill-domain-grid { display: flex; flex-direction: column; gap: 32px; }
-    .skill-domain-title { font-size: 13px; font-weight: 700; color: var(--accent); margin-bottom: 16px; }
-    .skill-tags { display: flex; flex-wrap: wrap; gap: 8px; }
-    .stag {
-      background: var(--glass-card);
-      backdrop-filter: var(--blur);
-      -webkit-backdrop-filter: var(--blur);
-      border: 1px solid var(--glass-border);
-      border-radius: 32px; padding: 8px 18px; font-size: 13px; font-weight: 500;
-      color: var(--ink-muted); transition: 0.2s;
-    }
-    .stag:hover { border-color: var(--accent); color: var(--accent); background: var(--glass-bg); }
-
-    /* certs */
-    .certs-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
-    .cert-item {
-      background: var(--glass-card);
-      backdrop-filter: var(--blur);
-      -webkit-backdrop-filter: var(--blur);
-      border: 1px solid var(--glass-border);
-      border-radius: 20px; padding: 20px; display: flex; gap: 16px;
-      transition: 0.2s; box-shadow: var(--shadow);
-      position: relative;
-      overflow: hidden;
-    }
-    .cert-item:hover { border-color: var(--accent); }
-    .cert-icon { color: var(--accent); font-size: 20px; }
-    .cert-note {
-      background: var(--glass-card);
-      backdrop-filter: var(--blur);
-      -webkit-backdrop-filter: var(--blur);
-      border-radius: 20px; padding: 24px; margin-top: 24px;
-      border: 1px solid var(--glass-border);
-    }
-
-    /* projects */
-    .project-list { margin-top: 20px; }
-    .prow {
-      display: grid; grid-template-columns: 60px 1fr;
-      gap: 24px; padding: 32px 24px;
-      margin-bottom: 16px;
-      background: var(--glass-card);
-      backdrop-filter: var(--blur);
-      -webkit-backdrop-filter: var(--blur);
-      border: 1px solid var(--glass-border);
-      border-radius: 32px;
-      transition: 0.2s; box-shadow: var(--shadow);
-      position: relative;
-      overflow: hidden;
-    }
-    .prow:hover { border-color: var(--accent); transform: translateY(-4px); }
-    .pnum { font-size: 18px; color: var(--ink-faint); font-weight: 600; }
-    .prow-body { display: grid; grid-template-columns: 180px 1fr auto; gap: 24px; align-items: start; }
-    .ptitle { font-size: 22px; font-weight: 700; margin-bottom: 6px; color: var(--ink); }
-    .pstatus { font-size: 13px; color: var(--accent); font-weight: 600; }
-    .pstatus.wip { color: var(--ink-faint); }
-    .pdesc { color: var(--ink-muted); margin: 12px 0; }
-    .ptags { display: flex; flex-wrap: wrap; gap: 6px; }
-    .tag {
-      background: var(--accent-soft);
-      border-radius: 40px; padding: 4px 14px; font-size: 12px;
-      color: var(--accent); font-weight: 500;
-      backdrop-filter: var(--blur);
-      -webkit-backdrop-filter: var(--blur);
-    }
-    .parrow { font-size: 26px; color: var(--glass-border); transition: 0.2s; }
-    .prow:hover .parrow { color: var(--accent); transform: translate(4px,-4px); }
-
-    /* journey */
-    .journey-body { display: grid; grid-template-columns: 200px 1fr; gap: 60px; }
-    .tline { display: flex; flex-direction: column; gap: 16px; }
-    .titem {
-      display: grid; grid-template-columns: 100px 1fr; gap: 24px;
-      padding: 24px;
-      background: var(--glass-card);
-      backdrop-filter: var(--blur);
-      -webkit-backdrop-filter: var(--blur);
-      border: 1px solid var(--glass-border);
-      border-radius: 28px;
-      box-shadow: var(--shadow);
-      opacity: 0; transform: translateY(14px); transition: 0.6s;
-      position: relative;
-      overflow: hidden;
-    }
-    .titem.vis { opacity: 1; transform: translateY(0); }
-    .titem:hover { border-color: var(--accent); }
-    .tyr { font-size: 14px; font-weight: 600; color: var(--accent); }
-    .ttitle { font-weight: 700; font-size: 18px; margin-bottom: 6px; }
-    .tbody { color: var(--ink-muted); }
-
-    /* contact */
-    #contact {
-      border-top: 1px solid var(--glass-border);
-    }
-    .contact-title { font-size: clamp(56px,8vw,92px); color: var(--ink); }
-    .contact-title span { color: var(--accent); }
-    .contact-btns { display: flex; flex-wrap: wrap; gap: 16px; margin: 48px 0; }
-    .cbtn {
-      display: inline-flex; align-items: center; gap: 10px;
-      padding: 14px 28px; border-radius: 40px;
-      background: var(--glass-card);
-      backdrop-filter: var(--blur);
-      -webkit-backdrop-filter: var(--blur);
-      border: 1px solid var(--glass-border);
-      color: var(--ink-muted);
-      text-decoration: none; font-weight: 500; transition: 0.2s;
-      position: relative;
-      overflow: hidden;
-    }
-    .cbtn.cta { background: var(--accent); color: white; border-color: var(--accent); }
-    .cbtn:hover { border-color: var(--accent); color: var(--accent); background: var(--glass-bg); }
-    .cbtn.cta:hover { background: #1d4ed8; border-color: #1d4ed8; color: white; }
-    .contact-foot {
-      display: flex; justify-content: space-between;
-      border-top: 1px solid var(--glass-border); padding-top: 40px;
-      color: var(--ink-faint);
-    }
-
-    /* reveal */
-    .fi { opacity: 0; transform: translateY(20px); transition: 0.7s; }
-    .fi.vis { opacity: 1; transform: translateY(0); }
-
-    /* responsive */
-    @media (max-width: 900px) {
-      body { padding-left: 0; }
-      #left-nav { display: none; }
-      #mobile-nav { display: flex; }
-      body { padding-bottom: 96px; }
-      .hero-stats { grid-template-columns: repeat(2,1fr); gap: 16px; }
-      .about-grid { grid-template-columns: 1fr; gap: 32px; }
-      .about-meta { position: static; }
-      .skills-body, .journey-body { grid-template-columns: 1fr; gap: 32px; }
-      .roles-grid { grid-template-columns: 1fr 1fr; }
-      .certs-grid { grid-template-columns: 1fr; }
-      .prow-body { grid-template-columns: 1fr; gap: 12px; }
-      .prow { grid-template-columns: 1fr; }
-      .pnum { display: none; }
-      .section-title { margin-bottom: 24px; }
-    }
-    @media (max-width: 550px) {
-      .roles-grid { grid-template-columns: 1fr; }
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Krishna — engineer & builder</title>
+    <meta name="description" content="Portfolio of Krishna — technical trainer transitioning to industry engineering.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300..700&family=Plus+Jakarta+Sans:wght@300..600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* ---------- ultra glass morphism with liquid elements ---------- */
+        [data-theme="light"] {
+          --bg: #e8f0fe;
+          --glass-bg: rgba(255, 255, 255, 0.3);
+          --glass-card: rgba(255, 255, 255, 0.4);
+          --glass-border: rgba(255, 255, 255, 0.6);
+          --ink: #0b1b33;
+          --ink-muted: #1f2a44;
+          --ink-faint: #4a5b7c;
+          --accent: #2563eb;
+          --accent-soft: #dbeafe;
+          --blob1: rgba(37, 99, 235, 0.2);
+          --blob2: rgba(59, 130, 246, 0.2);
+          --blob3: rgba(96, 165, 250, 0.15);
+          --shadow: 0 25px 50px -16px rgba(0,30,80,0.4);
+          --blur: blur(20px);
+        }
+        [data-theme="dark"] {
+          --bg: #050b17;
+          --glass-bg: rgba(10, 20, 40, 0.4);
+          --glass-card: rgba(20, 30, 50, 0.5);
+          --glass-border: rgba(70, 90, 120, 0.4);
+          --ink: #f1f5f9;
+          --ink-muted: #cbd5e1;
+          --ink-faint: #94a3b8;
+          --accent: #3b82f6;
+          --accent-soft: #1e3a5f;
+          --blob1: rgba(59, 130, 246, 0.15);
+          --blob2: rgba(37, 99, 235, 0.15);
+          --blob3: rgba(96, 165, 250, 0.1);
+          --shadow: 0 25px 50px -16px #000000;
+          --blur: blur(20px);
+        }
+    
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        body {
+          background: var(--bg);
+          color: var(--ink);
+          font-family: 'Plus Jakarta Sans', 'Inter', sans-serif;
+          font-size: 17px;
+          line-height: 1.6;
+          transition: background 0.3s, color 0.2s;
+          -webkit-font-smoothing: antialiased;
+          position: relative;
+          overflow-x: hidden;
+        }
+    
+        /* liquid blobs background */
+        .liquid-blobs {
+          position: fixed;
+          inset: 0;
+          overflow: hidden;
+          pointer-events: none;
+          z-index: -1;
+        }
+        .blob {
+          position: absolute;
+          background: radial-gradient(circle at center, var(--blob1) 0%, transparent 70%);
+          border-radius: 50%;
+          filter: blur(60px);
+          opacity: 0.7;
+          animation: float 20s infinite ease-in-out;
+        }
+        .blob:nth-child(1) {
+          width: 60vmax;
+          height: 60vmax;
+          left: -10vmax;
+          top: -10vmax;
+          background: radial-gradient(circle at 30% 30%, var(--blob1), transparent 70%);
+          animation-duration: 25s;
+          animation-delay: -2s;
+        }
+        .blob:nth-child(2) {
+          width: 50vmax;
+          height: 50vmax;
+          right: -10vmax;
+          bottom: -10vmax;
+          background: radial-gradient(circle at 70% 70%, var(--blob2), transparent 70%);
+          animation-duration: 22s;
+          animation-delay: -5s;
+        }
+        .blob:nth-child(3) {
+          width: 40vmax;
+          height: 40vmax;
+          left: 30%;
+          top: 30%;
+          background: radial-gradient(circle at 40% 60%, var(--blob3), transparent 70%);
+          animation-duration: 18s;
+          animation-delay: -10s;
+        }
+        @keyframes float {
+          0% { transform: translate(0, 0) scale(1); }
+          25% { transform: translate(5%, 5%) scale(1.1); }
+          50% { transform: translate(-5%, 10%) scale(0.9); }
+          75% { transform: translate(10%, -5%) scale(1.05); }
+          100% { transform: translate(0, 0) scale(1); }
+        }
+    
+        /* intense background gradients (still there) */
+        body::before {
+          content: '';
+          position: fixed;
+          inset: 0;
+          background: radial-gradient(circle at 15% 25%, rgba(37,99,235,0.35) 0%, transparent 50%),
+                      radial-gradient(circle at 85% 75%, rgba(37,99,235,0.3) 0%, transparent 50%);
+          pointer-events: none;
+          z-index: -1;
+        }
+    
+        /* ---------- layout: push content for left nav on desktop ---------- */
+        @media (min-width: 901px) {
+          body {
+            padding-left: 100px; /* space for vertical nav */
+          }
+        }
+    
+        /* ---------- left vertical navigation (desktop) with perfect round items ---------- */
+        #left-nav {
+          position: fixed;
+          left: 20px;
+          top: 50%;
+          transform: translateY(-50%);
+          width: 80px;
+          background: var(--glass-card);
+          backdrop-filter: var(--blur);
+          -webkit-backdrop-filter: var(--blur);
+          border: 1px solid var(--glass-border);
+          border-radius: 40px;
+          padding: 16px 0;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          gap: 12px;
+          z-index: 500;
+          box-shadow: var(--shadow);
+        }
+        #left-nav .nav-item {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: center;
+          width: 60px;
+          height: 60px;
+          text-decoration: none;
+          color: var(--ink-faint);
+          font-size: 10px;
+          text-transform: uppercase;
+          letter-spacing: 0.03em;
+          transition: 0.15s;
+          border-radius: 50%; /* perfect circle */
+          gap: 2px;
+        }
+        #left-nav .nav-item i {
+          font-size: 20px;
+          margin-bottom: 2px;
+        }
+        #left-nav .nav-item.active {
+          background: var(--accent);
+          color: white;
+        }
+        #left-nav .nav-item:hover:not(.active) {
+          color: var(--accent);
+          background: var(--glass-bg);
+        }
+        #left-nav .theme-toggle-left {
+          margin-top: 8px;
+          width: 44px;
+          height: 44px;
+          border-radius: 50%; /* circular theme button */
+          border: 1px solid var(--glass-border);
+          background: var(--glass-card);
+          backdrop-filter: var(--blur);
+          -webkit-backdrop-filter: var(--blur);
+          color: var(--ink);
+          font-size: 18px;
+          cursor: pointer;
+          transition: 0.15s;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        }
+        #left-nav .theme-toggle-left:hover {
+          border-color: var(--accent);
+          color: var(--accent);
+        }
+    
+        /* ---------- mobile nav (shown only on mobile) ---------- */
+        #mobile-nav {
+          display: none;
+          position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%);
+          background: var(--glass-card);
+          backdrop-filter: var(--blur);
+          -webkit-backdrop-filter: var(--blur);
+          border: 1px solid var(--glass-border);
+          border-radius: 60px;
+          padding: 8px 14px;
+          gap: 4px;
+          z-index: 600;
+          box-shadow: var(--shadow);
+        }
+        .mob-link {
+          display: flex; flex-direction: column; align-items: center;
+          padding: 6px 10px; border-radius: 40px;
+          text-decoration: none; color: var(--ink-faint);
+          font-size: 11px; text-transform: uppercase; letter-spacing: 0.03em;
+          transition: 0.15s;
+        }
+        .mob-link i { font-size: 16px; margin-bottom: 2px; }
+        .mob-link.active { background: var(--accent); color: white; }
+        .mob-theme {
+          width: 44px; height: 44px; border-radius: 40px;
+          background: transparent; border: none;
+          color: var(--ink-faint); font-size: 18px; cursor: pointer;
+        }
+        .mob-theme:hover { color: var(--accent); }
+    
+        /* ---------- sections: transparent like hero, no background ---------- */
+        section {
+          border-radius: 0; /* sharp edges */
+          /* no background or backdrop-filter — matches hero */
+        }
+        #hero {
+          background: transparent;
+          backdrop-filter: none;
+        }
+    
+        .wrap, .hero-wrap, .contact-wrap {
+          max-width: 1200px;
+          margin: 0 auto;
+          padding: 120px 48px;
+        }
+        @media (max-width: 700px) {
+          .wrap, .hero-wrap, .contact-wrap {
+            padding: 80px 24px;
+          }
+        }
+    
+        .section-label {
+          font-size: 13px;
+          font-weight: 600;
+          letter-spacing: 0.2em;
+          text-transform: uppercase;
+          color: var(--accent);
+          margin-bottom: 16px;
+          display: block;
+        }
+        .section-title {
+          font-family: 'Inter', sans-serif;
+          font-size: clamp(44px, 6vw, 64px);
+          font-weight: 700;
+          line-height: 1.05;
+          letter-spacing: -0.03em;
+          color: var(--ink);
+          margin-bottom: 40px;
+        }
+    
+        /* glass base for cards */
+        .glass-panel, .glass-deep {
+          background: var(--glass-card);
+          backdrop-filter: var(--blur);
+          -webkit-backdrop-filter: var(--blur);
+          border: 1px solid var(--glass-border);
+          box-shadow: var(--shadow);
+        }
+    
+        /* hero */
+        #hero { min-height: 100vh; display: flex; align-items: center; }
+        .hero-wrap { width: 100%; }
+        .hero-badge {
+          display: inline-flex; align-items: center; gap: 8px;
+          background: var(--glass-card);
+          backdrop-filter: var(--blur);
+          -webkit-backdrop-filter: var(--blur);
+          border: 1px solid var(--glass-border);
+          border-radius: 40px; padding: 8px 16px 8px 12px;
+          font-size: 13px; color: var(--accent); margin-bottom: 40px;
+        }
+        .badge-dot { width: 8px; height: 8px; background: var(--accent); border-radius: 50%; animation: pulse 2s infinite; }
+        @keyframes pulse { 0%{opacity:.6;transform:scale(1)} 50%{opacity:1;transform:scale(1.3)} }
+        .hero-name {
+          font-family: 'Inter', sans-serif;
+          font-size: clamp(70px, 13vw, 140px);
+          font-weight: 800;
+          line-height: 0.85;
+          letter-spacing: -0.05em;
+          color: var(--ink);
+          margin-bottom: 20px;
+        }
+        .hero-name span { color: var(--accent); }
+        .hero-sub {
+          font-size: 20px; font-weight: 350;
+          color: var(--ink-muted);
+          max-width: 600px;
+          margin-bottom: 40px;
+        }
+        .hero-actions { display: flex; gap: 16px; flex-wrap: wrap; }
+        .btn {
+          display: inline-flex; align-items: center; gap: 10px;
+          padding: 16px 32px; border-radius: 48px;
+          font-weight: 600; font-size: 15px; text-decoration: none;
+          transition: 0.2s; border: 1px solid transparent;
+          cursor: pointer;
+          position: relative;
+          overflow: hidden;
+        }
+        .btn-fill { background: var(--accent); color: white; border: 1px solid rgba(255,255,255,0.3); }
+        .btn-fill:hover { background: #1d4ed8; box-shadow: var(--shadow); }
+        .btn-ghost {
+          background: var(--glass-card);
+          backdrop-filter: var(--blur);
+          -webkit-backdrop-filter: var(--blur);
+          color: var(--ink);
+          border: 1px solid var(--glass-border);
+        }
+        .btn-ghost:hover { border-color: var(--accent); background: var(--glass-bg); }
+    
+        /* liquid shimmer */
+        .btn::after, .role-card::after, .cert-item::after, .prow::after, .titem::after {
+          content: '';
+          position: absolute;
+          top: 0;
+          left: -100%;
+          width: 100%;
+          height: 100%;
+          background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+          transition: left 0.5s;
+          pointer-events: none;
+          border-radius: inherit;
+        }
+        .btn:hover::after, .role-card:hover::after, .cert-item:hover::after, .prow:hover::after, .titem:hover::after {
+          left: 100%;
+        }
+    
+        .hero-pills {
+          display: flex; flex-wrap: wrap; gap: 10px;
+          margin: 32px 0 40px;
+        }
+        .pill {
+          background: var(--glass-card);
+          backdrop-filter: var(--blur);
+          -webkit-backdrop-filter: var(--blur);
+          border: 1px solid var(--glass-border);
+          border-radius: 40px;
+          padding: 10px 22px;
+          font-size: 14px; font-weight: 500; color: var(--ink-muted);
+          transition: 0.2s;
+        }
+        .pill:hover { border-color: var(--accent); color: var(--accent); background: var(--glass-bg); }
+    
+        .hero-stats {
+          display: grid; grid-template-columns: repeat(4,1fr);
+          margin-top: 60px;
+          gap: 16px;
+        }
+        .hstat {
+          background: var(--glass-card);
+          backdrop-filter: var(--blur);
+          -webkit-backdrop-filter: var(--blur);
+          border: 1px solid var(--glass-border);
+          border-radius: 32px;
+          padding: 20px 16px;
+          box-shadow: var(--shadow);
+          transition: 0.2s;
+          position: relative;
+          overflow: hidden;
+        }
+        .hstat:hover { border-color: var(--accent); transform: translateY(-2px); }
+        .hstat-n {
+          font-family: 'Inter', sans-serif;
+          font-size: 42px; font-weight: 700; color: var(--ink);
+          line-height: 1; margin-bottom: 6px;
+        }
+        .hstat-n sup { font-size: 22px; color: var(--accent); }
+        .hstat-l { font-size: 14px; color: var(--ink-faint); }
+    
+        /* about */
+        .about-grid { display: grid; grid-template-columns: 260px 1fr; gap: 80px; }
+        .about-meta {
+          position: sticky; top: 100px;
+          background: var(--glass-card);
+          backdrop-filter: var(--blur);
+          -webkit-backdrop-filter: var(--blur);
+          border: 1px solid var(--glass-border);
+          border-radius: 32px;
+          padding: 24px;
+          box-shadow: var(--shadow);
+        }
+        .meta-row {
+          display: flex; justify-content: space-between;
+          padding: 16px 0; border-bottom: 1px solid var(--glass-border);
+          font-size: 15px;
+        }
+        .meta-row:last-child { border-bottom: none; }
+        .mk { color: var(--ink-faint); }
+        .mv { color: var(--ink); font-weight: 500; }
+        .mv.open { color: var(--accent); }
+        .about-prose .prose { color: var(--ink-muted); margin-bottom: 24px; font-size: 18px; }
+        .quote-box {
+          background: var(--glass-card);
+          backdrop-filter: var(--blur);
+          -webkit-backdrop-filter: var(--blur);
+          border-left: 4px solid var(--accent);
+          padding: 24px; border-radius: 0 24px 24px 0;
+          border: 1px solid var(--glass-border);
+          border-left-width: 4px;
+        }
+    
+        /* roles */
+        .roles-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 24px; }
+        .role-card {
+          background: var(--glass-card);
+          backdrop-filter: var(--blur);
+          -webkit-backdrop-filter: var(--blur);
+          border: 1px solid var(--glass-border);
+          border-radius: 28px; padding: 28px 20px;
+          transition: 0.25s; box-shadow: var(--shadow);
+          position: relative;
+          overflow: hidden;
+        }
+        .role-card:hover { transform: translateY(-6px); border-color: var(--accent); }
+        .role-icon { font-size: 32px; color: var(--accent); margin-bottom: 20px; }
+        .role-title { font-weight: 700; font-size: 18px; margin-bottom: 8px; }
+    
+        /* skills */
+        .skills-body { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; }
+        .skill-rows {
+          background: var(--glass-card);
+          backdrop-filter: var(--blur);
+          -webkit-backdrop-filter: var(--blur);
+          border: 1px solid var(--glass-border);
+          border-radius: 32px;
+          padding: 28px;
+          box-shadow: var(--shadow);
+        }
+        .skill-row { display: flex; justify-content: space-between; margin-bottom: 20px; }
+        .skill-row-name { font-weight: 500; }
+        .dot-scale { display: flex; gap: 8px; }
+        .dot { width: 12px; height: 12px; border-radius: 12px; background: var(--glass-border); transition: 0.2s; }
+        .dot.filled { background: var(--accent); }
+        .dot.hot { background: var(--accent) !important; }
+    
+        /* scale legend with all 5 levels */
+        .scale-legend {
+          margin-top: 28px;
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          flex-wrap: wrap;
+          gap: 12px;
+          font-size: 13px;
+          color: var(--ink-faint);
+          border-top: 1px solid var(--glass-border);
+          padding-top: 20px;
+        }
+        .legend-item {
+          display: flex;
+          align-items: center;
+          gap: 6px;
+        }
+        .legend-item .dot {
+          width: 14px;
+          height: 14px;
+        }
+    
+        .skill-domain-grid { display: flex; flex-direction: column; gap: 32px; }
+        .skill-domain-title { font-size: 13px; font-weight: 700; color: var(--accent); margin-bottom: 16px; }
+        .skill-tags { display: flex; flex-wrap: wrap; gap: 8px; }
+        .stag {
+          background: var(--glass-card);
+          backdrop-filter: var(--blur);
+          -webkit-backdrop-filter: var(--blur);
+          border: 1px solid var(--glass-border);
+          border-radius: 32px; padding: 8px 18px; font-size: 13px; font-weight: 500;
+          color: var(--ink-muted); transition: 0.2s;
+        }
+        .stag:hover { border-color: var(--accent); color: var(--accent); background: var(--glass-bg); }
+    
+        /* certs */
+        .certs-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+        .cert-item {
+          background: var(--glass-card);
+          backdrop-filter: var(--blur);
+          -webkit-backdrop-filter: var(--blur);
+          border: 1px solid var(--glass-border);
+          border-radius: 20px; padding: 20px; display: flex; gap: 16px;
+          transition: 0.2s; box-shadow: var(--shadow);
+          position: relative;
+          overflow: hidden;
+        }
+        .cert-item:hover { border-color: var(--accent); }
+        .cert-icon { color: var(--accent); font-size: 20px; }
+        .cert-note {
+          background: var(--glass-card);
+          backdrop-filter: var(--blur);
+          -webkit-backdrop-filter: var(--blur);
+          border-radius: 20px; padding: 24px; margin-top: 24px;
+          border: 1px solid var(--glass-border);
+        }
+    
+        /* projects */
+        .project-list { margin-top: 20px; }
+        .prow {
+          display: grid; grid-template-columns: 60px 1fr;
+          gap: 24px; padding: 32px 24px;
+          margin-bottom: 16px;
+          background: var(--glass-card);
+          backdrop-filter: var(--blur);
+          -webkit-backdrop-filter: var(--blur);
+          border: 1px solid var(--glass-border);
+          border-radius: 32px;
+          transition: 0.2s; box-shadow: var(--shadow);
+          position: relative;
+          overflow: hidden;
+        }
+        .prow:hover { border-color: var(--accent); transform: translateY(-4px); }
+        .pnum { font-size: 18px; color: var(--ink-faint); font-weight: 600; }
+        .prow-body { display: grid; grid-template-columns: 180px 1fr auto; gap: 24px; align-items: start; }
+        .ptitle { font-size: 22px; font-weight: 700; margin-bottom: 6px; color: var(--ink); }
+        .pstatus { font-size: 13px; color: var(--accent); font-weight: 600; }
+        .pstatus.wip { color: var(--ink-faint); }
+        .pdesc { color: var(--ink-muted); margin: 12px 0; }
+        .ptags { display: flex; flex-wrap: wrap; gap: 6px; }
+        .tag {
+          background: var(--accent-soft);
+          border-radius: 40px; padding: 4px 14px; font-size: 12px;
+          color: var(--accent); font-weight: 500;
+          backdrop-filter: var(--blur);
+          -webkit-backdrop-filter: var(--blur);
+        }
+        .parrow { font-size: 26px; color: var(--glass-border); transition: 0.2s; }
+        .prow:hover .parrow { color: var(--accent); transform: translate(4px,-4px); }
+    
+        /* journey */
+        .journey-body { display: grid; grid-template-columns: 200px 1fr; gap: 60px; }
+        .tline { display: flex; flex-direction: column; gap: 16px; }
+        .titem {
+          display: grid; grid-template-columns: 100px 1fr; gap: 24px;
+          padding: 24px;
+          background: var(--glass-card);
+          backdrop-filter: var(--blur);
+          -webkit-backdrop-filter: var(--blur);
+          border: 1px solid var(--glass-border);
+          border-radius: 28px;
+          box-shadow: var(--shadow);
+          opacity: 0; transform: translateY(14px); transition: 0.6s;
+          position: relative;
+          overflow: hidden;
+        }
+        .titem.vis { opacity: 1; transform: translateY(0); }
+        .titem:hover { border-color: var(--accent); }
+        .tyr { font-size: 14px; font-weight: 600; color: var(--accent); }
+        .ttitle { font-weight: 700; font-size: 18px; margin-bottom: 6px; }
+        .tbody { color: var(--ink-muted); }
+    
+        /* contact */
+        #contact {
+          border-top: 1px solid var(--glass-border);
+        }
+        .contact-title { font-size: clamp(56px,8vw,92px); color: var(--ink); }
+        .contact-title span { color: var(--accent); }
+        .contact-btns { display: flex; flex-wrap: wrap; gap: 16px; margin: 48px 0; }
+        .cbtn {
+          display: inline-flex; align-items: center; gap: 10px;
+          padding: 14px 28px; border-radius: 40px;
+          background: var(--glass-card);
+          backdrop-filter: var(--blur);
+          -webkit-backdrop-filter: var(--blur);
+          border: 1px solid var(--glass-border);
+          color: var(--ink-muted);
+          text-decoration: none; font-weight: 500; transition: 0.2s;
+          position: relative;
+          overflow: hidden;
+        }
+        .cbtn.cta { background: var(--accent); color: white; border-color: var(--accent); }
+        .cbtn:hover { border-color: var(--accent); color: var(--accent); background: var(--glass-bg); }
+        .cbtn.cta:hover { background: #1d4ed8; border-color: #1d4ed8; color: white; }
+        .contact-foot {
+          display: flex; justify-content: space-between;
+          border-top: 1px solid var(--glass-border); padding-top: 40px;
+          color: var(--ink-faint);
+        }
+    
+        /* reveal */
+        .fi { opacity: 0; transform: translateY(20px); transition: 0.7s; }
+        .fi.vis { opacity: 1; transform: translateY(0); }
+    
+        /* responsive */
+        @media (max-width: 900px) {
+          body { padding-left: 0; }
+          #left-nav { display: none; }
+          #mobile-nav { display: flex; }
+          body { padding-bottom: 96px; }
+          .hero-stats { grid-template-columns: repeat(2,1fr); gap: 16px; }
+          .about-grid { grid-template-columns: 1fr; gap: 32px; }
+          .about-meta { position: static; }
+          .skills-body, .journey-body { grid-template-columns: 1fr; gap: 32px; }
+          .roles-grid { grid-template-columns: 1fr 1fr; }
+          .certs-grid { grid-template-columns: 1fr; }
+          .prow-body { grid-template-columns: 1fr; gap: 12px; }
+          .prow { grid-template-columns: 1fr; }
+          .pnum { display: none; }
+          .section-title { margin-bottom: 24px; }
+        }
+        @media (max-width: 550px) {
+          .roles-grid { grid-template-columns: 1fr; }
+        }
+    </style>
 </head>
+
 <body>
-  <!-- liquid blobs background -->
-  <div class="liquid-blobs">
-    <div class="blob"></div>
-    <div class="blob"></div>
-    <div class="blob"></div>
-  </div>
-
-  <!-- left vertical navigation (desktop) with perfect round items -->
-  <nav id="left-nav">
-    <a href="#hero" class="nav-item active" data-s="hero">
-      <i class="fa-solid fa-house"></i>
-      <span>Home</span>
-    </a>
-    <a href="#about" class="nav-item" data-s="about">
-      <i class="fa-solid fa-user"></i>
-      <span>About</span>
-    </a>
-    <a href="#roles" class="nav-item" data-s="roles">
-      <i class="fa-solid fa-bullseye"></i>
-      <span>Roles</span>
-    </a>
-    <a href="#skills" class="nav-item" data-s="skills">
-      <i class="fa-solid fa-layer-group"></i>
-      <span>Skills</span>
-    </a>
-    <a href="#projects" class="nav-item" data-s="projects">
-      <i class="fa-solid fa-code"></i>
-      <span>Work</span>
-    </a>
-    <a href="#contact" class="nav-item" data-s="contact">
-      <i class="fa-solid fa-paper-plane"></i>
-      <span>Talk</span>
-    </a>
-    <button class="theme-toggle-left" id="theme-btn-left">🌙</button>
-  </nav>
-
-  <!-- mobile nav -->
-  <div id="mobile-nav">
-    <a href="#hero" class="mob-link active" data-s="hero"><i class="fa-solid fa-house"></i>Home</a>
-    <a href="#about" class="mob-link" data-s="about"><i class="fa-solid fa-user"></i>About</a>
-    <a href="#roles" class="mob-link" data-s="roles"><i class="fa-solid fa-bullseye"></i>Roles</a>
-    <a href="#skills" class="mob-link" data-s="skills"><i class="fa-solid fa-layer-group"></i>Skills</a>
-    <a href="#projects" class="mob-link" data-s="projects"><i class="fa-solid fa-code"></i>Work</a>
-    <a href="#contact" class="mob-link" data-s="contact"><i class="fa-solid fa-paper-plane"></i>Talk</a>
-    <button class="mob-theme" id="mob-theme-btn">🌙</button>
-  </div>
-
-  <!-- HERO -->
-  <section id="hero">
-    <div class="hero-wrap">
-      <div class="hero-badge"><span class="badge-dot"></span> Open to engineering roles</div>
-      <h1 class="hero-name">Krish<span>na</span></h1>
-      <p class="hero-sub">Technical Trainer transitioning into industry engineering. Building at the intersection of IoT, Embedded Systems, Networking, and Python.</p>
-      <div class="hero-actions">
-        <a href="#projects" class="btn btn-fill">View Work →</a>
-        <a href="#contact" class="btn btn-ghost">Get in Touch</a>
-      </div>
-      <div class="hero-pills">
-        <span class="pill">IoT Engineer</span><span class="pill">Embedded Systems</span><span class="pill">Firmware Dev</span>
-        <span class="pill">Networking</span><span class="pill">Cybersecurity</span><span class="pill">Python</span>
-      </div>
-      <div class="hero-stats">
-        <div class="hstat"><div class="hstat-n" id="exp-display">—</div><div class="hstat-l" id="exp-label">Training Experience</div></div>
-        <div class="hstat"><div class="hstat-n"><span data-count="3">0</span><sup>+</sup></div><div class="hstat-l">Projects Built</div></div>
-        <div class="hstat"><div class="hstat-n"><span data-count="5">0</span><sup>+</sup></div><div class="hstat-l">Tech Domains</div></div>
-        <div class="hstat"><div class="hstat-n">24</div><div class="hstat-l">Years Old</div></div>
-      </div>
+    <!-- liquid blobs background -->
+    <div class="liquid-blobs">
+        <div class="blob"></div>
+        <div class="blob"></div>
+        <div class="blob"></div>
     </div>
-  </section>
 
-  <!-- ABOUT -->
-  <section id="about">
-    <div class="wrap">
-      <span class="section-label">About</span>
-      <h2 class="section-title">Who I Am</h2>
-      <div class="about-grid">
-        <div class="about-meta">
-          <div class="meta-row"><span class="mk">Location</span><span class="mv">Karnataka, IN</span></div>
-          <div class="meta-row"><span class="mk">Origin</span><span class="mv">Tamil Nadu, IN</span></div>
-          <div class="meta-row"><span class="mk">Current</span><span class="mv">Technical Trainer</span></div>
-          <div class="meta-row"><span class="mk">Target</span><span class="mv">Engineering Role</span></div>
-          <div class="meta-row"><span class="mk">Age</span><span class="mv">24 · Apr 30, 2001</span></div>
-          <div class="meta-row"><span class="mk">Status</span><span class="mv open">Open to Work ●</span></div>
-        </div>
-        <div class="about-prose fi">
-          <p class="prose">I'm a <strong>Technical Trainer</strong> with over three years of experience teaching complex engineering concepts — now making a deliberate move into industry engineering.</p>
-          <p class="prose">I don't just know the tools — I understand <strong>why they exist</strong>. As a trainer, I think in learning paths and fundamentals. Now I apply that same clarity to engineering problems: building, analyzing, and troubleshooting real systems.</p>
-          <p class="prose">I approach every problem with strong <strong>system thinking</strong> and a practical mindset. I'm intentionally moving away from purely instructional roles toward environments where I can design, support, secure, and improve real-world systems.</p>
-          <div class="quote-box"><p>"I am not living my ideal life yet. But I am actively working towards becoming stronger, more capable, and more disciplined — while building a career that values meaningful work over stagnation."</p></div>
-        </div>
-      </div>
+    <!-- left vertical navigation (desktop) with perfect round items -->
+    <nav id="left-nav">
+        <a href="#hero" class="nav-item active" data-s="hero">
+            <i class="fa-solid fa-house"></i>
+            <span>Home</span>
+        </a>
+        <a href="#about" class="nav-item" data-s="about">
+            <i class="fa-solid fa-user"></i>
+            <span>About</span>
+        </a>
+        <a href="#roles" class="nav-item" data-s="roles">
+            <i class="fa-solid fa-bullseye"></i>
+            <span>Roles</span>
+        </a>
+        <a href="#skills" class="nav-item" data-s="skills">
+            <i class="fa-solid fa-layer-group"></i>
+            <span>Skills</span>
+        </a>
+        <a href="#projects" class="nav-item" data-s="projects">
+            <i class="fa-solid fa-code"></i>
+            <span>Work</span>
+        </a>
+        <a href="#certs" class="nav-item" data-s="certs">
+            <i class="fa-solid fa-certificate"></i>
+            <span>Certs</span>
+        </a>
+        <a href="#contact" class="nav-item" data-s="contact">
+            <i class="fa-solid fa-paper-plane"></i>
+            <span>Talk</span>
+        </a>
+        <button class="theme-toggle-left" id="theme-btn-left">🌙</button>
+    </nav>
+
+    <!-- mobile nav -->
+    <div id="mobile-nav">
+        <a href="#hero" class="mob-link active" data-s="hero"><i class="fa-solid fa-house"></i>Home</a>
+        <a href="#about" class="mob-link" data-s="about"><i class="fa-solid fa-user"></i>About</a>
+        <a href="#roles" class="mob-link" data-s="roles"><i class="fa-solid fa-bullseye"></i>Roles</a>
+        <a href="#skills" class="mob-link" data-s="skills"><i class="fa-solid fa-layer-group"></i>Skills</a>
+        <a href="#projects" class="mob-link" data-s="projects"><i class="fa-solid fa-code"></i>Work</a>
+        <a href="#certs" class="mob-link" data-s="certs"><i class="fa-solid fa-certificate"></i>Certs</a>
+        <a href="#contact" class="mob-link" data-s="contact"><i class="fa-solid fa-paper-plane"></i>Talk</a>
+        <button class="mob-theme" id="mob-theme-btn">🌙</button>
     </div>
-  </section>
 
-  <!-- ROLES -->
-  <section id="roles"><div class="wrap"><span class="section-label">Career Direction</span><h2 class="section-title">Target Roles</h2>
-    <div class="roles-grid fi"><div class="role-card"><span class="role-icon"><i class="fa-solid fa-microchip"></i></span><div class="role-title">IoT Engineer</div><div class="role-desc">Embedded Systems, Sensor Integration, Hardware Logic, Edge Computing.</div></div>
-    <div class="role-card"><span class="role-icon"><i class="fa-solid fa-network-wired"></i></span><div class="role-title">Network Engineer</div><div class="role-desc">Entry-level NetAdmin, TCP/IP Protocols, Network Diagnostics, Troubleshooting.</div></div>
-    <div class="role-card"><span class="role-icon"><i class="fa-solid fa-terminal"></i></span><div class="role-title">Systems Engineer</div><div class="role-desc">IT Support, Linux Admin, Root Cause Analysis, Device Debugging.</div></div>
-    <div class="role-card"><span class="role-icon"><i class="fa-brands fa-python"></i></span><div class="role-title">Python Automation</div><div class="role-desc">Scripting, Task Automation, Data Handling, Workflow Tooling.</div></div>
-  </div></div></section>
-
-  <!-- SKILLS -->
-  <section id="skills"><div class="wrap"><span class="section-label">Skills</span><h2 class="section-title">What I Work With</h2>
-    <div class="skills-body">
-      <div class="skill-rows fi">
-        <div class="skill-row"><span class="skill-row-name">Technical Training</span><div class="dot-scale"><div class="dot filled"></div><div class="dot filled"></div><div class="dot filled"></div><div class="dot filled"></div><div class="dot filled hot"></div></div></div>
-<div class="skill-row"><span class="skill-row-name">Python & Automation</span><div class="dot-scale"><div class="dot filled"></div><div class="dot filled"></div><div class="dot filled"></div><div class="dot filled hot"></div><div class="dot"></div></div></div>
-<div class="skill-row"><span class="skill-row-name">IoT Architecture</span><div class="dot-scale"><div class="dot filled"></div><div class="dot filled"></div><div class="dot filled"></div><div class="dot filled hot"></div><div class="dot"></div></div></div>
-<div class="skill-row"><span class="skill-row-name">AI-Augmented Engineer</span><div class="dot-scale"><div class="dot filled"></div><div class="dot filled"></div><div class="dot filled"></div><div class="dot filled hot"></div><div class="dot"></div></div></div>
-<div class="skill-row"><span class="skill-row-name">Systems Thinking</span><div class="dot-scale"><div class="dot filled"></div><div class="dot filled"></div><div class="dot filled"></div><div class="dot filled hot"></div><div class="dot"></div></div></div>
-<div class="skill-row"><span class="skill-row-name">Hardware Product Ideation</span><div class="dot-scale"><div class="dot filled"></div><div class="dot filled"></div><div class="dot filled"></div><div class="dot filled hot"></div><div class="dot"></div></div></div>
-<div class="skill-row"><span class="skill-row-name">Cross-Domain Engg. Thinking</span><div class="dot-scale"><div class="dot filled"></div><div class="dot filled"></div><div class="dot filled"></div><div class="dot filled hot"></div><div class="dot"></div></div></div>
-<div class="skill-row"><span class="skill-row-name">Embedded Systems</span><div class="dot-scale"><div class="dot filled"></div><div class="dot filled"></div><div class="dot filled hot"></div><div class="dot"></div><div class="dot"></div></div></div>
-<div class="skill-row"><span class="skill-row-name">Networking</span><div class="dot-scale"><div class="dot filled"></div><div class="dot filled"></div><div class="dot filled hot"></div><div class="dot"></div><div class="dot"></div></div></div>
-<div class="skill-row"><span class="skill-row-name">Firmware Dev</span><div class="dot-scale"><div class="dot filled"></div><div class="dot filled hot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div></div></div>
-<div class="skill-row"><span class="skill-row-name">Cybersecurity</span><div class="dot-scale"><div class="dot filled"></div><div class="dot filled hot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div></div></div>
-        
-        <!-- scale legend with all 5 levels -->
-        <div class="scale-legend">
-          <div class="legend-item"><span class="dot" style="background: var(--glass-border);"></span> 1 (Learning)</div>
-          <div class="legend-item"><span class="dot filled"></span> 2 (Familiar)</div>
-          <div class="legend-item"><span class="dot filled"></span> 3 (Proficient)</div>
-          <div class="legend-item"><span class="dot filled"></span> 4 (Advanced)</div>
-          <div class="legend-item"><span class="dot filled hot"></span> 5 (Expert)</div>
-          <div style="margin-left: auto; opacity: 0.7;">→ 3-5 (Capable of Working)</div>
+    <!-- HERO -->
+    <section id="hero">
+        <div class="hero-wrap">
+            <div class="hero-badge"><span class="badge-dot"></span> Open to engineering roles</div>
+            <h1 class="hero-name">Krish<span>na</span></h1>
+            <p class="hero-sub">Technical Trainer transitioning into industry engineering. Building at the intersection of IoT, Embedded Systems, Networking, and Python.</p>
+            <div class="hero-actions">
+                <a href="#projects" class="btn btn-fill">View Work →</a>
+                <a href="#contact" class="btn btn-ghost">Get in Touch</a>
+            </div>
+            <div class="hero-pills">
+                <span class="pill">IoT Engineer</span><span class="pill">Embedded Systems</span><span class="pill">Firmware Dev</span>
+                <span class="pill">Networking</span><span class="pill">Cybersecurity</span><span class="pill">Python</span>
+            </div>
+            <div class="hero-stats">
+                <div class="hstat">
+                    <div class="hstat-n" id="exp-display">—</div>
+                    <div class="hstat-l" id="exp-label">Training Experience</div>
+                </div>
+                <div class="hstat">
+                    <div class="hstat-n"><span data-count="3">0</span><sup>+</sup></div>
+                    <div class="hstat-l">Projects Built</div>
+                </div>
+                <div class="hstat">
+                    <div class="hstat-n"><span data-count="5">0</span><sup>+</sup></div>
+                    <div class="hstat-l">Tech Domains</div>
+                </div>
+                <div class="hstat">
+                    <div class="hstat-n">24</div>
+                    <div class="hstat-l">Years Old</div>
+                </div>
+            </div>
         </div>
-      </div>
-      <div class="skill-domain-grid fi">
-        <div><div class="skill-domain-title"><i class="fa-solid fa-shield-halved"></i> Security & Networking</div><div class="skill-tags"><span class="stag">TCP/IP Protocols</span><span class="stag">Packet Capture</span><span class="stag">Traffic Filtering</span><span class="stag">Threat Awareness</span><span class="stag">Log Analysis</span><span class="stag">Network Diagnostics</span></div></div>
-        <div><div class="skill-domain-title"><i class="fa-solid fa-microchip"></i> IoT & Embedded</div><div class="skill-tags"><span class="stag">Raspberry Pi</span><span class="stag">Sensor Interfacing</span><span class="stag">UART / I2C / SPI</span><span class="stag">Hardware Debugging</span><span class="stag">IoT Architecture</span><span class="stag">HW–SW Integration</span></div></div>
-        <div><div class="skill-domain-title"><i class="fa-solid fa-terminal"></i> Systems & Python</div><div class="skill-tags"><span class="stag">Linux CLI</span><span class="stag">Python Scripting</span><span class="stag">Task Automation</span><span class="stag">Root Cause Analysis</span><span class="stag">Git Workflow</span><span class="stag">Documentation</span></div></div>
-      </div>
-    </div></div></section>
+    </section>
 
-  <!-- CERTS -->
-  <section id="certs"><div class="wrap"><span class="section-label">Certifications & Learning</span><h2 class="section-title">Credentials</h2><div class="certs-grid fi"><div class="cert-item"><i class="fa-solid fa-circle-check cert-icon"></i><div><div class="cert-title">IT Specialist — Python</div><div class="cert-sub">Certiport · Validated logic & programming skills</div></div></div><div class="cert-item"><i class="fa-solid fa-circle-check cert-icon"></i><div><div class="cert-title">Python for Data Science & AI</div><div class="cert-sub">IBM / Coursera · Applied Python beyond basics</div></div></div><div class="cert-item"><i class="fa-solid fa-circle-check cert-icon"></i><div><div class="cert-title">CompTIA A+ Core 1 (Prep)</div><div class="cert-sub">Packt / Coursera · Hardware, OS, Troubleshooting</div></div></div><div class="cert-item"><i class="fa-solid fa-circle-check cert-icon"></i><div><div class="cert-title">Introduction to IoT</div><div class="cert-sub">Cisco · Devices & Connectivity fundamentals</div></div></div><div class="cert-item"><i class="fa-solid fa-circle-notch cert-icon spin"></i><div><div class="cert-title">Google Certification <span style="color:var(--accent);font-size:11px;">In Progress</span></div><div class="cert-sub">Coursera · Industry-aligned learning path</div></div></div></div><div class="cert-note fi">Continuous learner with emphasis on practical labs and tool-based understanding — not certificate collection.</div></div></section>
+    <!-- ABOUT -->
+    <section id="about">
+        <div class="wrap">
+            <span class="section-label">About</span>
+            <h2 class="section-title">Who I Am</h2>
+            <div class="about-grid">
+                <div class="about-meta">
+                    <div class="meta-row"><span class="mk">Location</span><span class="mv">Karnataka, IN</span></div>
+                    <div class="meta-row"><span class="mk">Origin</span><span class="mv">Tamil Nadu, IN</span></div>
+                    <div class="meta-row"><span class="mk">Current</span><span class="mv">Technical Trainer</span></div>
+                    <div class="meta-row"><span class="mk">Target</span><span class="mv">Engineering Role</span></div>
+                    <div class="meta-row"><span class="mk">Age</span><span class="mv">24 · Apr 30, 2001</span></div>
+                    <div class="meta-row"><span class="mk">Status</span><span class="mv open">Open to Work ●</span></div>
+                </div>
+                <div class="about-prose fi">
+                    <p class="prose">I'm a <strong>Technical Trainer</strong> with over three years of experience teaching complex engineering concepts — now making a deliberate move into industry engineering.</p>
+                    <p class="prose">I don't just know the tools — I understand <strong>why they exist</strong>. As a trainer, I think in learning paths and fundamentals. Now I apply that same clarity to engineering problems: building, analyzing, and troubleshooting real
+                        systems.</p>
+                    <p class="prose">I approach every problem with strong <strong>system thinking</strong> and a practical mindset. I'm intentionally moving away from purely instructional roles toward environments where I can design, support, secure, and improve real-world
+                        systems.</p>
+                    <div class="quote-box">
+                        <p>"I am not living my ideal life yet. But I am actively working towards becoming stronger, more capable, and more disciplined — while building a career that values meaningful work over stagnation."</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
 
-  <!-- PROJECTS -->
-  <section id="projects"><div class="wrap"><span class="section-label">Work</span><h2 class="section-title">Things I've Built</h2><div class="project-list"><div class="prow fi"><div class="pnum">01</div><div class="prow-body"><div><div class="ptitle">VoxOr</div><span class="pstatus">Prototype</span></div><div><div class="pdesc">Whether the input comes from a voice note or a typed sentence, it interprets the message, identifies key details such as what needs to be done, when it should happen, who is involved, and where it takes place, and transforms that information into a neatly structured task on the screen.</div><div class="ptags"><span class="tag">Flutter</span><span class="tag">Dart</span><span class="tag">Speech Recognition</span><span class="tag">Automation</span><span class="tag">JSON Parsing</span><span class="tag">Gemini API</span></div></div><div class="parrow">↗</div></div></div><div class="prow fi"><div class="pnum">02</div><div class="prow-body"><div><div class="ptitle">IACON Work Tracker</div><span class="pstatus">Personal Tool</span></div><div><div class="pdesc">A secure, cloud-synced dashboard designed to manage tasks, clients, and personnel in one place. It tracks project timelines, trainee onboarding, and trainer performance with real-time progress analytics. The app features a PIN-protected lock system, offline support, and an automated PDF report generator. It simplifies complex workflows into a single, mobile-friendly interface for seamless team and data management.</div><div class="ptags"><span class="tag">HTML5, CSS3 & Vanilla JavaScript (ES6+)</span><span class="tag">Progressive Web App (PWA)</span><span class="tag">Vercel Serverless Functions</span><span class="tag">Upstash Redis</span><span class="tag">Web Crypto API</span></div></div><div class="parrow">↗</div></div></div><div class="prow fi"><div class="pnum">03</div><div class="prow-body"><div><div class="ptitle">AEGIS-Link</div><span class="pstatus wip">In Progress</span></div><div><div class="pdesc">Details coming soon. This project is currently in active development.</div><div class="ptags"><span class="tag">Hardware</span><span class="tag">Embedded</span><span class="tag">RF Communications</span><span class="tag">IoT</span></div></div><div class="parrow">↗</div></div></div></div></div></section>
+    <!-- ROLES -->
+    <section id="roles">
+        <div class="wrap"><span class="section-label">Career Direction</span>
+            <h2 class="section-title">Target Roles</h2>
+            <div class="roles-grid fi">
+                <div class="role-card"><span class="role-icon"><i class="fa-solid fa-microchip"></i></span>
+                    <div class="role-title">IoT Engineer</div>
+                    <div class="role-desc">Embedded Systems, Sensor Integration, Hardware Logic, Edge Computing.</div>
+                </div>
+                <div class="role-card"><span class="role-icon"><i class="fa-solid fa-network-wired"></i></span>
+                    <div class="role-title">Network Engineer</div>
+                    <div class="role-desc">Entry-level NetAdmin, TCP/IP Protocols, Network Diagnostics, Troubleshooting.</div>
+                </div>
+                <div class="role-card"><span class="role-icon"><i class="fa-solid fa-terminal"></i></span>
+                    <div class="role-title">Systems Engineer</div>
+                    <div class="role-desc">IT Support, Linux Admin, Root Cause Analysis, Device Debugging.</div>
+                </div>
+                <div class="role-card"><span class="role-icon"><i class="fa-brands fa-python"></i></span>
+                    <div class="role-title">Python Automation</div>
+                    <div class="role-desc">Scripting, Task Automation, Data Handling, Workflow Tooling.</div>
+                </div>
+            </div>
+        </div>
+    </section>
 
-  <!-- JOURNEY -->
-  <section id="journey"><div class="wrap"><div class="journey-body"><div><span class="section-label">Journey</span><h2 class="section-title">The Path</h2></div><div class="tline"><div class="titem"><div class="tyr">2018 – 2022</div><div><div class="ttitle">Education</div><div class="tbody">Built foundational knowledge in electronics, programming, and engineering systems — the groundwork for everything that followed.</div></div></div><div class="titem"><div class="tyr">Aug 2022</div><div><div class="ttitle">Started as Technical Trainer</div><div class="tbody">Began teaching engineering concepts across electronics, networking, IoT, and Python. Developed the ability to break down complex ideas clearly and practically.</div></div></div><div class="titem"><div class="tyr">2022 – Present</div><div><div class="ttitle">Training — <span id="journey-exp-val"></span></div><div class="tbody">Built side projects in Python automation and NLP. Started exploring hardware prototyping. Grew deep domain clarity while working across technical fields.</div></div></div><div class="titem now"><div class="tyr">Now →</div><div><div class="ttitle">Engineering Transition</div><div class="tbody">Making the move from trainer to engineer — targeting roles in IoT, Embedded Systems, Networking, and Cybersecurity.</div></div></div></div></div></div></section>
+    <!-- SKILLS -->
+    <section id="skills">
+        <div class="wrap"><span class="section-label">Skills</span>
+            <h2 class="section-title">What I Work With</h2>
+            <div class="skills-body">
+                <div class="skill-rows fi">
+                    <div class="skill-row"><span class="skill-row-name">Technical Training</span>
+                        <div class="dot-scale">
+                            <div class="dot filled"></div>
+                            <div class="dot filled"></div>
+                            <div class="dot filled"></div>
+                            <div class="dot filled"></div>
+                            <div class="dot filled hot"></div>
+                        </div>
+                    </div>
+                    <div class="skill-row"><span class="skill-row-name">Python & Automation</span>
+                        <div class="dot-scale">
+                            <div class="dot filled"></div>
+                            <div class="dot filled"></div>
+                            <div class="dot filled"></div>
+                            <div class="dot filled hot"></div>
+                            <div class="dot"></div>
+                        </div>
+                    </div>
+                    <div class="skill-row"><span class="skill-row-name">IoT Architecture</span>
+                        <div class="dot-scale">
+                            <div class="dot filled"></div>
+                            <div class="dot filled"></div>
+                            <div class="dot filled"></div>
+                            <div class="dot filled hot"></div>
+                            <div class="dot"></div>
+                        </div>
+                    </div>
+                    <div class="skill-row"><span class="skill-row-name">AI-Augmented Engineer</span>
+                        <div class="dot-scale">
+                            <div class="dot filled"></div>
+                            <div class="dot filled"></div>
+                            <div class="dot filled"></div>
+                            <div class="dot filled hot"></div>
+                            <div class="dot"></div>
+                        </div>
+                    </div>
+                    <div class="skill-row"><span class="skill-row-name">Systems Thinking</span>
+                        <div class="dot-scale">
+                            <div class="dot filled"></div>
+                            <div class="dot filled"></div>
+                            <div class="dot filled"></div>
+                            <div class="dot filled hot"></div>
+                            <div class="dot"></div>
+                        </div>
+                    </div>
+                    <div class="skill-row"><span class="skill-row-name">Hardware Product Ideation</span>
+                        <div class="dot-scale">
+                            <div class="dot filled"></div>
+                            <div class="dot filled"></div>
+                            <div class="dot filled"></div>
+                            <div class="dot filled hot"></div>
+                            <div class="dot"></div>
+                        </div>
+                    </div>
+                    <div class="skill-row"><span class="skill-row-name">Cross-Domain Engg. Thinking</span>
+                        <div class="dot-scale">
+                            <div class="dot filled"></div>
+                            <div class="dot filled"></div>
+                            <div class="dot filled"></div>
+                            <div class="dot filled hot"></div>
+                            <div class="dot"></div>
+                        </div>
+                    </div>
+                    <div class="skill-row"><span class="skill-row-name">Embedded Systems</span>
+                        <div class="dot-scale">
+                            <div class="dot filled"></div>
+                            <div class="dot filled"></div>
+                            <div class="dot filled hot"></div>
+                            <div class="dot"></div>
+                            <div class="dot"></div>
+                        </div>
+                    </div>
+                    <div class="skill-row"><span class="skill-row-name">Networking</span>
+                        <div class="dot-scale">
+                            <div class="dot filled"></div>
+                            <div class="dot filled"></div>
+                            <div class="dot filled hot"></div>
+                            <div class="dot"></div>
+                            <div class="dot"></div>
+                        </div>
+                    </div>
+                    <div class="skill-row"><span class="skill-row-name">Firmware Dev</span>
+                        <div class="dot-scale">
+                            <div class="dot filled"></div>
+                            <div class="dot filled hot"></div>
+                            <div class="dot"></div>
+                            <div class="dot"></div>
+                            <div class="dot"></div>
+                        </div>
+                    </div>
+                    <div class="skill-row"><span class="skill-row-name">Cybersecurity</span>
+                        <div class="dot-scale">
+                            <div class="dot filled"></div>
+                            <div class="dot filled hot"></div>
+                            <div class="dot"></div>
+                            <div class="dot"></div>
+                            <div class="dot"></div>
+                        </div>
+                    </div>
 
-  <!-- CONTACT -->
-  <section id="contact"><div class="contact-wrap"><span class="contact-label">Contact</span><h2 class="contact-title">Let's Build<br><span>Something.</span></h2><div class="contact-btns"><a href="mailto:krishnanthangavel2021@gmail.com" class="cbtn cta"><i class="fa-solid fa-envelope"></i> Email Me</a><a href="https://in.linkedin.com/in/krishnan-thangavel/" target="_blank" class="cbtn"><i class="fa-brands fa-linkedin"></i> LinkedIn ↗</a><a href="https://github.com/Orion021" target="_blank" class="cbtn"><i class="fa-brands fa-github"></i> GitHub ↗</a><a href="https://wa.me/918610908227" target="_blank" class="cbtn"><i class="fa-brands fa-whatsapp"></i> WhatsApp ↗</a><a href="https://www.instagram.com/krishna.021_" target="_blank" class="cbtn"><i class="fa-brands fa-instagram"></i> Instagram ↗</a></div><div class="contact-foot"><div class="cf-loc">India<br>Open to: Embedded · IoT · Firmware · Networking · Cybersecurity</div><div class="cf-copy">© 2025 Krishna</div></div></div></section>
+                    <!-- scale legend with all 5 levels -->
+                    <div class="scale-legend">
+                        <div class="legend-item"><span class="dot" style="background: var(--glass-border);"></span> 1 (Learning)</div>
+                        <div class="legend-item"><span class="dot filled"></span> 2 (Familiar)</div>
+                        <div class="legend-item"><span class="dot filled"></span> 3 (Proficient)</div>
+                        <div class="legend-item"><span class="dot filled"></span> 4 (Advanced)</div>
+                        <div class="legend-item"><span class="dot filled hot"></span> 5 (Expert)</div>
+                        <div style="margin-left: auto; opacity: 0.7;">→ 3-5 (Capable of Working)</div>
+                    </div>
+                </div>
+                <div class="skill-domain-grid fi">
+                    <div>
+                        <div class="skill-domain-title"><i class="fa-solid fa-shield-halved"></i> Security & Networking</div>
+                        <div class="skill-tags"><span class="stag">TCP/IP Protocols</span><span class="stag">Packet Capture</span><span class="stag">Traffic Filtering</span><span class="stag">Threat Awareness</span><span class="stag">Log Analysis</span><span class="stag">Network Diagnostics</span></div>
+                    </div>
+                    <div>
+                        <div class="skill-domain-title"><i class="fa-solid fa-microchip"></i> IoT & Embedded</div>
+                        <div class="skill-tags"><span class="stag">Raspberry Pi</span><span class="stag">Sensor Interfacing</span><span class="stag">UART / I2C / SPI</span><span class="stag">Hardware Debugging</span><span class="stag">IoT Architecture</span><span class="stag">HW–SW Integration</span></div>
+                    </div>
+                    <div>
+                        <div class="skill-domain-title"><i class="fa-solid fa-terminal"></i> Systems & Python</div>
+                        <div class="skill-tags"><span class="stag">Linux CLI</span><span class="stag">Python Scripting</span><span class="stag">Task Automation</span><span class="stag">Root Cause Analysis</span><span class="stag">Git Workflow</span><span class="stag">Documentation</span></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
 
-  <script>
-    function getTrainingDuration(){let e=new Date(2022,7,1),t=new Date,n=t.getDate()>=16?new Date(t.getFullYear(),t.getMonth()+1,1):new Date(t.getFullYear(),t.getMonth(),1),r=n.getFullYear()-e.getFullYear(),o=n.getMonth()-e.getMonth();return o<0&&(r--,o+=12),{y:r,m:o}}function applyDuration(){let{y:e,m:t}=getTrainingDuration(),n=0===t?`${e} yrs`:`${e} yrs ${t} mo`;document.getElementById('exp-display')&&(document.getElementById('exp-display').innerHTML=`${e}<sup>yrs</sup>`);let l=document.getElementById('exp-label');l&&(l.textContent=n+' · Training'),document.getElementById('journey-exp-val')&&(document.getElementById('journey-exp-val').textContent=n)}applyDuration();let html=document.documentElement,saved=localStorage.getItem('ktheme')||'light';html.setAttribute('data-theme',saved);function syncIcons(){let e='dark'===html.getAttribute('data-theme')?'☀️':'🌙';document.getElementById('theme-btn-left')&&(document.getElementById('theme-btn-left').textContent=e);document.getElementById('mob-theme-btn')&&(document.getElementById('mob-theme-btn').textContent=e)}syncIcons();function toggleTheme(){let e='light'===html.getAttribute('data-theme')?'dark':'light';html.setAttribute('data-theme',e),localStorage.setItem('ktheme',e),syncIcons()}document.getElementById('theme-btn-left').addEventListener('click',toggleTheme);document.getElementById('mob-theme-btn').addEventListener('click',toggleTheme);let counted=!1;function runCounters(){if(counted)return;counted=!0;document.querySelectorAll('[data-count]').forEach(e=>{let t=parseInt(e.dataset.count),n=0;!function r(){n++,e.textContent=n,n<t&&setTimeout(r,110)}()})}new IntersectionObserver(e=>{e[0].isIntersecting&&runCounters()},{threshold:.5}).observe(document.getElementById('hero'));let io=new IntersectionObserver(e=>{e.forEach(e=>{e.isIntersecting&&e.target.classList.add('vis')})},{threshold:.08});document.querySelectorAll('.fi, .titem').forEach(e=>io.observe(e));let leftNavItems=document.querySelectorAll('#left-nav .nav-item');let mobNavItems=document.querySelectorAll('.mob-link');document.querySelectorAll('section[id]').forEach(e=>{new IntersectionObserver(t=>{t.forEach(t=>{if(t.isIntersecting){let n=t.target.id;leftNavItems.forEach(e=>e.classList.toggle('active',e.dataset.s===n));mobNavItems.forEach(e=>e.classList.toggle('active',e.dataset.s===n))}})},{threshold:.35}).observe(e)});
-  </script>
+    <!-- CERTS -->
+    <section id="certs">
+        <div class="wrap"><span class="section-label">Certifications & Learning</span>
+            <h2 class="section-title">Credentials</h2>
+            <div class="certs-grid fi">
+                <div class="cert-item">
+                  <i class="fa-solid fa-circle-check cert-icon"></i>
+                  <div>
+                      <div class="cert-title">Google AI Professional Certificate</div>
+                      <div class="cert-sub">Google at Coursera · Gemini Ecosystem and AI tools</div>
+                  </div>
+              </div>
+
+              <div class="cert-item">
+                  <i class="fa-solid fa-circle-check cert-icon"></i>
+                  <div>
+                      <div class="cert-title">IT Specialist — Python</div>
+                      <div class="cert-sub">Certiport · Validated logic & programming skills</div>
+                  </div>
+              </div>
+
+              <div class="cert-item">
+                  <i class="fa-solid fa-circle-check cert-icon"></i>
+                  <div>
+                      <div class="cert-title">Python for Data Science & AI</div>
+                      <div class="cert-sub">IBM at Coursera · Applied Python beyond basics</div>
+                  </div>
+              </div>
+
+              <div class="cert-item">
+                  <i class="fa-solid fa-circle-check cert-icon"></i>
+                  <div>
+                      <div class="cert-title">CompTIA A+ Core 1 (Prep)</div>
+                      <div class="cert-sub">Packt at Coursera · Hardware, OS, Troubleshooting</div>
+                  </div>
+              </div>
+
+              <div class="cert-item">
+                  <i class="fa-solid fa-circle-check cert-icon"></i>
+                  <div>
+                      <div class="cert-title">Introduction to IoT</div>
+                      <div class="cert-sub">Cisco · Devices & Connectivity fundamentals</div>
+                  </div>
+              </div>
+
+              <div class="cert-item">
+                  <i class="fa-solid fa-circle-notch cert-icon spin"></i>
+                  <div>
+                      <div class="cert-title">Google Certification <span style="color:var(--accent);font-size:11px;">In Progress</span></div>
+                      <div class="cert-sub">Coursera</div>
+                  </div>
+              </div>
+            </div>
+            <div class="cert-note fi">Continuous learner with emphasis on practical labs and tool-based understanding — not certificate collection.</div>
+        </div>
+    </section>
+
+    <!-- PROJECTS -->
+    <section id="projects">
+        <div class="wrap"><span class="section-label">Work</span>
+            <h2 class="section-title">Things I've Built</h2>
+            <div class="project-list">
+                <div class="prow fi">
+                    <div class="pnum">01</div>
+                    <div class="prow-body">
+                        <div>
+                            <div class="ptitle">VoxOr</div><span class="pstatus">Prototype</span></div>
+                        <div>
+                            <div class="pdesc">Whether the input comes from a voice note or a typed sentence, it interprets the message, identifies key details such as what needs to be done, when it should happen, who is involved, and where it takes place, and transforms
+                                that information into a neatly structured task on the screen.</div>
+                            <div class="ptags"><span class="tag">Flutter</span><span class="tag">Dart</span><span class="tag">Speech Recognition</span><span class="tag">Automation</span><span class="tag">JSON Parsing</span><span class="tag">Gemini API</span></div>
+                        </div>
+                        <div class="parrow">↗</div>
+                    </div>
+                </div>
+                <div class="prow fi">
+                    <div class="pnum">02</div>
+                    <div class="prow-body">
+                        <div>
+                            <div class="ptitle">IACON Work Tracker</div><span class="pstatus">Personal Tool</span></div>
+                        <div>
+                            <div class="pdesc">A secure, cloud-synced dashboard designed to manage tasks, clients, and personnel in one place. It tracks project timelines, trainee onboarding, and trainer performance with real-time progress analytics. The app features a
+                                PIN-protected lock system, offline support, and an automated PDF report generator. It simplifies complex workflows into a single, mobile-friendly interface for seamless team and data management.</div>
+                            <div class="ptags"><span class="tag">HTML5, CSS3 & Vanilla JavaScript (ES6+)</span><span class="tag">Progressive Web App (PWA)</span><span class="tag">Vercel Serverless Functions</span><span class="tag">Upstash Redis</span><span class="tag">Web Crypto API</span></div>
+                        </div>
+                        <div class="parrow">↗</div>
+                    </div>
+                </div>
+                <div class="prow fi">
+                    <div class="pnum">03</div>
+                    <div class="prow-body">
+                        <div>
+                            <div class="ptitle">AEGIS-Link</div><span class="pstatus wip">In Progress</span></div>
+                        <div>
+                            <div class="pdesc">Details coming soon. This project is currently in active development.</div>
+                            <div class="ptags"><span class="tag">Hardware</span><span class="tag">Embedded</span><span class="tag">RF Communications</span><span class="tag">IoT</span></div>
+                        </div>
+                        <div class="parrow">↗</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- JOURNEY -->
+    <section id="journey">
+        <div class="wrap">
+            <div class="journey-body">
+                <div><span class="section-label">Journey</span>
+                    <h2 class="section-title">The Path</h2></div>
+                <div class="tline">
+                    <div class="titem">
+                        <div class="tyr">2018 – 2022</div>
+                        <div>
+                            <div class="ttitle">Education</div>
+                            <div class="tbody">Built foundational knowledge in electronics, programming, and engineering systems — the groundwork for everything that followed.</div>
+                        </div>
+                    </div>
+                    <div class="titem">
+                        <div class="tyr">Aug 2022</div>
+                        <div>
+                            <div class="ttitle">Started as Technical Trainer</div>
+                            <div class="tbody">Began teaching engineering concepts across electronics, networking, IoT, and Python. Developed the ability to break down complex ideas clearly and practically.</div>
+                        </div>
+                    </div>
+                    <div class="titem">
+                        <div class="tyr">2022 – Present</div>
+                        <div>
+                            <div class="ttitle">Training — <span id="journey-exp-val"></span></div>
+                            <div class="tbody">Built side projects in Python automation and NLP. Started exploring hardware prototyping. Grew deep domain clarity while working across technical fields.</div>
+                        </div>
+                    </div>
+                    <div class="titem now">
+                        <div class="tyr">Now →</div>
+                        <div>
+                            <div class="ttitle">Engineering Transition</div>
+                            <div class="tbody">Making the move from trainer to engineer — targeting roles in IoT, Embedded Systems, Networking, and Cybersecurity.</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CONTACT -->
+    <section id="contact">
+        <div class="contact-wrap">
+            <span class="contact-label">Contact</span>
+            <h2 class="contact-title">Let's Build<br><span>Something.</span></h2>
+            <div class="contact-btns">
+                <a href="mailto:krishnanthangavel2021@gmail.com" class="cbtn cta"><i class="fa-solid fa-envelope"></i> Email Me</a>
+                <a href="https://in.linkedin.com/in/krishnan-thangavel/" target="_blank" class="cbtn"><i class="fa-brands fa-linkedin"></i> LinkedIn ↗</a>
+                <a href="https://github.com/Orion021" target="_blank" class="cbtn"><i class="fa-brands fa-github"></i> GitHub ↗</a>
+                <a href="https://wa.me/918610908227" target="_blank" class="cbtn"><i class="fa-brands fa-whatsapp"></i> WhatsApp ↗</a>
+                <a href="https://www.instagram.com/krishna.021_" target="_blank" class="cbtn"><i class="fa-brands fa-instagram"></i> Instagram ↗</a>
+            </div>
+            <div class="contact-foot">
+                <div class="cf-loc">India
+                    <br>Open to: Embedded · IoT · Firmware · Networking · Cybersecurity</div>
+                <div class="cf-copy">© 2025 Krishna</div>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        function getTrainingDuration(){let e=new Date(2022,7,1),t=new Date,n=t.getDate()>=16?new Date(t.getFullYear(),t.getMonth()+1,1):new Date(t.getFullYear(),t.getMonth(),1),r=n.getFullYear()-e.getFullYear(),o=n.getMonth()-e.getMonth();return o<0&&(r--,o+=12),{y:r,m:o}}function applyDuration(){let{y:e,m:t}=getTrainingDuration(),n=0===t?`${e} yrs`:`${e} yrs ${t} mo`;document.getElementById('exp-display')&&(document.getElementById('exp-display').innerHTML=`${e}<sup>yrs</sup>`);let l=document.getElementById('exp-label');l&&(l.textContent=n+' · Training'),document.getElementById('journey-exp-val')&&(document.getElementById('journey-exp-val').textContent=n)}applyDuration();let html=document.documentElement,saved=localStorage.getItem('ktheme')||'light';html.setAttribute('data-theme',saved);function syncIcons(){let e='dark'===html.getAttribute('data-theme')?'☀️':'🌙';document.getElementById('theme-btn-left')&&(document.getElementById('theme-btn-left').textContent=e);document.getElementById('mob-theme-btn')&&(document.getElementById('mob-theme-btn').textContent=e)}syncIcons();function toggleTheme(){let e='light'===html.getAttribute('data-theme')?'dark':'light';html.setAttribute('data-theme',e),localStorage.setItem('ktheme',e),syncIcons()}document.getElementById('theme-btn-left').addEventListener('click',toggleTheme);document.getElementById('mob-theme-btn').addEventListener('click',toggleTheme);let counted=!1;function runCounters(){if(counted)return;counted=!0;document.querySelectorAll('[data-count]').forEach(e=>{let t=parseInt(e.dataset.count),n=0;!function r(){n++,e.textContent=n,n<t&&setTimeout(r,110)}()})}new IntersectionObserver(e=>{e[0].isIntersecting&&runCounters()},{threshold:.5}).observe(document.getElementById('hero'));let io=new IntersectionObserver(e=>{e.forEach(e=>{e.isIntersecting&&e.target.classList.add('vis')})},{threshold:.08});document.querySelectorAll('.fi, .titem').forEach(e=>io.observe(e));let leftNavItems=document.querySelectorAll('#left-nav .nav-item');let mobNavItems=document.querySelectorAll('.mob-link');document.querySelectorAll('section[id]').forEach(e=>{new IntersectionObserver(t=>{t.forEach(t=>{if(t.isIntersecting){let n=t.target.id;leftNavItems.forEach(e=>e.classList.toggle('active',e.dataset.s===n));mobNavItems.forEach(e=>e.classList.toggle('active',e.dataset.s===n))}})},{threshold:.35}).observe(e)});
+    </script>
 </body>
+
 </html>
